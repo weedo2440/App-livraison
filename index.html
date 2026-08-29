@@ -3,85 +3,274 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>0MRCX LIVRER</title>
 
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
-  font-family:Arial,sans-serif;
-  background:#f2f2f2;
+  background:#eef1f5;
+  color:#151515;
+  font-family:Arial,Helvetica,sans-serif;
 }
 
 header{
-  background:#111;
+  background:#111827;
   color:white;
+  padding:15px;
   text-align:center;
-  padding:18px;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+header h1{
+  margin:0;
+  font-size:22px;
 }
 
 main{
-  padding:15px;
-  max-width:600px;
-  margin:auto;
-}
-
-button,
-label{
-  display:block;
   width:100%;
-  padding:17px;
-  margin:10px 0;
-  border:0;
-  border-radius:12px;
-  font-size:18px;
-  font-weight:bold;
-  text-align:center;
-  background:#1976d2;
-  color:white;
+  max-width:650px;
+  margin:auto;
+  padding:12px;
 }
 
 .card{
   background:white;
-  padding:16px;
-  border-radius:12px;
-  margin-bottom:15px;
-}
-
-.hidden{
-  display:none !important;
-}
-
-#photo{
-  width:100%;
-  margin-top:10px;
-  border-radius:12px;
-  display:none;
-}
-
-.client{
-  background:white;
+  border-radius:15px;
   padding:15px;
-  margin:12px 0;
-  border-radius:12px;
+  margin-bottom:12px;
+  box-shadow:0 2px 8px #0002;
+}
+
+button{
+  width:100%;
+  border:0;
+  border-radius:11px;
+  padding:14px;
+  margin:5px 0;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.blue{
+  background:#2563eb;
+  color:white;
+}
+
+.dark{
+  background:#111827;
+  color:white;
 }
 
 .green{
   background:#16a34a;
+  color:white;
 }
 
 .red{
   background:#dc2626;
+  color:white;
 }
 
 .gray{
-  background:#777;
+  background:#e5e7eb;
+  color:#111;
 }
 
-input[type="file"]{
-  display:block;
+.orange{
+  background:#f59e0b;
+  color:white;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.small{
+  color:#666;
+  font-size:13px;
+}
+
+.big{
+  font-size:24px;
+  font-weight:bold;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.stat{
+  background:#f4f5f7;
+  border-radius:10px;
+  padding:12px;
+  text-align:center;
+}
+
+input,
+textarea,
+select{
   width:100%;
+  border:2px solid #ddd;
+  border-radius:10px;
   padding:12px;
   font-size:16px;
+  margin:4px 0 8px;
+}
+
+textarea{
+  min-height:110px;
+  resize:vertical;
+}
+
+.photoInput{
+  background:white;
+}
+
+#photoPreview{
+  display:none;
+  width:100%;
+  max-height:500px;
+  object-fit:contain;
+  border-radius:12px;
+  margin-top:10px;
+}
+
+.client{
+  background:white;
+  border-radius:15px;
+  padding:14px;
+  margin-bottom:12px;
+  box-shadow:0 2px 7px #0002;
+}
+
+.client.done{
+  border:3px solid #22c55e;
+}
+
+.clientNumber{
+  font-size:13px;
+  font-weight:bold;
+  color:#666;
+}
+
+.client h2{
+  margin:5px 0;
+}
+
+.address{
+  background:#f4f5f7;
+  padding:11px;
+  border-radius:10px;
+  margin:8px 0;
+}
+
+.address a{
+  color:#2563eb;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.row{
+  display:flex;
+  gap:7px;
+}
+
+.row button{
+  flex:1;
+}
+
+.piece{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#f3f4f6;
+  padding:9px;
+  border-radius:8px;
+  margin:5px 0;
+}
+
+.deletePiece{
+  width:auto;
+  margin:0;
+  padding:7px 10px;
+  background:#ef4444;
+  color:white;
+}
+
+.choice{
+  display:flex;
+  gap:7px;
+}
+
+.choice button{
+  flex:1;
+}
+
+.choice button.activeGreen{
+  background:#16a34a;
+  color:white;
+}
+
+.choice button.activeRed{
+  background:#dc2626;
+  color:white;
+}
+
+.choice button.activeBlue{
+  background:#2563eb;
+  color:white;
+}
+
+.summaryLine{
+  background:#f5f5f5;
+  padding:9px;
+  border-radius:8px;
+  margin:5px 0;
+}
+
+.historyItem{
+  text-align:left;
+  background:white;
+  border:2px solid #ddd;
+}
+
+#ocrStatus{
+  background:#f8fafc;
+  padding:10px;
+  border-radius:9px;
+  margin-top:8px;
+}
+
+#ocrText{
+  min-height:150px;
+}
+
+#routeSummary{
+  max-height:300px;
+  overflow:auto;
+}
+
+hr{
+  border:0;
+  border-top:1px solid #ddd;
+  margin:15px 0;
+}
+
+.removeClient{
+  background:#fee2e2;
+  color:#991b1b;
 }
 </style>
 </head>
@@ -96,24 +285,46 @@ input[type="file"]{
 
 <!-- ACCUEIL -->
 
-<div id="accueil">
+<section id="home">
 
 <div class="card">
-<h2>📋 Tableau de bord</h2>
-<p id="date"></p>
-<p>Clients : <b id="nbClients">0</b></p>
-<p>Morceaux livrés : <b id="nbPieces">0</b></p>
+
+<h2>📊 Tableau de bord</h2>
+
+<p id="today"></p>
+
+<div class="stats">
+
+<div class="stat">
+<div class="big" id="homeClients">0</div>
+<div class="small">Clients</div>
 </div>
 
-<button id="btnJournee">
-➕ Ajouter journée
+<div class="stat">
+<div class="big" id="homePieces">0</div>
+<div class="small">Morceaux</div>
+</div>
+
+</div>
+
+</div>
+
+
+<button class="blue" id="newDayBtn">
+➕ Ajouter une journée
 </button>
+
 
 <div class="card">
 
-<h3>📷 Photo de la feuille</h3>
+<h3>📷 Feuille de livraison</h3>
+
+<p class="small">
+Prends une photo de ta feuille. L'application va essayer d'en lire le texte.
+</p>
 
 <input
+class="photoInput"
 id="photoInput"
 type="file"
 accept="image/*"
@@ -121,58 +332,97 @@ capture="environment"
 >
 
 <img
-id="photo"
+id="photoPreview"
+alt="Aperçu de la feuille"
 >
 
+<div id="ocrStatus" class="hidden">
+⏳ Lecture de la feuille...
 </div>
 
-<button id="btnHistorique">
-📅 Historique
+<button
+id="ocrBtn"
+class="orange hidden">
+🔎 Lire la feuille
 </button>
 
 </div>
+
+
+<button class="dark" id="historyBtn">
+📅 Historique
+</button>
+
+</section>
 
 
 <!-- JOURNÉE -->
 
-<div id="journee" class="hidden">
+<section id="day" class="hidden">
 
-<button
-id="btnRetour"
-class="gray">
+<button class="gray" id="backHomeBtn">
 ⬅️ Retour
 </button>
 
+
 <div class="card">
 
-<h2>🚚 Journée</h2>
+<h2>🚚 Ma journée</h2>
 
-<p id="dateJournee"></p>
+<p id="dayDate"></p>
 
-<p>
-Clients :
-<b id="totalClients">0</b>
-</p>
+<div class="stats">
 
-<p>
-Morceaux livrés :
-<b id="totalPieces">0</b>
-</p>
+<div class="stat">
+<div class="big" id="dayClients">0</div>
+<div class="small">Clients</div>
+</div>
+
+<div class="stat">
+<div class="big" id="dayPieces">0</div>
+<div class="small">Morceaux livrés</div>
+</div>
 
 </div>
 
-<div id="clients"></div>
+<hr>
+
+<button class="blue" id="addClientBtn">
+➕ Ajouter un client
+</button>
+
+<button class="dark" id="mapsAllBtn">
+🗺️ Ouvrir l'itinéraire
+</button>
+
+<button class="orange" id="optimizeBtn">
+⚡ Optimiser avec Google Maps
+</button>
 
 </div>
+
+
+<div class="card">
+
+<h3>📋 Résumé de la route</h3>
+
+<div id="routeSummary">
+Aucun client.
+</div>
+
+</div>
+
+
+<div id="clientsList"></div>
+
+</section>
 
 
 <!-- HISTORIQUE -->
 
-<div id="historique" class="hidden">
+<section id="history" class="hidden">
 
-<button
-id="btnRetourHist"
-class="gray">
+<button class="gray" id="backHistoryBtn">
 ⬅️ Retour
 </button>
 
@@ -180,171 +430,1410 @@ class="gray">
 
 <h2>📅 Historique</h2>
 
-<div id="historiqueListe"></div>
+<div id="historyList"></div>
 
 </div>
 
+</section>
+
+
+<!-- DÉTAIL HISTORIQUE -->
+
+<section id="historyDetail" class="hidden">
+
+<button class="gray" id="backDetailBtn">
+⬅️ Retour
+</button>
+
+<div class="card">
+
+<h2 id="detailTitle"></h2>
+
+<div class="stats">
+
+<div class="stat">
+<div class="big" id="detailClients">0</div>
+<div class="small">Clients</div>
 </div>
+
+<div class="stat">
+<div class="big" id="detailPieces">0</div>
+<div class="small">Morceaux</div>
+</div>
+
+</div>
+
+</div>
+
+<div id="detailClientsList"></div>
+
+</section>
 
 </main>
 
 
 <script>
 
-let journee = null;
-
-let historique =
-JSON.parse(
-localStorage.getItem("0mrcx_historique")
-) || [];
+"use strict";
 
 
-/* DATE */
+/* =====================================================
+   DONNÉES
+===================================================== */
 
-function dateAujourdHui(){
+let currentDay=null;
 
-return new Date()
-.toLocaleDateString("fr-CA");
+let historyData=[];
+
+try{
+
+const saved=
+localStorage.getItem("omrcx_history");
+
+if(saved){
+historyData=JSON.parse(saved);
+}
+
+if(!Array.isArray(historyData)){
+historyData=[];
+}
+
+}catch(error){
+
+historyData=[];
+
+try{
+localStorage.removeItem("omrcx_history");
+}catch(e){}
 
 }
 
 
-/* SAUVEGARDE */
+let selectedPhoto=null;
 
-function sauvegarder(){
 
-localStorage.setItem(
-"0mrcx_historique",
-JSON.stringify(historique)
+/* =====================================================
+   OUTILS
+===================================================== */
+
+function today(){
+
+return new Date()
+.toLocaleDateString(
+"fr-CA"
 );
 
 }
 
 
-/* AFFICHAGE */
+function timeNow(){
 
-function afficherAccueil(){
-
-document
-.getElementById("accueil")
-.classList.remove("hidden");
-
-document
-.getElementById("journee")
-.classList.add("hidden");
-
-document
-.getElementById("historique")
-.classList.add("hidden");
-
-}
-
-
-function afficherJournee(){
-
-document
-.getElementById("accueil")
-.classList.add("hidden");
-
-document
-.getElementById("journee")
-.classList.remove("hidden");
-
-document
-.getElementById("historique")
-.classList.add("hidden");
-
-}
-
-
-function afficherHistorique(){
-
-document
-.getElementById("accueil")
-.classList.add("hidden");
-
-document
-.getElementById("journee")
-.classList.add("hidden");
-
-document
-.getElementById("historique")
-.classList.remove("hidden");
-
-afficherListeHistorique();
-
-}
-
-
-/* NOUVELLE JOURNÉE */
-
-function nouvelleJournee(){
-
-journee={
-
-date:dateAujourdHui(),
-
-clients:[
-
+return new Date()
+.toLocaleTimeString(
+"fr-CA",
 {
-numero:1,
-nom:"Client 001",
-adresse:"Adresse à ajouter",
-pieces:["Laveuse"],
-fait:false
-},
+hour:"2-digit",
+minute:"2-digit"
+}
+);
 
-{
-numero:2,
-nom:"Client 002",
-adresse:"Adresse à ajouter",
-pieces:["Sécheuse"],
-fait:false
 }
 
-]
+
+function save(){
+
+try{
+
+localStorage.setItem(
+"omrcx_history",
+JSON.stringify(historyData)
+);
+
+}catch(error){
+
+console.log(error);
+
+}
+
+}
+
+
+function show(id){
+
+document
+.querySelectorAll("main section")
+.forEach(section=>{
+section.classList.add("hidden");
+});
+
+document
+.getElementById(id)
+.classList.remove("hidden");
+
+}
+
+
+function escapeHTML(text){
+
+return String(text||"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+function mapsLink(address){
+
+return "https://www.google.com/maps/dir/?api=1&destination="
++
+encodeURIComponent(address);
+
+}
+
+
+function searchImageLink(address){
+
+return "https://www.google.com/search?tbm=isch&q="
++
+encodeURIComponent(address);
+
+}
+
+
+/* =====================================================
+   COMPTEURS
+===================================================== */
+
+function countPieces(day){
+
+if(!day || !Array.isArray(day.clients)){
+return 0;
+}
+
+let total=0;
+
+day.clients.forEach(client=>{
+
+if(client.fait){
+
+total +=
+Array.isArray(client.pieces)
+?
+client.pieces.length
+:
+0;
+
+}
+
+});
+
+return total;
+
+}
+
+
+function updateCounters(){
+
+if(!currentDay){
+return;
+}
+
+document
+.getElementById("dayClients")
+.textContent=
+currentDay.clients.length;
+
+document
+.getElementById("dayPieces")
+.textContent=
+countPieces(currentDay);
+
+document
+.getElementById("homeClients")
+.textContent=
+currentDay.clients.length;
+
+document
+.getElementById("homePieces")
+.textContent=
+countPieces(currentDay);
+
+}
+
+
+/* =====================================================
+   JOURNÉE
+===================================================== */
+
+function createDay(){
+
+currentDay={
+
+date:today(),
+
+clients:[]
 
 };
 
+historyData.push(currentDay);
 
-let index =
-historique.findIndex(
-j=>j.date===journee.date
+save();
+
+show("day");
+
+renderDay();
+
+}
+
+
+function saveCurrentDay(){
+
+if(!currentDay){
+return;
+}
+
+const index=
+historyData.findIndex(
+day=>day===currentDay
 );
 
-if(index===-1){
+if(index>=0){
 
-historique.push(journee);
+historyData[index]=currentDay;
 
 }else{
 
-historique[index]=journee;
+historyData.push(currentDay);
 
 }
 
-sauvegarder();
-
-afficherJournee();
-
-afficherClients();
+save();
 
 }
 
 
-/* CLIENTS */
+function addClient(){
 
-function afficherClients(){
+if(!currentDay){
 
-let zone =
-document.getElementById("clients");
+createDay();
 
-zone.innerHTML="";
+return;
+
+}
 
 
-journee.clients.forEach(
+const number=
+currentDay.clients.length+1;
+
+currentDay.clients.push({
+
+numero:number,
+
+nom:"Client "+String(number).padStart(3,"0"),
+
+adresse:"",
+
+pieces:[],
+
+appele:null,
+
+vieux:null,
+
+fait:false,
+
+heure:null
+
+});
+
+saveCurrentDay();
+
+renderDay();
+
+}
+
+
+function removeClient(index){
+
+if(!confirm("Supprimer ce client ?")){
+return;
+}
+
+currentDay.clients.splice(index,1);
+
+currentDay.clients.forEach(
+(client,i)=>{
+client.numero=i+1;
+}
+);
+
+saveCurrentDay();
+
+renderDay();
+
+}
+
+
+/* =====================================================
+   CLIENTS
+===================================================== */
+
+function renderDay(){
+
+if(!currentDay){
+return;
+}
+
+document
+.getElementById("dayDate")
+.textContent=
+currentDay.date;
+
+
+updateCounters();
+
+renderClients();
+
+renderSummary();
+
+}
+
+
+function renderClients(){
+
+const list=
+document.getElementById("clientsList");
+
+list.innerHTML="";
+
+
+if(currentDay.clients.length===0){
+
+list.innerHTML=`
+
+<div class="card">
+
+<p>Aucun client pour l'instant.</p>
+
+<p class="small">
+Ajoute les clients manuellement ou utilise la lecture de la feuille.
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+currentDay.clients.forEach(
 (client,index)=>{
 
-let div =
+const box=
+document.createElement("div");
+
+box.className=
+"client"+
+(client.fait?" done":"");
+
+
+let piecesHTML="";
+
+
+client.pieces.forEach(
+(piece,pieceIndex)=>{
+
+piecesHTML+=`
+
+<div class="piece">
+
+<span>📦 ${escapeHTML(piece)}</span>
+
+<button
+class="deletePiece"
+data-delete-piece="${pieceIndex}"
+data-client="${index}">
+
+✕
+</button>
+
+</div>
+
+`;
+
+});
+
+
+box.innerHTML=`
+
+<div class="clientNumber">
+
+CLIENT ${String(client.numero).padStart(3,"0")}
+
+</div>
+
+
+<h2>
+${escapeHTML(client.nom)}
+</h2>
+
+
+<label>Nom du client</label>
+
+<input
+class="clientName"
+data-index="${index}"
+value="${escapeHTML(client.nom)}"
+>
+
+
+<label>📍 Adresse</label>
+
+<input
+class="clientAddress"
+data-index="${index}"
+value="${escapeHTML(client.adresse)}"
+placeholder="Adresse complète"
+>
+
+
+<div class="row">
+
+<button
+class="blue"
+data-map="${index}">
+
+🗺️ Google Maps
+
+</button>
+
+<button
+class="gray"
+data-image="${index}">
+
+🖼️ Images
+
+</button>
+
+</div>
+
+
+<div class="choiceTitle">
+
+📦 Appareils / morceaux
+
+</div>
+
+
+${piecesHTML}
+
+
+<button
+class="gray"
+data-add-piece="${index}">
+
+➕ Ajouter un morceau
+
+</button>
+
+
+<div class="choiceTitle">
+
+📞 Appelé
+
+</div>
+
+
+<div class="choice">
+
+<button
+class="${client.appele===true?"activeBlue":""}"
+data-call="yes"
+data-index="${index}">
+
+📞 Oui
+
+</button>
+
+<button
+class="${client.appele===false?"activeRed":""}"
+data-call="no"
+data-index="${index}">
+
+❌ Pas répondu
+
+</button>
+
+</div>
+
+
+<div class="choiceTitle">
+
+♻️ Vieux
+
+</div>
+
+
+<div class="choice">
+
+<button
+class="${client.vieux===true?"activeGreen":""}"
+data-old="yes"
+data-index="${index}">
+
+🟢 Vieux rapporté
+
+</button>
+
+<button
+class="${client.vieux===false?"activeRed":""}"
+data-old="no"
+data-index="${index}">
+
+🔴 Pas de vieux
+
+</button>
+
+</div>
+
+
+<button
+class="${client.fait?"green":"blue"}"
+data-done="${index}">
+
+${client.fait
+?
+"✅ Client fait à "+client.heure
+:
+"🚚 Client fait"}
+
+</button>
+
+
+<button
+class="removeClient"
+data-remove="${index}">
+
+🗑️ Supprimer ce client
+
+</button>
+
+`;
+
+list.appendChild(box);
+
+});
+
+
+/* NOMS */
+
+document
+.querySelectorAll(".clientName")
+.forEach(input=>{
+
+input.addEventListener(
+"change",
+function(){
+
+const index=
+Number(this.dataset.index);
+
+currentDay
+.clients[index]
+.nom=this.value;
+
+saveCurrentDay();
+
+renderSummary();
+
+});
+
+});
+
+
+/* ADRESSES */
+
+document
+.querySelectorAll(".clientAddress")
+.forEach(input=>{
+
+input.addEventListener(
+"change",
+function(){
+
+const index=
+Number(this.dataset.index);
+
+currentDay
+.clients[index]
+.adresse=this.value;
+
+saveCurrentDay();
+
+renderSummary();
+
+});
+
+});
+
+
+/* MAPS */
+
+document
+.querySelectorAll("[data-map]")
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+const index=
+Number(this.dataset.map);
+
+const address=
+currentDay
+.clients[index]
+.adresse;
+
+if(!address){
+
+alert("Ajoute d'abord l'adresse.");
+
+return;
+
+}
+
+window.open(
+mapsLink(address),
+"_blank"
+);
+
+});
+
+});
+
+
+/* IMAGES */
+
+document
+.querySelectorAll("[data-image]")
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+const index=
+Number(this.dataset.image);
+
+const address=
+currentDay
+.clients[index]
+.adresse;
+
+if(!address){
+
+alert("Ajoute d'abord l'adresse.");
+
+return;
+
+}
+
+window.open(
+searchImageLink(address),
+"_blank"
+);
+
+});
+
+});
+
+
+/* AJOUT MORCEAU */
+
+document
+.querySelectorAll("[data-add-piece]")
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+const index=
+Number(this.dataset.addPiece);
+
+const piece=
+prompt(
+"Nom de l'appareil ou du morceau :"
+);
+
+if(!piece){
+return;
+}
+
+currentDay
+.clients[index]
+.pieces
+.push(piece);
+
+saveCurrentDay();
+
+renderDay();
+
+});
+
+});
+
+
+/* SUPPRESSION MORCEAU */
+
+document
+.querySelectorAll("[data-delete-piece]")
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+const clientIndex=
+Number(this.dataset.client);
+
+const pieceIndex=
+Number(this.dataset.deletePiece);
+
+currentDay
+.clients[clientIndex]
+.pieces
+.splice(
+pieceIndex,
+1
+);
+
+saveCurrentDay();
+
+renderDay();
+
+});
+
+});
+
+
+/* APPELÉ */
+
+document
+.querySelectorAll("[data-call]")
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+const index=
+Number(this.dataset.index);
+
+currentDay
+.clients[index]
+.appele=
+this.dataset.call==="yes";
+
+saveCurrentDay();
+
+renderDay();
+
+});
+
+});
+
+
+/* VIEUX */
+
+document
+.querySelectorAll("[data-old]")
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+const index=
+Number(this.dataset.index);
+
+currentDay
+.clients[index]
+.vieux=
+this.dataset.old==="yes";
+
+saveCurrentDay();
+
+renderDay();
+
+});
+
+});
+
+
+/* FAIT */
+
+document
+.querySelectorAll("[data-done]")
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+const index=
+Number(this.dataset.done);
+
+const client=
+currentDay.clients[index];
+
+client.fait=!client.fait;
+
+client.heure=
+client.fait
+?
+timeNow()
+:
+null;
+
+saveCurrentDay();
+
+renderDay();
+
+});
+
+});
+
+
+/* SUPPRIMER CLIENT */
+
+document
+.querySelectorAll("[data-remove]")
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+removeClient(
+Number(this.dataset.remove)
+);
+
+});
+
+});
+
+}
+
+
+/* =====================================================
+   RÉSUMÉ ROUTE
+===================================================== */
+
+function renderSummary(){
+
+const box=
+document.getElementById(
+"routeSummary"
+);
+
+if(!currentDay ||
+currentDay.clients.length===0){
+
+box.innerHTML=
+"Aucun client.";
+
+return;
+
+}
+
+
+box.innerHTML="";
+
+
+currentDay.clients.forEach(
+(client,index)=>{
+
+const line=
+document.createElement("div");
+
+line.className=
+"summaryLine";
+
+const address=
+client.adresse
+?
+"📍 "+client.adresse
+:
+"⚠️ Adresse manquante";
+
+line.innerHTML=
+"<strong>"+
+String(index+1).padStart(3,"0")+
+"</strong> · "+
+escapeHTML(client.nom)+
+"<br>"+
+address;
+
+box.appendChild(line);
+
+});
+
+}
+
+
+/* =====================================================
+   GOOGLE MAPS
+===================================================== */
+
+function openAllMaps(){
+
+if(!currentDay ||
+currentDay.clients.length===0){
+
+alert("Aucun client.");
+
+return;
+
+}
+
+
+const valid=
+currentDay.clients.filter(
+client=>client.adresse
+);
+
+
+if(valid.length===0){
+
+alert("Aucune adresse.");
+
+return;
+
+}
+
+
+const destination=
+valid[valid.length-1].adresse;
+
+const waypoints=
+valid
+.slice(0,-1)
+.map(client=>client.adresse)
+.join("|");
+
+
+let url=
+"https://www.google.com/maps/dir/?api=1"+
+"&destination="+
+encodeURIComponent(destination);
+
+
+if(waypoints){
+
+url+=
+"&waypoints="+
+encodeURIComponent(waypoints);
+
+}
+
+
+window.open(url,"_blank");
+
+}
+
+
+function optimizeRoute(){
+
+if(!currentDay ||
+currentDay.clients.length<2){
+
+alert("Il faut au moins 2 clients.");
+
+return;
+
+}
+
+
+const addresses=
+currentDay.clients
+.filter(client=>client.adresse)
+.map(client=>client.adresse);
+
+
+if(addresses.length<2){
+
+alert("Il faut au moins 2 adresses.");
+
+return;
+
+}
+
+
+const destination=
+addresses[addresses.length-1];
+
+const waypoints=
+addresses.slice(0,-1).join("|");
+
+
+const url=
+"https://www.google.com/maps/dir/?api=1"+
+"&destination="+
+encodeURIComponent(destination)+
+"&waypoints="+
+encodeURIComponent(waypoints)+
+"&travelmode=driving";
+
+
+window.open(url,"_blank");
+
+}
+
+
+/* =====================================================
+   PHOTO
+===================================================== */
+
+document
+.getElementById("photoInput")
+.addEventListener(
+"change",
+function(){
+
+const file=this.files[0];
+
+if(!file){
+return;
+}
+
+selectedPhoto=file;
+
+
+const reader=
+new FileReader();
+
+reader.onload=
+function(event){
+
+const image=
+document.getElementById(
+"photoPreview"
+);
+
+image.src=
+event.target.result;
+
+image.style.display=
+"block";
+
+
+document
+.getElementById("ocrBtn")
+.classList.remove("hidden");
+
+};
+
+reader.readAsDataURL(file);
+
+});
+
+
+/* =====================================================
+   OCR
+===================================================== */
+
+document
+.getElementById("ocrBtn")
+.addEventListener(
+"click",
+async function(){
+
+if(!selectedPhoto){
+return;
+}
+
+const status=
+document.getElementById(
+"ocrStatus"
+);
+
+status.classList.remove("hidden");
+
+status.textContent=
+"⏳ Lecture de la feuille...";
+
+
+try{
+
+const result=
+await Tesseract.recognize(
+selectedPhoto,
+"fra+eng",
+{
+logger:function(info){
+
+if(
+info.status===
+"recognizing text"
+){
+
+status.textContent=
+"🔎 Lecture : "+
+Math.round(
+info.progress*100
+)+
+"%";
+
+}
+
+}
+
+}
+);
+
+
+const text=
+result.data.text.trim();
+
+
+if(!text){
+
+status.textContent=
+"❌ Aucun texte détecté.";
+
+return;
+
+}
+
+
+status.innerHTML=
+"✅ Texte détecté. " +
+"Vérifie les clients ci-dessous.";
+
+
+parseOCR(text);
+
+
+}catch(error){
+
+console.log(error);
+
+status.textContent=
+"❌ Impossible de lire cette photo.";
+
+}
+
+});
+
+
+/* =====================================================
+   INTERPRÉTATION OCR
+===================================================== */
+
+function parseOCR(text){
+
+if(!currentDay){
+
+createDay();
+
+}
+
+
+/*
+  On transforme les lignes OCR en clients simples.
+  Comme chaque feuille peut avoir une mise en page différente,
+  l'utilisateur peut corriger les noms/adresses ensuite.
+*/
+
+const lines=
+text
+.split(/\r?\n/)
+.map(line=>line.trim())
+.filter(line=>line.length>2);
+
+
+if(lines.length===0){
+return;
+}
+
+
+/*
+  On ajoute seulement les lignes suffisamment longues.
+  Ça évite de remplir l'app avec chaque petit numéro ou symbole.
+*/
+
+const candidates=
+lines.filter(
+line=>line.length>=5
+);
+
+
+if(candidates.length===0){
+return;
+}
+
+
+/*
+  Si la journée contient déjà les clients d'exemple,
+  on les remplace.
+*/
+
+currentDay.clients=[];
+
+
+candidates
+.slice(0,40)
+.forEach(
+(line,index)=>{
+
+currentDay.clients.push({
+
+numero:index+1,
+
+nom:"Client "+
+String(index+1).padStart(3,"0"),
+
+adresse:line,
+
+pieces:[],
+
+appele:null,
+
+vieux:null,
+
+fait:false,
+
+heure:null
+
+});
+
+});
+
+
+saveCurrentDay();
+
+show("day");
+
+renderDay();
+
+}
+
+
+/* =====================================================
+   HISTORIQUE
+===================================================== */
+
+function renderHistory(){
+
+const box=
+document.getElementById(
+"historyList"
+);
+
+box.innerHTML="";
+
+
+if(historyData.length===0){
+
+box.innerHTML=
+"<p>Aucune journée enregistrée.</p>";
+
+return;
+
+}
+
+
+historyData
+.slice()
+.reverse()
+.forEach(
+(day,reverseIndex)=>{
+
+const realIndex=
+historyData.length-
+1-
+reverseIndex;
+
+
+const button=
+document.createElement("button");
+
+button.className=
+"historyItem";
+
+
+button.innerHTML=
+
+"📅 "+
+escapeHTML(day.date)+
+"<br><span class='small'>"+
+day.clients.length+
+" clients · "+
+countPieces(day)+
+" morceaux livrés"+
+"</span>";
+
+
+button.addEventListener(
+"click",
+function(){
+
+openHistoryDetail(realIndex);
+
+});
+
+
+box.appendChild(button);
+
+});
+
+}
+
+
+function openHistoryDetail(index){
+
+const day=
+historyData[index];
+
+if(!day){
+return;
+}
+
+document
+.getElementById("detailTitle")
+.textContent=
+"📅 "+day.date;
+
+document
+.getElementById("detailClients")
+.textContent=
+day.clients.length;
+
+document
+.getElementById("detailPieces")
+.textContent=
+countPieces(day);
+
+
+const box=
+document.getElementById(
+"detailClientsList"
+);
+
+box.innerHTML="";
+
+
+day.clients.forEach(
+client=>{
+
+const div=
 document.createElement("div");
 
 div.className="client";
@@ -355,284 +1844,186 @@ let pieces="";
 client.pieces.forEach(
 piece=>{
 
-pieces +=
-"<p>📦 "+piece+"</p>";
+pieces+=
+"<p>📦 "+
+escapeHTML(piece)+
+"</p>";
 
 });
 
 
 div.innerHTML=
 
-"<h2>"+client.nom+"</h2>"+
-"<p>📍 "+client.adresse+"</p>"+
-"<h3>Appareils</h3>"+
-pieces+
+"<div class='clientNumber'>"+
+"CLIENT "+
+String(client.numero)
+.padStart(3,"0")+
+"</div>"+
 
-"<button class='green' "+
-"data-action='fait' "+
-"data-index='"+index+"'>"+
+"<h2>"+
+escapeHTML(client.nom)+
+"</h2>"+
+
+"<p>📍 "+
+escapeHTML(client.adresse)+
+"</p>"+
+
+"<p>"+
 (client.fait
-?"✅ Client fait"
-:"🚚 Client fait")+
-"</button>"+
+?
+"✅ Fait à "+client.heure
+:
+"⏳ Pas fait")+
+"</p>"+
 
-"<button class='gray' "+
-"data-action='piece' "+
-"data-index='"+index+"'>"+
-"➕ Ajouter un morceau"+
-"</button>";
+pieces;
 
 
-zone.appendChild(div);
+box.appendChild(div);
 
 });
 
 
-zone
-.querySelectorAll("button")
-.forEach(
-bouton=>{
+show("historyDetail");
 
-bouton.addEventListener(
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+document
+.getElementById("newDayBtn")
+.addEventListener(
 "click",
 function(){
 
-let index =
-Number(this.dataset.index);
-
-let action =
-this.dataset.action;
-
-
-if(action==="fait"){
-
-journee
-.clients[index]
-.fait=true;
-
-sauvegarderJournee();
-
-afficherClients();
-
-}
-
-
-if(action==="piece"){
-
-let piece =
-prompt(
-"Nom du morceau ou appareil :"
-);
-
-if(piece){
-
-journee
-.clients[index]
-.pieces
-.push(piece);
-
-sauvegarderJournee();
-
-afficherClients();
-
-}
-
-}
+createDay();
 
 });
 
-});
 
-mettreAJourCompteurs();
-
-}
-
-
-/* SAUVEGARDE JOURNÉE */
-
-function sauvegarderJournee(){
-
-let index =
-historique.findIndex(
-j=>j.date===journee.date
+document
+.getElementById("addClientBtn")
+.addEventListener(
+"click",
+addClient
 );
 
-if(index===-1){
 
-historique.push(journee);
+document
+.getElementById("historyBtn")
+.addEventListener(
+"click",
+function(){
+
+renderHistory();
+
+show("history");
+
+});
+
+
+document
+.getElementById("backHomeBtn")
+.addEventListener(
+"click",
+function(){
+
+show("home");
+
+updateHome();
+
+});
+
+
+document
+.getElementById("backHistoryBtn")
+.addEventListener(
+"click",
+function(){
+
+show("home");
+
+updateHome();
+
+});
+
+
+document
+.getElementById("backDetailBtn")
+.addEventListener(
+"click",
+function(){
+
+renderHistory();
+
+show("history");
+
+});
+
+
+document
+.getElementById("mapsAllBtn")
+.addEventListener(
+"click",
+openAllMaps
+);
+
+
+document
+.getElementById("optimizeBtn")
+.addEventListener(
+"click",
+optimizeRoute
+);
+
+
+/* =====================================================
+   ACCUEIL
+===================================================== */
+
+function updateHome(){
+
+document
+.getElementById("today")
+.textContent=
+today();
+
+
+if(currentDay){
+
+document
+.getElementById("homeClients")
+.textContent=
+currentDay.clients.length;
+
+document
+.getElementById("homePieces")
+.textContent=
+countPieces(currentDay);
 
 }else{
 
-historique[index]=journee;
+document
+.getElementById("homeClients")
+.textContent="0";
+
+document
+.getElementById("homePieces")
+.textContent="0";
 
 }
-
-sauvegarder();
-
-}
-
-
-/* COMPTEURS */
-
-function mettreAJourCompteurs(){
-
-let total =
-journee.clients.length;
-
-let pieces=0;
-
-journee.clients.forEach(
-client=>{
-
-if(client.fait){
-
-pieces +=
-client.pieces.length;
-
-}
-
-});
-
-
-document
-.getElementById("totalClients")
-.textContent=total;
-
-document
-.getElementById("totalPieces")
-.textContent=pieces;
-
-document
-.getElementById("nbClients")
-.textContent=total;
-
-document
-.getElementById("nbPieces")
-.textContent=pieces;
 
 }
 
 
-/* HISTORIQUE */
+/* =====================================================
+   INITIALISATION
+===================================================== */
 
-function afficherListeHistorique(){
-
-let zone =
-document.getElementById(
-"historiqueListe"
-);
-
-zone.innerHTML="";
-
-
-if(historique.length===0){
-
-zone.innerHTML=
-"<p>Aucune journée.</p>";
-
-return;
-
-}
-
-
-historique
-.slice()
-.reverse()
-.forEach(
-j=>{
-
-let bouton =
-document.createElement("button");
-
-bouton.className="gray";
-
-bouton.textContent=
-"📅 "+j.date+
-" - "+
-j.clients.length+
-" clients";
-
-zone.appendChild(bouton);
-
-});
-
-}
-
-
-/* PHOTO */
-
-document
-.getElementById("photoInput")
-.addEventListener(
-"change",
-function(){
-
-let fichier=this.files[0];
-
-if(!fichier){
-return;
-}
-
-let lecteur =
-new FileReader();
-
-lecteur.onload=
-function(e){
-
-let image =
-document.getElementById("photo");
-
-image.src=e.target.result;
-
-image.style.display="block";
-
-};
-
-lecteur.readAsDataURL(fichier);
-
-});
-
-
-/* BOUTONS PRINCIPAUX */
-
-document
-.getElementById("btnJournee")
-.addEventListener(
-"click",
-nouvelleJournee
-);
-
-
-document
-.getElementById("btnHistorique")
-.addEventListener(
-"click",
-afficherHistorique
-);
-
-
-document
-.getElementById("btnRetour")
-.addEventListener(
-"click",
-afficherAccueil
-);
-
-
-document
-.getElementById("btnRetourHist")
-.addEventListener(
-"click",
-afficherAccueil
-);
-
-
-/* INITIALISATION */
-
-document
-.getElementById("date")
-.textContent=
-dateAujourdHui();
+updateHome();
 
 </script>
 
