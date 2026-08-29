@@ -1,286 +1,170 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>0MRCX LIVRER</title>
 
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <style>
-
-*{
-  box-sizing:border-box;
-}
-
+*{box-sizing:border-box}
 body{
-  margin:0;
-  background:#eef1f5;
-  color:#111827;
-  font-family:Arial,Helvetica,sans-serif;
+ margin:0;
+ background:#eef1f5;
+ color:#111827;
+ font-family:Arial,sans-serif
 }
-
 header{
-  background:#111827;
-  color:white;
-  padding:16px;
-  text-align:center;
-  position:sticky;
-  top:0;
-  z-index:20;
+ background:#111827;
+ color:white;
+ padding:15px;
+ text-align:center;
+ position:sticky;
+ top:0;
+ z-index:50
 }
-
-header h1{
-  margin:0;
-  font-size:22px;
+header h1{margin:0;font-size:21px}
+main{max-width:720px;margin:auto;padding:12px}
+section.hidden{display:none}
+.card,.client{
+ background:white;
+ border-radius:15px;
+ padding:14px;
+ margin-bottom:12px;
+ box-shadow:0 2px 8px #0002
 }
-
-main{
-  max-width:700px;
-  margin:auto;
-  padding:12px;
-}
-
-.card{
-  background:white;
-  border-radius:15px;
-  padding:15px;
-  margin-bottom:12px;
-  box-shadow:0 2px 8px #0002;
-}
-
 button{
-  width:100%;
-  border:0;
-  border-radius:11px;
-  padding:14px;
-  margin:5px 0;
-  font-size:16px;
-  font-weight:bold;
+ width:100%;
+ border:0;
+ border-radius:11px;
+ padding:13px;
+ margin:5px 0;
+ font-size:16px;
+ font-weight:bold
 }
-
-.blue{
-  background:#2563eb;
-  color:white;
-}
-
-.dark{
-  background:#111827;
-  color:white;
-}
-
-.green{
-  background:#16a34a;
-  color:white;
-}
-
-.red{
-  background:#dc2626;
-  color:white;
-}
-
-.orange{
-  background:#f59e0b;
-  color:white;
-}
-
-.gray{
-  background:#e5e7eb;
-  color:#111827;
-}
-
-.hidden{
-  display:none!important;
-}
-
-.small{
-  font-size:13px;
-  color:#6b7280;
-}
-
-.big{
-  font-size:25px;
-  font-weight:bold;
-}
-
+.blue{background:#2563eb;color:white}
+.dark{background:#111827;color:white}
+.green{background:#16a34a;color:white}
+.red{background:#dc2626;color:white}
+.orange{background:#f59e0b;color:white}
+.gray{background:#e5e7eb;color:#111}
+.hidden{display:none!important}
+.small{font-size:13px;color:#6b7280}
+.big{font-size:25px;font-weight:bold}
 .stats{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px
 }
-
 .stat{
-  background:#f3f4f6;
-  padding:12px;
-  border-radius:10px;
-  text-align:center;
+ background:#f3f4f6;
+ border-radius:10px;
+ padding:12px;
+ text-align:center
 }
-
 .photoButtons{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px
 }
-
-.photoButtons button{
-  margin:0;
-}
-
-.photoInput{
-  display:none;
-}
-
+.photoInput{display:none}
 #photoPreview{
-  width:100%;
-  max-height:500px;
-  object-fit:contain;
-  border-radius:12px;
-  margin-top:12px;
-  display:none;
+ width:100%;
+ max-height:500px;
+ object-fit:contain;
+ border-radius:12px;
+ margin-top:10px
 }
-
 #ocrStatus{
-  background:#f8fafc;
-  border-radius:10px;
-  padding:12px;
-  margin-top:10px;
+ background:#f8fafc;
+ padding:12px;
+ border-radius:10px;
+ margin-top:10px
 }
-
 .progress{
-  width:100%;
-  height:12px;
-  background:#e5e7eb;
-  border-radius:20px;
-  overflow:hidden;
-  margin-top:8px;
+ height:12px;
+ background:#ddd;
+ border-radius:20px;
+ overflow:hidden;
+ margin-top:8px
 }
-
-.progressBar{
-  height:100%;
-  width:0%;
-  background:#2563eb;
-  transition:width .2s;
+#progressBar{
+ height:100%;
+ width:0%;
+ background:#2563eb
 }
-
-.client{
-  background:white;
-  border-radius:15px;
-  padding:14px;
-  margin-bottom:12px;
-  box-shadow:0 2px 8px #0002;
-}
-
-.client.done{
-  border:3px solid #22c55e;
-}
-
-.clientNumber{
-  font-size:13px;
-  font-weight:bold;
-  color:#6b7280;
-}
-
-label{
-  display:block;
-  font-weight:bold;
-  margin-top:8px;
-}
-
 input{
-  width:100%;
-  padding:12px;
-  border:2px solid #ddd;
-  border-radius:10px;
-  font-size:16px;
-  margin:4px 0 8px;
+ width:100%;
+ padding:11px;
+ border:2px solid #ddd;
+ border-radius:9px;
+ font-size:16px;
+ margin:4px 0 8px
 }
-
-.row{
-  display:flex;
-  gap:7px;
+label{
+ display:block;
+ font-weight:bold;
+ margin-top:7px
 }
-
-.row button{
-  flex:1;
+.row,.choice{
+ display:flex;
+ gap:7px
 }
-
-.choice{
-  display:flex;
-  gap:7px;
+.row button,.choice button{flex:1}
+.activeBlue{background:#2563eb!important;color:white}
+.activeGreen{background:#16a34a!important;color:white}
+.activeRed{background:#dc2626!important;color:white}
+.client.done{border:3px solid #22c55e}
+.clientNumber{
+ color:#6b7280;
+ font-size:13px;
+ font-weight:bold
 }
-
-.choice button{
-  flex:1;
-}
-
-.activeBlue{
-  background:#2563eb!important;
-  color:white!important;
-}
-
-.activeGreen{
-  background:#16a34a!important;
-  color:white!important;
-}
-
-.activeRed{
-  background:#dc2626!important;
-  color:white!important;
-}
-
 .piece{
-  background:#f3f4f6;
-  border-radius:8px;
-  padding:9px;
-  margin:5px 0;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+ background:#f3f4f6;
+ padding:8px;
+ border-radius:8px;
+ margin:4px 0;
+ display:flex;
+ justify-content:space-between;
+ align-items:center
 }
-
 .deletePiece{
-  width:auto;
-  padding:7px 10px;
-  background:#dc2626;
-  color:white;
-  margin:0;
+ width:auto;
+ padding:6px 10px;
+ margin:0;
+ background:#dc2626;
+ color:white
 }
-
 .summaryLine{
-  background:#f3f4f6;
-  padding:9px;
-  border-radius:8px;
-  margin:5px 0;
+ background:#f3f4f6;
+ padding:9px;
+ border-radius:8px;
+ margin:5px 0
 }
-
-.removeClient{
-  background:#fee2e2;
-  color:#991b1b;
-}
-
 .historyItem{
-  background:white;
-  border:2px solid #ddd;
-  text-align:left;
+ background:white;
+ color:#111;
+ border:2px solid #ddd;
+ text-align:left
 }
-
-#ocrRaw{
-  white-space:pre-wrap;
-  background:#111827;
-  color:#e5e7eb;
-  padding:12px;
-  border-radius:10px;
-  max-height:250px;
-  overflow:auto;
-  font-size:12px;
+.removeClient{
+ background:#fee2e2;
+ color:#991b1b
 }
-
+pre{
+ white-space:pre-wrap;
+ word-break:break-word;
+ background:#111827;
+ color:#e5e7eb;
+ padding:10px;
+ border-radius:10px;
+ font-size:11px;
+ max-height:300px;
+ overflow:auto
+}
 </style>
-
 </head>
 
 <body>
@@ -291,21 +175,14 @@ input{
 
 <main>
 
-
-<!-- =========================
-ACCUEIL
-========================= -->
-
+<!-- ACCUEIL -->
 <section id="home">
 
 <div class="card">
-
 <h2>📊 Tableau de bord</h2>
-
 <p id="today"></p>
 
 <div class="stats">
-
 <div class="stat">
 <div class="big" id="homeClients">0</div>
 <div class="small">Clients</div>
@@ -313,31 +190,27 @@ ACCUEIL
 
 <div class="stat">
 <div class="big" id="homePieces">0</div>
-<div class="small">Morceaux livrés</div>
+<div class="small">Morceaux</div>
+</div>
+</div>
 </div>
 
-</div>
-
-</div>
-
-
-<button class="blue" id="newDayBtn">
+<button class="blue" id="newDay">
 ➕ Ajouter une journée
 </button>
 
-
 <div class="card">
 
-<h3>📷 Feuille de livraison</h3>
+<h3>📷 Feuille de route</h3>
 
 <p class="small">
-Prends une photo ou choisis une photo dans ta galerie.
+Prends une photo ou choisis-la dans ta galerie.
 </p>
 
 <div class="photoButtons">
 
 <button class="blue" id="cameraBtn">
-📷 Caméra
+📷 Prendre une photo
 </button>
 
 <button class="dark" id="galleryBtn">
@@ -347,48 +220,41 @@ Prends une photo ou choisis une photo dans ta galerie.
 </div>
 
 <input
-id="cameraInput"
-class="photoInput"
-type="file"
-accept="image/*"
-capture="environment"
+ id="cameraInput"
+ class="photoInput"
+ type="file"
+ accept="image/*"
+ capture="environment"
 >
 
 <input
-id="galleryInput"
-class="photoInput"
-type="file"
-accept="image/*"
+ id="galleryInput"
+ class="photoInput"
+ type="file"
+ accept="image/*"
 >
 
-<img
-id="photoPreview"
->
+<img id="photoPreview" class="hidden">
 
 <div id="ocrStatus" class="hidden">
 
-<div id="ocrMessage">
+<div id="ocrText">
 ⏳ Préparation...
 </div>
 
 <div class="progress">
-<div id="ocrProgress"
-     class="progressBar">
-</div>
+<div id="progressBar"></div>
 </div>
 
 </div>
 
 <button
-id="ocrBtn"
-class="orange hidden">
-
-🔎 Lire ma feuille
-
+ id="readBtn"
+ class="orange hidden">
+🔎 Lire la feuille
 </button>
 
 </div>
-
 
 <button class="dark" id="historyBtn">
 📅 Historique
@@ -397,13 +263,10 @@ class="orange hidden">
 </section>
 
 
-<!-- =========================
-JOURNÉE
-========================= -->
-
+<!-- JOURNÉE -->
 <section id="day" class="hidden">
 
-<button class="gray" id="backHomeBtn">
+<button class="gray" id="backHome">
 ⬅️ Retour
 </button>
 
@@ -427,88 +290,69 @@ JOURNÉE
 
 </div>
 
-<button class="blue" id="addClientBtn">
+<button class="blue" id="addClient">
 ➕ Ajouter un client
 </button>
 
-<button class="dark" id="mapsAllBtn">
-🗺️ Itinéraire Google Maps
+<button class="dark" id="maps">
+🗺️ Ouvrir l'itinéraire
 </button>
 
-<button class="orange" id="optimizeBtn">
+<button class="orange" id="optimize">
 ⚡ Optimiser la route
 </button>
 
 </div>
 
-
 <div class="card">
-
 <h3>📋 Résumé</h3>
-
-<div id="routeSummary">
-Aucun client.
+<div id="summary"></div>
 </div>
 
-</div>
-
-<div id="clientsList"></div>
+<div id="clients"></div>
 
 </section>
 
 
-<!-- =========================
-HISTORIQUE
-========================= -->
-
+<!-- HISTORIQUE -->
 <section id="history" class="hidden">
 
-<button class="gray" id="backHistoryBtn">
+<button class="gray" id="backHistory">
 ⬅️ Retour
 </button>
 
 <div class="card">
-
 <h2>📅 Historique</h2>
-
 <div id="historyList"></div>
-
 </div>
 
 </section>
 
 
-<!-- =========================
-DÉTAIL HISTORIQUE
-========================= -->
+<!-- DÉTAIL -->
+<section id="detail" class="hidden">
 
-<section id="historyDetail" class="hidden">
-
-<button class="gray" id="backDetailBtn">
+<button class="gray" id="backDetail">
 ⬅️ Retour
 </button>
 
 <div class="card">
-
 <h2 id="detailTitle"></h2>
 
 <div class="stats">
-
 <div class="stat">
-<div class="big" id="detailClients">0</div>
+<div class="big" id="detailClientCount">0</div>
 <div class="small">Clients</div>
 </div>
 
 <div class="stat">
-<div class="big" id="detailPieces">0</div>
+<div class="big" id="detailPieceCount">0</div>
 <div class="small">Morceaux</div>
 </div>
-
+</div>
 </div>
 
-</div>
-
-<div id="detailClientsList"></div>
+<div id="detailList"></div>
 
 </section>
 
@@ -519,45 +363,79 @@ DÉTAIL HISTORIQUE
 
 "use strict";
 
+/* =====================================================
+STRUCTURE OFFICIELLE DE LA FEUILLE
+===================================================== */
+
+function newRoute(){
+
+return {
+
+entete:{
+ entreprise:"",
+ route:"",
+ date_impression:"",
+ heure_impression:"",
+ page:null,
+ depart_de:"",
+ camion:"",
+ chauffeur:null,
+ aide:null,
+ transporteur:null,
+ remarque:null,
+ heure_depart:null,
+ heure_arrivee:null,
+ odometre_depart:null,
+ odometre_retour:null
+},
+
+clients:[]
+
+};
+
+}
+
 
 /* =====================================================
 DONNÉES
 ===================================================== */
 
+let route=newRoute();
 let currentDay=null;
-
+let selectedFile=null;
 let historyData=[];
-
-let selectedPhoto=null;
 
 
 try{
 
-const saved=
-localStorage.getItem("omrcx_history");
+const saved=localStorage.getItem("omrcx_history");
 
 if(saved){
-historyData=JSON.parse(saved);
+ historyData=JSON.parse(saved);
 }
 
 if(!Array.isArray(historyData)){
-historyData=[];
+ historyData=[];
 }
 
 }catch(e){
-
-historyData=[];
-
-try{
-localStorage.removeItem("omrcx_history");
-}catch(x){}
-
+ historyData=[];
 }
 
 
 /* =====================================================
 OUTILS
 ===================================================== */
+
+function save(){
+
+localStorage.setItem(
+ "omrcx_history",
+ JSON.stringify(historyData)
+);
+
+}
+
 
 function today(){
 
@@ -567,34 +445,16 @@ return new Date()
 }
 
 
-function timeNow(){
+function now(){
 
 return new Date()
 .toLocaleTimeString(
-"fr-CA",
-{
-hour:"2-digit",
-minute:"2-digit"
-}
+ "fr-CA",
+ {
+  hour:"2-digit",
+  minute:"2-digit"
+ }
 );
-
-}
-
-
-function save(){
-
-try{
-
-localStorage.setItem(
-"omrcx_history",
-JSON.stringify(historyData)
-);
-
-}catch(e){
-
-console.log(e);
-
-}
 
 }
 
@@ -603,11 +463,7 @@ function show(id){
 
 document
 .querySelectorAll("main section")
-.forEach(
-section=>{
-section.classList.add("hidden");
-}
-);
+.forEach(s=>s.classList.add("hidden"));
 
 document
 .getElementById(id)
@@ -616,9 +472,9 @@ document
 }
 
 
-function escapeHTML(value){
+function esc(v){
 
-return String(value || "")
+return String(v ?? "")
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
@@ -628,7 +484,7 @@ return String(value || "")
 }
 
 
-function mapsLink(address){
+function mapsUrl(address){
 
 return "https://www.google.com/maps/dir/?api=1&destination="+
 encodeURIComponent(address);
@@ -636,7 +492,7 @@ encodeURIComponent(address);
 }
 
 
-function imageLink(address){
+function imageUrl(address){
 
 return "https://www.google.com/search?tbm=isch&q="+
 encodeURIComponent(address);
@@ -645,137 +501,38 @@ encodeURIComponent(address);
 
 
 /* =====================================================
-COMPTEURS
+CRÉATION CLIENT
 ===================================================== */
 
-function countPieces(day){
+function emptyClient(){
 
-if(!day || !Array.isArray(day.clients)){
-return 0;
-}
+return {
 
-let total=0;
+sequence:"",
 
-day.clients.forEach(client=>{
+no_cns:"",
 
-if(client.fait){
+nom_client:"",
 
-total+=
-Array.isArray(client.pieces)
-?
-client.pieces.length
-:
-0;
-
-}
-
-});
-
-return total;
-
-}
-
-
-function updateCounters(){
-
-if(!currentDay){
-return;
-}
-
-document.getElementById("dayClients")
-.textContent=
-currentDay.clients.length;
-
-document.getElementById("dayPieces")
-.textContent=
-countPieces(currentDay);
-
-document.getElementById("homeClients")
-.textContent=
-currentDay.clients.length;
-
-document.getElementById("homePieces")
-.textContent=
-countPieces(currentDay);
-
-}
-
-
-/* =====================================================
-JOURNÉE
-===================================================== */
-
-function createDay(){
-
-currentDay={
-
-date:today(),
-
-clients:[]
-
-};
-
-historyData.push(currentDay);
-
-save();
-
-show("day");
-
-renderDay();
-
-}
-
-
-function saveCurrentDay(){
-
-if(!currentDay){
-return;
-}
-
-const index=
-historyData.indexOf(currentDay);
-
-if(index>=0){
-
-historyData[index]=currentDay;
-
-}else{
-
-historyData.push(currentDay);
-
-}
-
-save();
-
-}
-
-
-function addClient(){
-
-if(!currentDay){
-
-createDay();
-
-return;
-
-}
-
-const number=
-currentDay.clients.length+1;
-
-currentDay.clients.push({
-
-numero:number,
-
-nom:
-"Client "+
-String(number).padStart(3,"0"),
-
-telephone:"",
+code_secondaire:null,
 
 adresse:"",
 
-pieces:[],
+ville:"",
+
+code_postal:null,
+
+telephones:[],
+
+qte_totale:0,
+
+a_recevoir:0,
+
+montant_livre:null,
+
+items:[],
+
+poids_total_connaissement:0,
 
 appele:null,
 
@@ -783,34 +540,1258 @@ vieux:null,
 
 fait:false,
 
-heure:null
+heure_fait:null
+
+};
+
+}
+
+
+function emptyItem(){
+
+return {
+
+seq_item:1,
+
+no_ptr:"",
+
+code_modele:"",
+
+code_categorie:"",
+
+description:"",
+
+qte_charge:1,
+
+poids:0,
+
+poids_total:0
+
+};
+
+}
+
+
+/* =====================================================
+NORMALISATION TEXTE
+===================================================== */
+
+function normalize(text){
+
+return text
+.replace(/\r/g,"")
+.replace(/\u00a0/g," ")
+.replace(/[|]/g," ")
+.replace(/[‐-‒–—]/g,"-")
+.replace(/[ \t]+/g," ")
+.replace(/\n{3,}/g,"\n\n")
+.trim();
+
+}
+
+
+function lines(text){
+
+return normalize(text)
+.split("\n")
+.map(x=>x.trim())
+.filter(x=>x.length>1);
+
+}
+
+
+/* =====================================================
+REGEX TÉLÉPHONE
+===================================================== */
+
+function phonesFrom(text){
+
+const result=[];
+
+const patterns=[
+
+/(?:\+?1[\s.-]?)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}(?:\s*(?:EXT|EXTENSION|X)\s*\d+)?/gi,
+
+/\b\d{10}\b/g
+
+];
+
+patterns.forEach(pattern=>{
+
+const found=text.match(pattern);
+
+if(found){
+
+found.forEach(p=>{
+
+const clean=p.trim();
+
+if(!result.includes(clean)){
+ result.push(clean);
+}
 
 });
 
-saveCurrentDay();
+}
 
-renderDay();
+});
+
+return result;
 
 }
 
 
-function removeClient(index){
+/* =====================================================
+CODE POSTAL
+===================================================== */
 
-if(!confirm("Supprimer ce client ?")){
+function postalFrom(text){
+
+const match=
+text.match(
+/\b[A-Z]\d[A-Z][ -]?\d[A-Z]\d\b/i
+);
+
+return match
+?
+match[0].replace(/\s/g,"").toUpperCase()
+:
+"";
+
+}
+
+
+/* =====================================================
+MONTANT
+===================================================== */
+
+function moneyFrom(text){
+
+const match=
+text.match(
+/(?:\$|\b)(\d{1,5}(?:[.,]\d{2}))/ 
+);
+
+if(!match){
+ return null;
+}
+
+return parseFloat(
+match[1].replace(",",".")
+);
+
+}
+
+
+/* =====================================================
+QUANTITÉ
+===================================================== */
+
+function quantityFrom(text){
+
+const patterns=[
+
+/(?:qte|qt[eé]|qty)[\s:.#-]*(\d+)/i,
+
+/\b(\d+)\s*(?:x|unités?|unites?)\b/i
+
+];
+
+for(const p of patterns){
+
+const m=text.match(p);
+
+if(m){
+ return parseInt(m[1],10);
+}
+
+}
+
+return null;
+
+}
+
+
+/* =====================================================
+DÉTECTION CATÉGORIE
+===================================================== */
+
+function categoryFrom(text){
+
+const t=text.toLowerCase();
+
+if(/\bvre\b/.test(t)) return "VRE";
+if(/\bcin\b/.test(t)) return "CIN";
+if(/\brpf\b/.test(t)) return "RPF";
+if(/\blve\b/.test(t)) return "LVE";
+if(/\bhotte\b/.test(t)) return "VRE";
+if(/\bcuisini/.test(t)) return "CIN";
+if(/\br[eé]frig/.test(t)) return "RPF";
+if(/\blave[- ]?vaisselle/.test(t)) return "LVE";
+
+return "";
+
+}
+
+
+/* =====================================================
+DÉTECTION APPAREIL
+===================================================== */
+
+function looksItem(text){
+
+const t=text.toLowerCase();
+
+return [
+
+"vre",
+"cin",
+"rpf",
+"lve",
+"hotte",
+"cuisinière",
+"cuisiniere",
+"réfrigérateur",
+"refrigerateur",
+"lave-vaisselle",
+"lave vaisselle",
+"four",
+"micro-onde",
+"microonde",
+"sécheuse",
+"secheuse",
+"laveuse",
+"washer",
+"dryer"
+
+].some(x=>t.includes(x));
+
+}
+
+
+/* =====================================================
+CODE MODÈLE
+===================================================== */
+
+function modelFrom(text){
+
+const matches=
+text.match(
+/\b[A-Z0-9]{5,18}\b/gi
+);
+
+if(!matches){
+ return "";
+}
+
+for(const x of matches){
+
+if(
+/[A-Z]/i.test(x) &&
+/\d/.test(x) &&
+!/^0+$/.test(x)
+){
+
+return x;
+
+}
+
+}
+
+return "";
+
+}
+
+
+/* =====================================================
+NUMÉRO PIÈCE
+===================================================== */
+
+function ptrFrom(text){
+
+const matches=
+text.match(/\b\d{5,9}\b/g);
+
+if(!matches){
+ return "";
+}
+
+return matches[0];
+
+}
+
+
+/* =====================================================
+NUMÉRO DE COMPTE
+===================================================== */
+
+function accountFrom(text){
+
+const matches=
+text.match(/\b\d{7,9}\b/g);
+
+if(!matches){
+ return "";
+}
+
+return matches[0];
+
+}
+
+
+/* =====================================================
+SÉQUENCE
+===================================================== */
+
+function sequenceFrom(text){
+
+const patterns=[
+
+/^\s*(\d{3})\b/,
+
+/\b(?:seq|séq|sequence|séquence)[\s:#.-]*(\d{1,4})/i
+
+];
+
+for(const p of patterns){
+
+const m=text.match(p);
+
+if(m){
+ return m[1].padStart(3,"0");
+}
+
+}
+
+return "";
+
+}
+
+
+/* =====================================================
+DÉTECTION NOM
+===================================================== */
+
+function looksName(text){
+
+if(!text) return false;
+
+if(phonesFrom(text).length) return false;
+
+if(postalFrom(text)) return false;
+
+if(looksItem(text)) return false;
+
+if(/\b(rue|avenue|av|boulevard|blvd|chemin|route|rang|montée|place|dr|drive|street|road)\b/i.test(text)){
+ return false;
+}
+
+const letters=
+(text.match(/[A-Za-zÀ-ÿ]/g)||[]).length;
+
+return letters>=4;
+
+}
+
+
+/* =====================================================
+DÉTECTION ADRESSE
+===================================================== */
+
+function looksAddress(text){
+
+return (
+
+/\b\d{1,6}[, ]+/.test(text) &&
+
+/\b(rue|avenue|av|boulevard|blvd|chemin|route|rang|montée|place|dr|drive|street|road|st)\b/i
+.test(text)
+
+)
+
+||
+
+/\b[A-Z]\d[A-Z][ -]?\d[A-Z]\d\b/i.test(text);
+
+}
+
+
+/* =====================================================
+VILLE
+===================================================== */
+
+function cityFrom(text){
+
+const cities=[
+
+"BOUCHERVILLE",
+"LONGUEUIL",
+"MONTRÉAL",
+"MONTREAL",
+"SAINT-HUBERT",
+"ST-HUBERT",
+"SAINTE-JULIE",
+"BELOEIL",
+"CHAMBLY",
+"VARENNES",
+"BOISBRIAND",
+"LAVAL",
+"TERREBONNE",
+"REPENTIGNY",
+"BLainville".toUpperCase(),
+"ROSEMÈRE",
+"RIVE-SUD",
+"RIVE-SUD DE MONTRÉAL"
+
+];
+
+const upper=text.toUpperCase();
+
+for(const city of cities){
+
+if(upper.includes(city)){
+ return city;
+}
+
+}
+
+return "";
+
+}
+
+
+/* =====================================================
+DÉTECTION CLIENT
+===================================================== */
+
+function looksClientStart(line,index){
+
+const seq=sequenceFrom(line);
+
+const phone=phonesFrom(line);
+
+const account=accountFrom(line);
+
+return (
+
+!!seq ||
+
+(
+!!account &&
+looksName(line)
+) ||
+
+(
+index===0 &&
+looksName(line)
+)
+
+);
+
+}
+
+
+/* =====================================================
+PARSER PRINCIPAL
+===================================================== */
+
+function parseRouteText(text){
+
+const ls=lines(text);
+
+const result=newRoute();
+
+let current=null;
+
+let itemCounter=0;
+
+
+/* -----------------------------------------------
+ENTÊTE
+------------------------------------------------ */
+
+for(let i=0;i<Math.min(ls.length,20);i++){
+
+const line=ls[i];
+const upper=line.toUpperCase();
+
+if(
+upper.includes("CORBEIL") ||
+upper.includes("ELECTROMENAGERS")
+){
+
+result.entete.entreprise=line;
+
+}
+
+if(
+/camion/i.test(line)
+){
+
+const m=line.match(
+/camion[\s:#-]*([A-Z0-9-]+)/i
+);
+
+if(m){
+ result.entete.camion=m[1];
+}
+
+}
+
+if(
+/route/i.test(line)
+){
+
+const m=line.match(
+/route[\s:#-]*(\S+)/i
+);
+
+if(m){
+ result.entete.route=m[1];
+}
+
+}
+
+if(
+/page/i.test(line)
+){
+
+const m=line.match(
+/page[\s:#-]*(\d+)/i
+);
+
+if(m){
+ result.entete.page=parseInt(m[1],10);
+}
+
+}
+
+if(
+/heure.*impression/i.test(line)
+){
+
+const m=line.match(
+/(\d{1,2}:\d{2})/
+);
+
+if(m){
+ result.entete.heure_impression=m[1];
+}
+
+}
+
+}
+
+
+/* -----------------------------------------------
+CLIENTS
+------------------------------------------------ */
+
+for(let i=0;i<ls.length;i++){
+
+const line=ls[i];
+
+const next=ls[i+1]||"";
+
+
+/*
+Un numéro de séquence de 3 chiffres
+est notre meilleur point d'ancrage.
+*/
+
+const seq=sequenceFrom(line);
+
+const newClient=
+!!seq &&
+(
+/^\d{3}\b/.test(line) ||
+/(?:seq|séq|sequence|séquence)/i.test(line)
+);
+
+
+if(newClient){
+
+if(current){
+
+finalizeClient(
+current,
+result.clients
+);
+
+}
+
+current=emptyClient();
+
+current.sequence=seq;
+
+itemCounter=0;
+
+continue;
+
+}
+
+
+/*
+Si aucun client existe encore,
+on cherche un premier bloc client.
+*/
+
+if(!current){
+
+if(
+looksName(line) ||
+looksAddress(line) ||
+phonesFrom(line).length
+){
+
+current=emptyClient();
+
+}
+
+}
+
+
+if(!current){
+ continue;
+}
+
+
+/* téléphone */
+
+const phones=
+phonesFrom(line);
+
+phones.forEach(p=>{
+
+if(!current.telephones.includes(p)){
+ current.telephones.push(p);
+}
+
+});
+
+
+/* code postal */
+
+const postal=
+postalFrom(line);
+
+if(postal){
+ current.code_postal=postal;
+}
+
+
+/* ville */
+
+const city=
+cityFrom(line);
+
+if(city){
+ current.ville=city;
+}
+
+
+/* adresse */
+
+if(looksAddress(line)){
+
+if(!current.adresse){
+
+current.adresse=line;
+
+}else{
+
+current.adresse+=" "+line;
+
+}
+
+}
+
+
+/* compte */
+
+const account=
+accountFrom(line);
+
+if(
+account &&
+!current.no_cns &&
+!looksItem(line)
+){
+
+current.no_cns=account;
+
+}
+
+
+/* code secondaire */
+
+const secondary=
+line.match(
+/\*+\s*([0-9]{4}-[0-9]{4,8})/
+);
+
+if(secondary){
+
+current.code_secondaire=
+secondary[1];
+
+}
+
+
+/* montant */
+
+const money=
+moneyFrom(line);
+
+if(
+money!==null &&
+/recevoir|recevoir|mnt|montant/i.test(line)
+){
+
+current.a_recevoir=money;
+
+}
+
+
+/* quantité */
+
+const qty=
+quantityFrom(line);
+
+if(
+qty!==null &&
+!looksItem(line)
+){
+
+current.qte_totale=qty;
+
+}
+
+
+/* ------------------------------------------------
+ITEM
+------------------------------------------------- */
+
+if(looksItem(line)){
+
+const item=emptyItem();
+
+item.seq_item=
+++itemCounter;
+
+item.no_ptr=
+ptrFrom(line);
+
+item.code_modele=
+modelFrom(line);
+
+item.code_categorie=
+categoryFrom(line);
+
+item.description=
+line;
+
+item.qte_charge=
+quantityFrom(line) || 1;
+
+const weight=
+line.match(
+/\b(\d+(?:[.,]\d+)?)\s*(?:kg|kgs|lb|lbs)\b/i
+);
+
+if(weight){
+
+item.poids=
+parseFloat(
+weight[1].replace(",",".")
+);
+
+}
+
+item.poids_total=
+item.poids*
+item.qte_charge;
+
+current.items.push(item);
+
+}
+
+
+/* ------------------------------------------------
+NOM
+------------------------------------------------- */
+
+if(
+!current.nom_client &&
+looksName(line) &&
+!looksItem(line) &&
+!looksAddress(line)
+){
+
+/*
+On évite de prendre les entêtes
+comme nom.
+*/
+
+if(
+!/corbeil|électroménager|entreprise|client|adresse|téléphone|telephone|route|camion/i
+.test(line)
+){
+
+current.nom_client=line;
+
+}
+
+}
+
+
+/*
+Si une ligne suivante commence un
+nouveau client sans séquence explicite,
+on ferme le précédent.
+*/
+
+if(
+current.nom_client &&
+current.adresse &&
+next &&
+looksName(next) &&
+!looksItem(next) &&
+!phonesFrom(next).length
+){
+
+/*
+On ne ferme que si la ligne suivante
+ne ressemble pas à une continuation
+d'adresse.
+*/
+
+if(
+!looksAddress(next)
+){
+
+finalizeClient(
+current,
+result.clients
+);
+
+current=null;
+
+}
+
+}
+
+}
+
+
+/* dernier client */
+
+if(current){
+
+finalizeClient(
+current,
+result.clients
+);
+
+}
+
+
+/* recalcul des poids */
+
+result.clients.forEach(client=>{
+
+client.qte_totale=
+client.items.reduce(
+(sum,item)=>
+sum+
+Number(item.qte_charge||0),
+0
+);
+
+client.poids_total_connaissement=
+client.items.reduce(
+(sum,item)=>
+sum+
+Number(item.poids_total||0),
+0
+);
+
+});
+
+
+/*
+Si aucun séquence n'a été trouvé,
+on numérote quand même les clients.
+*/
+
+result.clients.forEach(
+(client,index)=>{
+
+if(!client.sequence){
+
+client.sequence=
+String(index+1).padStart(3,"0");
+
+}
+
+});
+
+
+return result;
+
+}
+
+
+/* =====================================================
+FINALISATION CLIENT
+===================================================== */
+
+function finalizeClient(client,list){
+
+if(
+!client.nom_client &&
+!client.adresse &&
+!client.telephones.length &&
+!client.items.length
+){
+
 return;
+
 }
 
-currentDay.clients.splice(index,1);
 
-currentDay.clients.forEach(
-(client,i)=>{
-client.numero=i+1;
+if(
+!client.nom_client
+){
+
+client.nom_client=
+"Client "+
+String(list.length+1).padStart(3,"0");
+
+}
+
+
+if(
+!client.qte_totale
+){
+
+client.qte_totale=
+client.items.reduce(
+(sum,item)=>
+sum+Number(item.qte_charge||1),
+0
+);
+
+}
+
+
+client.poids_total_connaissement=
+client.items.reduce(
+(sum,item)=>
+sum+Number(item.poids_total||0),
+0
+);
+
+
+list.push(client);
+
+}
+
+
+/* =====================================================
+OCR AVEC COORDONNÉES
+===================================================== */
+
+async function readOCR(file){
+
+const status=
+document.getElementById("ocrStatus");
+
+const message=
+document.getElementById("ocrText");
+
+const bar=
+document.getElementById("progressBar");
+
+status.classList.remove("hidden");
+
+message.textContent=
+"🔎 Chargement du moteur OCR...";
+
+bar.style.width="5%";
+
+
+/*
+Tesseract recommande une image suffisamment
+résolue et indique que l'upscaling peut
+améliorer la reconnaissance.
+*/
+
+const worker=
+await Tesseract.createWorker(
+"fra+eng",
+1,
+{
+
+logger:m=>{
+
+if(
+typeof m.progress==="number"
+){
+
+bar.style.width=
+Math.round(
+m.progress*100
+)+"%";
+
+}
+
+if(m.status){
+
+message.textContent=
+"🔎 "+
+m.status;
+
+}
+
+}
+
 }
 );
 
-saveCurrentDay();
+
+/*
+On demande explicitement les blocs.
+*/
+
+await worker.setParameters({
+
+preserve_interword_spaces:"1",
+
+user_defined_dpi:"300",
+
+tessedit_pageseg_mode:"3"
+
+});
+
+
+const result=
+await worker.recognize(
+file,
+{},
+{
+blocks:true,
+tsv:true
+}
+);
+
+
+await worker.terminate();
+
+
+bar.style.width="100%";
+
+return result;
+
+}
+
+
+/* =====================================================
+PHOTO
+===================================================== */
+
+function selectPhoto(file){
+
+if(!file)return;
+
+selectedFile=file;
+
+const img=
+document.getElementById("photoPreview");
+
+img.src=
+URL.createObjectURL(file);
+
+img.classList.remove("hidden");
+
+document
+.getElementById("readBtn")
+.classList.remove("hidden");
+
+}
+
+
+/* caméra */
+
+document
+.getElementById("cameraBtn")
+.addEventListener(
+"click",
+()=>document
+.getElementById("cameraInput")
+.click()
+);
+
+document
+.getElementById("cameraInput")
+.addEventListener(
+"change",
+e=>selectPhoto(e.target.files[0])
+);
+
+
+/* galerie */
+
+document
+.getElementById("galleryBtn")
+.addEventListener(
+"click",
+()=>document
+.getElementById("galleryInput")
+.click()
+);
+
+document
+.getElementById("galleryInput")
+.addEventListener(
+"change",
+e=>selectPhoto(e.target.files[0])
+);
+
+
+/* =====================================================
+LIRE FEUILLE
+===================================================== */
+
+document
+.getElementById("readBtn")
+.addEventListener(
+"click",
+async()=>{
+
+if(!selectedFile){
+ return;
+}
+
+try{
+
+const result=
+await readOCR(selectedFile);
+
+const text=
+result?.data?.text || "";
+
+
+/*
+Le texte brut sert de base.
+Les blocs/TSV sont disponibles
+pour les futures améliorations de
+positionnement.
+*/
+
+if(!text.trim()){
+
+alert(
+"Je n'ai détecté aucun texte sur la photo."
+);
+
+return;
+
+}
+
+
+document
+.getElementById("ocrText")
+.textContent=
+"🧠 Organisation des clients...";
+
+
+const parsed=
+parseRouteText(text);
+
+
+/*
+Nouvelle journée
+*/
+
+currentDay={
+date:today(),
+route:parsed,
+clients:parsed.clients
+};
+
+route=parsed;
+
+
+historyData.push(currentDay);
+
+save();
+
+
+show("day");
 
 renderDay();
+
+
+if(parsed.clients.length===0){
+
+alert(
+"Du texte a été lu, mais aucun client n'a été identifié. Tu peux les ajouter manuellement."
+);
+
+}
+
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Erreur pendant la lecture de la feuille."
+);
+
+}
+
+});
+
+
+/* =====================================================
+COMPTEURS
+===================================================== */
+
+function pieceCount(day){
+
+if(!day)return 0;
+
+return day.clients.reduce(
+(sum,c)=>
+sum+
+Number(c.qte_totale||c.items?.length||0),
+0
+);
+
+}
+
+
+function updateCounters(){
+
+if(!currentDay)return;
+
+document.getElementById("dayClients")
+.textContent=
+currentDay.clients.length;
+
+document.getElementById("dayPieces")
+.textContent=
+pieceCount(currentDay);
+
+document.getElementById("homeClients")
+.textContent=
+currentDay.clients.length;
+
+document.getElementById("homePieces")
+.textContent=
+pieceCount(currentDay);
 
 }
 
@@ -821,9 +1802,7 @@ AFFICHAGE JOURNÉE
 
 function renderDay(){
 
-if(!currentDay){
-return;
-}
+if(!currentDay)return;
 
 document.getElementById("dayDate")
 .textContent=
@@ -839,19 +1818,937 @@ renderSummary();
 
 
 /* =====================================================
-CLIENTS
+AFFICHAGE CLIENTS
 ===================================================== */
 
 function renderClients(){
 
-const list=
-document.getElementById("clientsList");
+const box=
+document.getElementById("clients");
 
-list.innerHTML="";
+box.innerHTML="";
 
 
-if(currentDay.clients.length===0){
+currentDay.clients.forEach(
+(client,index)=>{
 
-list.innerHTML=`
+const div=
+document.createElement("div");
 
-<div class="
+div.className=
+"client"+
+(
+client.fait
+?
+" done"
+:
+""
+);
+
+
+let itemsHTML="";
+
+
+client.items.forEach(
+(item,itemIndex)=>{
+
+itemsHTML+=`
+
+<div class="piece">
+
+<div>
+📦 <strong>
+${esc(item.code_categorie || "")}
+</strong>
+<br>
+${esc(item.description)}
+<br>
+<span class="small">
+${esc(item.code_modele)}
+ · ${esc(item.no_ptr)}
+ · Qté ${item.qte_charge}
+</span>
+</div>
+
+<button
+class="deletePiece"
+onclick="deleteItem(${index},${itemIndex})">
+✕
+</button>
+
+</div>
+
+`;
+
+});
+
+
+div.innerHTML=`
+
+<div class="clientNumber">
+CLIENT ${esc(client.sequence || String(index+1).padStart(3,"0"))}
+</div>
+
+<label>👤 Nom</label>
+
+<input
+value="${esc(client.nom_client)}"
+onchange="updateClient(${index},'nom_client',this.value)"
+>
+
+<label>🔢 No CNS</label>
+
+<input
+value="${esc(client.no_cns)}"
+onchange="updateClient(${index},'no_cns',this.value)"
+>
+
+<label>📞 Téléphone</label>
+
+<input
+value="${esc(
+(client.telephones||[]).join(" / ")
+)}"
+onchange="updatePhones(${index},this.value)"
+type="tel"
+>
+
+<label>📍 Adresse</label>
+
+<input
+value="${esc(client.adresse)}"
+onchange="updateClient(${index},'adresse',this.value)"
+>
+
+<label>🏙️ Ville</label>
+
+<input
+value="${esc(client.ville)}"
+onchange="updateClient(${index},'ville',this.value)"
+>
+
+<label>📮 Code postal</label>
+
+<input
+value="${esc(client.code_postal || "")}"
+onchange="updateClient(${index},'code_postal',this.value)"
+>
+
+<div class="row">
+
+<button
+class="blue"
+onclick="openMaps(${index})">
+🗺️ Maps
+</button>
+
+<button
+class="gray"
+onclick="openImages(${index})">
+🖼️ Images
+</button>
+
+</div>
+
+<hr>
+
+<strong>📦 Produits : ${client.items.length}</strong>
+
+${itemsHTML}
+
+<button
+class="gray"
+onclick="addItem(${index})">
+➕ Ajouter un appareil
+</button>
+
+<label>💰 À recevoir</label>
+
+<input
+type="number"
+step="0.01"
+value="${client.a_recevoir ?? 0}"
+onchange="updateNumber(${index},'a_recevoir',this.value)"
+>
+
+<label>💵 Montant livré</label>
+
+<input
+type="number"
+step="0.01"
+value="${client.montant_livre ?? ""}"
+onchange="updateNumber(${index},'montant_livre',this.value)"
+>
+
+<hr>
+
+<strong>📞 Appelé</strong>
+
+<div class="choice">
+
+<button
+class="${client.appele===true?'activeBlue':''}"
+onclick="setChoice(${index},'appele',true)">
+📞 Oui
+</button>
+
+<button
+class="${client.appele===false?'activeRed':''}"
+onclick="setChoice(${index},'appele',false)">
+❌ Non
+</button>
+
+</div>
+
+<strong>♻️ Vieux</strong>
+
+<div class="choice">
+
+<button
+class="${client.vieux===true?'activeGreen':''}"
+onclick="setChoice(${index},'vieux',true)">
+🟢 Vieux rapporté
+</button>
+
+<button
+class="${client.vieux===false?'activeRed':''}"
+onclick="setChoice(${index},'vieux',false)">
+🔴 Pas de vieux
+</button>
+
+</div>
+
+<button
+class="${client.fait?'green':'blue'}"
+onclick="toggleDone(${index})">
+
+${
+client.fait
+?
+"✅ Client fait à "+esc(client.heure_fait)
+:
+"🚚 Client fait"
+}
+
+</button>
+
+<button
+class="removeClient"
+onclick="removeClient(${index})">
+🗑️ Supprimer
+</button>
+
+`;
+
+box.appendChild(div);
+
+});
+
+}
+
+
+/* =====================================================
+MODIFICATION CLIENT
+===================================================== */
+
+function updateClient(index,key,value){
+
+currentDay.clients[index][key]=value;
+
+saveCurrentDay();
+
+renderSummary();
+
+}
+
+
+function updateNumber(index,key,value){
+
+currentDay.clients[index][key]=
+value===""
+?
+null
+:
+Number(value);
+
+saveCurrentDay();
+
+}
+
+
+function updatePhones(index,value){
+
+currentDay.clients[index].telephones=
+value
+.split("/")
+.map(x=>x.trim())
+.filter(Boolean);
+
+saveCurrentDay();
+
+}
+
+
+/* =====================================================
+ITEM
+===================================================== */
+
+function addItem(index){
+
+const item=emptyItem();
+
+item.seq_item=
+currentDay.clients[index].items.length+1;
+
+const description=
+prompt(
+"Description de l'appareil :"
+);
+
+if(!description){
+ return;
+}
+
+item.description=description;
+
+const model=
+prompt(
+"Code modèle :"
+);
+
+if(model){
+ item.code_modele=model;
+}
+
+const category=
+prompt(
+"Catégorie (VRE, CIN, RPF, LVE...) :"
+);
+
+if(category){
+ item.code_categorie=category;
+}
+
+const ptr=
+prompt(
+"No pièce / produit :"
+);
+
+if(ptr){
+ item.no_ptr=ptr;
+}
+
+currentDay.clients[index].items.push(item);
+
+recalculateClient(index);
+
+saveCurrentDay();
+
+renderDay();
+
+}
+
+
+function deleteItem(clientIndex,itemIndex){
+
+currentDay.clients[
+clientIndex
+].items.splice(
+itemIndex,
+1
+);
+
+recalculateClient(clientIndex);
+
+saveCurrentDay();
+
+renderDay();
+
+}
+
+
+function recalculateClient(index){
+
+const c=
+currentDay.clients[index];
+
+c.qte_totale=
+c.items.reduce(
+(sum,x)=>
+sum+
+Number(x.qte_charge||1),
+0
+);
+
+c.poids_total_connaissement=
+c.items.reduce(
+(sum,x)=>
+sum+
+Number(x.poids_total||0),
+0
+);
+
+}
+
+
+/* =====================================================
+ACTIONS
+===================================================== */
+
+function setChoice(index,key,value){
+
+currentDay.clients[index][key]=value;
+
+saveCurrentDay();
+
+renderDay();
+
+}
+
+
+function toggleDone(index){
+
+const c=
+currentDay.clients[index];
+
+c.fait=!c.fait;
+
+c.heure_fait=
+c.fait
+?
+now()
+:
+null;
+
+saveCurrentDay();
+
+renderDay();
+
+}
+
+
+function removeClient(index){
+
+if(!confirm("Supprimer ce client ?")){
+ return;
+}
+
+currentDay.clients.splice(index,1);
+
+currentDay.clients.forEach(
+(c,i)=>{
+ c.sequence=
+ String(i+1).padStart(3,"0");
+}
+);
+
+saveCurrentDay();
+
+renderDay();
+
+}
+
+
+function addManualClient(){
+
+if(!currentDay){
+
+currentDay={
+date:today(),
+route:newRoute(),
+clients:[]
+};
+
+currentDay.route.clients=
+currentDay.clients;
+
+historyData.push(currentDay);
+
+}
+
+const c=emptyClient();
+
+c.sequence=
+String(
+currentDay.clients.length+1
+).padStart(3,"0");
+
+c.nom_client=
+"Client "+
+c.sequence;
+
+currentDay.clients.push(c);
+
+saveCurrentDay();
+
+renderDay();
+
+show("day");
+
+}
+
+
+/* =====================================================
+RÉSUMÉ
+===================================================== */
+
+function renderSummary(){
+
+const box=
+document.getElementById("summary");
+
+box.innerHTML="";
+
+
+if(!currentDay ||
+!currentDay.clients.length){
+
+box.textContent="Aucun client.";
+
+return;
+
+}
+
+
+currentDay.clients.forEach(
+(c,i)=>{
+
+const div=
+document.createElement("div");
+
+div.className="summaryLine";
+
+div.innerHTML=
+"<strong>"+
+esc(c.sequence || String(i+1).padStart(3,"0"))+
+"</strong> · "+
+esc(c.nom_client)+
+"<br>"+
+(
+c.adresse
+?
+"📍 "+esc(c.adresse)
+:
+"⚠️ Adresse manquante"
+)+
+(
+c.telephones?.length
+?
+"<br>📞 "+esc(c.telephones.join(" / "))
+:
+""
+);
+
+box.appendChild(div);
+
+});
+
+}
+
+
+/* =====================================================
+MAPS
+===================================================== */
+
+function openMaps(index){
+
+const c=
+currentDay.clients[index];
+
+const address=[
+c.adresse,
+c.ville,
+c.code_postal
+]
+.filter(Boolean)
+.join(", ");
+
+if(!address){
+
+alert("Adresse manquante.");
+
+return;
+
+}
+
+window.open(
+mapsUrl(address),
+"_blank"
+);
+
+}
+
+
+function openImages(index){
+
+const c=
+currentDay.clients[index];
+
+const address=[
+c.adresse,
+c.ville
+]
+.filter(Boolean)
+.join(", ");
+
+if(!address){
+
+alert("Adresse manquante.");
+
+return;
+
+}
+
+window.open(
+imageUrl(address),
+"_blank"
+);
+
+}
+
+
+function openAllMaps(){
+
+const addresses=
+currentDay.clients
+.map(c=>
+[
+c.adresse,
+c.ville,
+c.code_postal
+]
+.filter(Boolean)
+.join(", ")
+)
+.filter(Boolean);
+
+if(addresses.length<1){
+
+alert("Aucune adresse.");
+
+return;
+
+}
+
+const destination=
+addresses[addresses.length-1];
+
+const waypoints=
+addresses.slice(0,-1).join("|");
+
+let url=
+"https://www.google.com/maps/dir/?api=1"+
+"&destination="+
+encodeURIComponent(destination);
+
+if(waypoints){
+
+url+=
+"&waypoints="+
+encodeURIComponent(waypoints);
+
+}
+
+url+="&travelmode=driving";
+
+window.open(url,"_blank");
+
+}
+
+
+function optimize(){
+
+openAllMaps();
+
+}
+
+
+/* =====================================================
+SAUVEGARDE
+===================================================== */
+
+function saveCurrentDay(){
+
+if(!currentDay)return;
+
+const index=
+historyData.indexOf(currentDay);
+
+if(index===-1){
+
+historyData.push(currentDay);
+
+}
+
+save();
+
+updateCounters();
+
+}
+
+
+/* =====================================================
+HISTORIQUE
+===================================================== */
+
+function renderHistory(){
+
+const box=
+document.getElementById("historyList");
+
+box.innerHTML="";
+
+
+if(!historyData.length){
+
+box.innerHTML=
+"<p>Aucune journée enregistrée.</p>";
+
+return;
+
+}
+
+
+historyData
+.slice()
+.reverse()
+.forEach(
+(day,reverseIndex)=>{
+
+const realIndex=
+historyData.length-
+1-
+reverseIndex;
+
+const b=
+document.createElement("button");
+
+b.className="historyItem";
+
+b.innerHTML=
+"📅 <strong>"+
+esc(day.date)+
+"</strong><br>"+
+"<span class='small'>"+
+day.clients.length+
+" clients · "+
+pieceCount(day)+
+" morceaux"+
+"</span>";
+
+b.onclick=
+()=>openHistory(realIndex);
+
+box.appendChild(b);
+
+});
+
+}
+
+
+function openHistory(index){
+
+const day=
+historyData[index];
+
+if(!day)return;
+
+document
+.getElementById("detailTitle")
+.textContent=
+"📅 "+day.date;
+
+document
+.getElementById("detailClientCount")
+.textContent=
+day.clients.length;
+
+document
+.getElementById("detailPieceCount")
+.textContent=
+pieceCount(day);
+
+
+const box=
+document.getElementById("detailList");
+
+box.innerHTML="";
+
+
+day.clients.forEach(
+c=>{
+
+const d=
+document.createElement("div");
+
+d.className="client";
+
+d.innerHTML=
+`
+<div class="clientNumber">
+CLIENT ${esc(c.sequence)}
+</div>
+
+<h2>${esc(c.nom_client)}</h2>
+
+<p>🔢 ${esc(c.no_cns)}</p>
+
+<p>📞 ${esc((c.telephones||[]).join(" / "))}</p>
+
+<p>
+📍 ${esc(c.adresse)}
+<br>
+${esc(c.ville)}
+${c.code_postal?" "+esc(c.code_postal):""}
+</p>
+
+<p>
+📦 ${c.qte_totale||0} morceau(x)
+</p>
+
+<p>
+${c.fait?"✅ Fait à "+esc(c.heure_fait):"⏳ Pas fait"}
+</p>
+`;
+
+box.appendChild(d);
+
+});
+
+
+show("detail");
+
+}
+
+
+/* =====================================================
+NAVIGATION
+===================================================== */
+
+document
+.getElementById("newDay")
+.onclick=
+()=>{
+
+currentDay={
+ date:today(),
+ route:newRoute(),
+ clients:[]
+};
+
+currentDay.route.clients=
+currentDay.clients;
+
+historyData.push(currentDay);
+
+save();
+
+renderDay();
+
+show("day");
+
+};
+
+
+document
+.getElementById("addClient")
+.onclick=
+addManualClient;
+
+
+document
+.getElementById("maps")
+.onclick=
+openAllMaps;
+
+
+document
+.getElementById("optimize")
+.onclick=
+optimize;
+
+
+document
+.getElementById("historyBtn")
+.onclick=
+()=>{
+
+renderHistory();
+
+show("history");
+
+};
+
+
+document
+.getElementById("backHome")
+.onclick=
+()=>{
+
+updateHome();
+
+show("home");
+
+};
+
+
+document
+.getElementById("backHistory")
+.onclick=
+()=>{
+
+show("home");
+
+};
+
+
+document
+.getElementById("backDetail")
+.onclick=
+()=>{
+
+renderHistory();
+
+show("history");
+
+};
+
+
+/* =====================================================
+ACCUEIL
+===================================================== */
+
+function updateHome(){
+
+document
+.getElementById("today")
+.textContent=
+today();
+
+if(currentDay){
+
+document
+.getElementById("homeClients")
+.textContent=
+currentDay.clients.length;
+
+document
+.getElementById("homePieces")
+.textContent=
+pieceCount(currentDay);
+
+}
+
+}
+
+
+/* =====================================================
+DÉMARRAGE
+===================================================== */
+
+updateHome();
+
+</script>
+
+</body>
+</html>
