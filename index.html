@@ -3,173 +3,170 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>0MRCX Livrer</title>
+<title>0MRCX LIVRER</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f1f3f5;
+    color:#222;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f1f3f5;
-    color: #222;
+header{
+    background:#111827;
+    color:white;
+    padding:16px;
+    text-align:center;
 }
 
-header {
-    background: #111827;
-    color: white;
-    padding: 16px;
-    text-align: center;
+header h1{
+    margin:0;
+    font-size:22px;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 22px;
+main{
+    max-width:600px;
+    margin:auto;
+    padding:15px;
 }
 
-main {
-    max-width: 600px;
-    margin: auto;
-    padding: 15px;
+.card,.client{
+    background:white;
+    padding:16px;
+    margin-bottom:15px;
+    border-radius:14px;
+    box-shadow:0 2px 8px #0002;
 }
 
-.card {
-    background: white;
-    padding: 16px;
-    margin-bottom: 15px;
-    border-radius: 14px;
-    box-shadow: 0 2px 8px #0002;
+button{
+    border:0;
+    border-radius:10px;
+    padding:14px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-button {
-    border: 0;
-    border-radius: 10px;
-    padding: 14px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
+.menuButton{
+    width:100%;
+    margin-bottom:10px;
+    background:#2563eb;
+    color:white;
 }
 
-.menuButton {
-    width: 100%;
-    margin-bottom: 10px;
-    background: #2563eb;
-    color: white;
+.secondary{
+    background:#e5e7eb;
+    color:#111;
 }
 
-.secondary {
-    background: #e5e7eb;
-    color: #111;
+.back{
+    width:100%;
+    margin-bottom:15px;
+    background:#e5e7eb;
 }
 
-.client {
-    background: white;
-    padding: 16px;
-    margin-bottom: 15px;
-    border-radius: 14px;
-    box-shadow: 0 2px 8px #0002;
+.choiceTitle{
+    font-weight:bold;
+    margin-top:15px;
+    margin-bottom:7px;
 }
 
-.client h2 {
-    margin-top: 0;
+.choices{
+    display:flex;
+    gap:8px;
 }
 
-.clientNumber {
-    color: #666;
-    font-size: 14px;
+.choice{
+    flex:1;
+    background:white;
+    color:#222;
+    border:2px solid #ddd;
 }
 
-.choiceTitle {
-    font-weight: bold;
-    margin-top: 15px;
-    margin-bottom: 7px;
+.choice.yes.active{
+    background:#22c55e;
+    color:white;
+    border-color:#22c55e;
 }
 
-.choices {
-    display: flex;
-    gap: 8px;
+.choice.no.active{
+    background:#ef4444;
+    color:white;
+    border-color:#ef4444;
 }
 
-.choice {
-    flex: 1;
-    background: white;
-    color: #222;
-    border: 2px solid #ddd;
+.done{
+    width:100%;
+    margin-top:15px;
+    background:white;
+    color:#15803d;
+    border:2px solid #22c55e;
 }
 
-.choice.yes.active {
-    background: #22c55e;
-    color: white;
-    border-color: #22c55e;
+.done.active{
+    background:#22c55e;
+    color:white;
 }
 
-.choice.no.active {
-    background: #ef4444;
-    color: white;
-    border-color: #ef4444;
+.stats{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
 }
 
-.done {
-    width: 100%;
-    margin-top: 15px;
-    background: white;
-    border: 2px solid #22c55e;
-    color: #15803d;
+.stat{
+    background:#f8f9fa;
+    padding:12px;
+    border-radius:10px;
+    text-align:center;
 }
 
-.done.active {
-    background: #22c55e;
-    color: white;
+.stat strong{
+    display:block;
+    font-size:22px;
 }
 
-.back {
-    width: 100%;
-    margin-bottom: 15px;
-    background: #e5e7eb;
+.small{
+    color:#666;
+    font-size:14px;
 }
 
-.historyButton {
-    width: 100%;
-    background: white;
-    color: #222;
-    border: 2px solid #ddd;
-    margin-bottom: 8px;
-    text-align: left;
+.piece{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#f3f4f6;
+    padding:10px;
+    border-radius:8px;
+    margin:5px 0;
 }
 
-.hidden {
-    display: none;
+.deletePiece{
+    padding:7px 10px;
+    background:#ef4444;
+    color:white;
 }
 
-.stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
+.addPiece{
+    width:100%;
+    margin-top:8px;
+    background:#e5e7eb;
 }
 
-.stat {
-    background: #f8f9fa;
-    padding: 12px;
-    border-radius: 10px;
-    text-align: center;
+.hidden{
+    display:none;
 }
 
-.stat strong {
-    display: block;
-    font-size: 22px;
-}
-
-.small {
-    color: #666;
-    font-size: 14px;
-}
-
-.empty {
-    text-align: center;
-    color: #666;
-    padding: 20px;
+.historyButton{
+    width:100%;
+    background:white;
+    color:#222;
+    border:2px solid #ddd;
+    margin-bottom:8px;
+    text-align:left;
 }
 </style>
 </head>
@@ -177,119 +174,113 @@ button {
 <body>
 
 <header>
-    <h1>🚚 0MRCX LIVRER</h1>
+<h1>🚚 0MRCX LIVRER</h1>
 </header>
 
 <main>
 
-<!-- ACCUEIL -->
 <section id="accueil">
 
-    <div class="card">
-        <h2>📅 Aujourd'hui</h2>
-        <p id="dateAujourdHui"></p>
+<div class="card">
+<h2>📅 Aujourd'hui</h2>
+<p id="dateAujourdHui"></p>
 
-        <div class="stats">
-            <div class="stat">
-                <strong id="clientsAujourdHui">0</strong>
-                <span class="small">Clients</span>
-            </div>
+<div class="stats">
+<div class="stat">
+<strong id="clientsAujourdHui">0</strong>
+<span class="small">Clients</span>
+</div>
 
-            <div class="stat">
-                <strong id="morceauxAujourdHui">0</strong>
-                <span class="small">Morceaux livrés</span>
-            </div>
-        </div>
-    </div>
+<div class="stat">
+<strong id="morceauxAujourdHui">0</strong>
+<span class="small">Morceaux livrés</span>
+</div>
+</div>
+</div>
 
-    <button class="menuButton" onclick="nouvelleJournee()">
-        ➕ Ajouter journée
-    </button>
+<button class="menuButton" onclick="nouvelleJournee()">
+➕ Ajouter journée
+</button>
 
-    <button class="menuButton secondary" onclick="afficherHistorique()">
-        📅 Historique
-    </button>
+<button class="menuButton secondary" onclick="afficherHistorique()">
+📅 Historique
+</button>
 
 </section>
 
 
-<!-- ROUTE -->
 <section id="route" class="hidden">
 
-    <button class="back" onclick="retourAccueil()">
-        ⬅️ Retour
-    </button>
+<button class="back" onclick="retourAccueil()">
+⬅️ Retour
+</button>
 
-    <div class="card">
-        <h2>🚚 Ma journée</h2>
-        <p id="dateRoute"></p>
+<div class="card">
+<h2>🚚 Ma journée</h2>
+<p id="dateRoute"></p>
 
-        <div class="stats">
-            <div class="stat">
-                <strong id="totalClients">0</strong>
-                <span class="small">Clients</span>
-            </div>
+<div class="stats">
 
-            <div class="stat">
-                <strong id="totalMorceaux">0</strong>
-                <span class="small">Morceaux livrés</span>
-            </div>
-        </div>
-    </div>
+<div class="stat">
+<strong id="totalClients">0</strong>
+<span class="small">Clients</span>
+</div>
 
-    <div id="listeClients"></div>
+<div class="stat">
+<strong id="totalMorceaux">0</strong>
+<span class="small">Morceaux livrés</span>
+</div>
+
+</div>
+</div>
+
+<div id="listeClients"></div>
 
 </section>
 
 
-<!-- HISTORIQUE -->
 <section id="historique" class="hidden">
 
-    <button class="back" onclick="retourAccueil()">
-        ⬅️ Retour
-    </button>
+<button class="back" onclick="retourAccueil()">
+⬅️ Retour
+</button>
 
-    <div class="card">
-        <h2>📅 Historique</h2>
-        <p class="small">
-            Tes journées restent enregistrées.
-        </p>
-
-        <div id="listeHistorique"></div>
-    </div>
+<div class="card">
+<h2>📅 Historique</h2>
+<div id="listeHistorique"></div>
+</div>
 
 </section>
 
 
-<!-- DETAIL HISTORIQUE -->
 <section id="detailHistorique" class="hidden">
 
-    <button class="back" onclick="afficherHistorique()">
-        ⬅️ Retour à l'historique
-    </button>
+<button class="back" onclick="afficherHistorique()">
+⬅️ Retour
+</button>
 
-    <div class="card">
-        <h2 id="titreDetail"></h2>
+<div class="card">
+<h2 id="titreDetail"></h2>
 
-        <div class="stats">
+<div class="stats">
 
-            <div class="stat">
-                <strong id="detailClients">0</strong>
-                <span class="small">Clients</span>
-            </div>
+<div class="stat">
+<strong id="detailClients">0</strong>
+<span class="small">Clients</span>
+</div>
 
-            <div class="stat">
-                <strong id="detailMorceaux">0</strong>
-                <span class="small">Morceaux</span>
-            </div>
+<div class="stat">
+<strong id="detailMorceaux">0</strong>
+<span class="small">Morceaux livrés</span>
+</div>
 
-        </div>
-    </div>
+</div>
+</div>
 
-    <div class="card">
-        <h3>📦 Morceaux livrés</h3>
-        <div id="detailMorceauxListe"></div>
-    </div>
+<div class="card">
+<h3>📦 Morceaux livrés</h3>
+<div id="detailMorceauxListe"></div>
+</div>
 
 </section>
 
@@ -298,520 +289,542 @@ button {
 
 <script>
 
-let journeeActuelle = null;
+let journeeActuelle=null;
 
-let historique =
-    JSON.parse(localStorage.getItem("historiqueLivraison")) || [];
+let historique=
+JSON.parse(localStorage.getItem("historiqueLivraison"))||[];
 
 
-function obtenirDate() {
+function obtenirDate(){
 
-    const maintenant = new Date();
-
-    return maintenant.toLocaleDateString("fr-CA");
+return new Date().toLocaleDateString("fr-CA");
 
 }
 
 
-function obtenirHeure() {
+function obtenirHeure(){
 
-    const maintenant = new Date();
-
-    return maintenant.toLocaleTimeString(
-        "fr-CA",
-        {
-            hour: "2-digit",
-            minute: "2-digit"
-        }
-    );
+return new Date().toLocaleTimeString(
+"fr-CA",
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
 
 }
 
 
-function sauvegarder() {
+function sauvegarder(){
 
-    localStorage.setItem(
-        "historiqueLivraison",
-        JSON.stringify(historique)
-    );
-
-}
-
-
-function nouvelleJournee() {
-
-    const date = obtenirDate();
-
-    journeeActuelle = {
-
-        date: date,
-
-        clients: [
-
-            {
-                numero: 1,
-
-                nom: "Client 001",
-
-                adresse: "Adresse à ajouter",
-
-                morceaux: [
-                    "Laveuse"
-                ],
-
-                appele: null,
-
-                vieux: null,
-
-                fait: false,
-
-                heure: null
-            },
-
-            {
-                numero: 2,
-
-                nom: "Client 002",
-
-                adresse: "Adresse à ajouter",
-
-                morceaux: [
-                    "Sécheuse"
-                ],
-
-                appele: null,
-
-                vieux: null,
-
-                fait: false,
-
-                heure: null
-            }
-
-        ]
-
-    };
-
-    sauvegarderJournee();
-
-    afficherRoute();
+localStorage.setItem(
+"historiqueLivraison",
+JSON.stringify(historique)
+);
 
 }
 
 
-function sauvegarderJournee() {
+function nouvelleJournee(){
 
-    if (!journeeActuelle) return;
+journeeActuelle={
 
-    const position = historique.findIndex(
-        j => j.date === journeeActuelle.date
-    );
+date:obtenirDate(),
 
-    if (position >= 0) {
+clients:[
 
-        historique[position] = journeeActuelle;
+{
+numero:1,
+nom:"Client 001",
+adresse:"Adresse à ajouter",
+morceaux:["Laveuse"],
+appele:null,
+vieux:null,
+fait:false,
+heure:null
+},
 
-    } else {
+{
+numero:2,
+nom:"Client 002",
+adresse:"Adresse à ajouter",
+morceaux:["Sécheuse","Pièce"],
+appele:null,
+vieux:null,
+fait:false,
+heure:null
+}
 
-        historique.push(journeeActuelle);
+]
 
-    }
+};
 
-    sauvegarder();
+sauvegarderJournee();
+
+afficherRoute();
 
 }
 
 
-function afficherRoute() {
+function sauvegarderJournee(){
 
-    cacherToutesLesSections();
+if(!journeeActuelle)return;
 
-    document
-        .getElementById("route")
-        .classList.remove("hidden");
+let position=
+historique.findIndex(
+j=>j.date===journeeActuelle.date
+);
 
-    document.getElementById("dateRoute").textContent =
-        journeeActuelle.date;
+if(position>=0){
 
-    afficherClients();
+historique[position]=journeeActuelle;
+
+}else{
+
+historique.push(journeeActuelle);
+
+}
+
+sauvegarder();
 
 }
 
 
-function afficherClients() {
+function afficherRoute(){
 
-    const liste =
-        document.getElementById("listeClients");
+cacherToutesLesSections();
 
-    liste.innerHTML = "";
+document
+.getElementById("route")
+.classList.remove("hidden");
 
-    journeeActuelle.clients.forEach(
-        (client, index) => {
+document.getElementById("dateRoute")
+.textContent=journeeActuelle.date;
 
-            const div =
-                document.createElement("div");
-
-            div.className = "client";
-
-            div.innerHTML = `
-
-                <div class="clientNumber">
-                    CLIENT ${String(client.numero).padStart(3, "0")}
-                </div>
-
-                <h2>${client.nom}</h2>
-
-                <p>📍 ${client.adresse}</p>
-
-                <p>
-                    📦 ${client.morceaux.join(", ")}
-                </p>
-
-
-                <div class="choiceTitle">
-                    Client appelé
-                </div>
-
-                <div class="choices">
-
-                    <button
-                        class="choice yes ${
-                            client.appele === true
-                            ? "active"
-                            : ""
-                        }"
-                        onclick="choisirAppel(${index}, true)">
-                        Oui
-                    </button>
-
-                    <button
-                        class="choice no ${
-                            client.appele === false
-                            ? "active"
-                            : ""
-                        }"
-                        onclick="choisirAppel(${index}, false)">
-                        Pas répondu
-                    </button>
-
-                </div>
-
-
-                <div class="choiceTitle">
-                    Vieux
-                </div>
-
-                <div class="choices">
-
-                    <button
-                        class="choice yes ${
-                            client.vieux === true
-                            ? "active"
-                            : ""
-                        }"
-                        onclick="choisirVieux(${index}, true)">
-                        Oui, vieux
-                    </button>
-
-                    <button
-                        class="choice no ${
-                            client.vieux === false
-                            ? "active"
-                            : ""
-                        }"
-                        onclick="choisirVieux(${index}, false)">
-                        Pas de vieux
-                    </button>
-
-                </div>
-
-
-                <button
-                    class="done ${
-                        client.fait
-                        ? "active"
-                        : ""
-                    }"
-                    onclick="clientFait(${index})">
-
-                    ${
-                        client.fait
-                        ? "✅ Client fait à " + client.heure
-                        : "🚚 Client fait"
-                    }
-
-                </button>
-
-            `;
-
-            liste.appendChild(div);
-
-        }
-    );
-
-    mettreAJourCompteurs();
+afficherClients();
 
 }
 
 
-function choisirAppel(index, valeur) {
+function afficherClients(){
 
-    journeeActuelle.clients[index].appele =
-        valeur;
+const liste=
+document.getElementById("listeClients");
 
-    sauvegarderJournee();
+liste.innerHTML="";
 
-    afficherClients();
+
+journeeActuelle.clients.forEach(
+(client,index)=>{
+
+const div=
+document.createElement("div");
+
+div.className="client";
+
+
+let morceauxHTML="";
+
+client.morceaux.forEach(
+(morceau,pieceIndex)=>{
+
+morceauxHTML+=`
+
+<div class="piece">
+
+<span>📦 ${morceau}</span>
+
+<button
+class="deletePiece"
+onclick="supprimerMorceau(${index},${pieceIndex})">
+✕
+</button>
+
+</div>
+
+`;
+
+});
+
+
+div.innerHTML=`
+
+<div class="small">
+CLIENT ${String(client.numero).padStart(3,"0")}
+</div>
+
+<h2>${client.nom}</h2>
+
+<p>📍 ${client.adresse}</p>
+
+<div class="choiceTitle">
+📦 Morceaux
+</div>
+
+${morceauxHTML}
+
+<button
+class="addPiece"
+onclick="ajouterMorceau(${index})">
+➕ Ajouter un morceau
+</button>
+
+
+<div class="choiceTitle">
+Client appelé
+</div>
+
+<div class="choices">
+
+<button
+class="choice yes ${
+client.appele===true?"active":""
+}"
+onclick="choisirAppel(${index},true)">
+Oui
+</button>
+
+<button
+class="choice no ${
+client.appele===false?"active":""
+}"
+onclick="choisirAppel(${index},false)">
+Pas répondu
+</button>
+
+</div>
+
+
+<div class="choiceTitle">
+Vieux
+</div>
+
+<div class="choices">
+
+<button
+class="choice yes ${
+client.vieux===true?"active":""
+}"
+onclick="choisirVieux(${index},true)">
+Oui, vieux
+</button>
+
+<button
+class="choice no ${
+client.vieux===false?"active":""
+}"
+onclick="choisirVieux(${index},false)">
+Pas de vieux
+</button>
+
+</div>
+
+
+<button
+class="done ${
+client.fait?"active":""
+}"
+onclick="clientFait(${index})">
+
+${
+client.fait
+?"✅ Client fait à "+client.heure
+:"🚚 Client fait"
+}
+
+</button>
+
+`;
+
+liste.appendChild(div);
+
+});
+
+mettreAJourCompteurs();
 
 }
 
 
-function choisirVieux(index, valeur) {
+function ajouterMorceau(index){
 
-    journeeActuelle.clients[index].vieux =
-        valeur;
+const morceau=
+prompt("Quel morceau/appareil faut-il ajouter ?");
 
-    sauvegarderJournee();
+if(!morceau)return;
 
-    afficherClients();
+journeeActuelle.clients[index]
+.morceaux.push(morceau);
 
-}
+sauvegarderJournee();
 
-
-function clientFait(index) {
-
-    const client =
-        journeeActuelle.clients[index];
-
-    if (!client.fait) {
-
-        client.fait = true;
-
-        client.heure = obtenirHeure();
-
-        sauvegarderJournee();
-
-    }
-
-    afficherClients();
+afficherClients();
 
 }
 
 
-function compterMorceaux(journee) {
+function supprimerMorceau(clientIndex,pieceIndex){
 
-    return journee.clients
-        .filter(client => client.fait)
-        .reduce(
-            (total, client) =>
-                total + client.morceaux.length,
-            0
-        );
+journeeActuelle
+.clients[clientIndex]
+.morceaux
+.splice(pieceIndex,1);
 
-}
+sauvegarderJournee();
 
-
-function mettreAJourCompteurs() {
-
-    const totalClients =
-        journeeActuelle.clients.length;
-
-    const morceaux =
-        compterMorceaux(journeeActuelle);
-
-    document.getElementById(
-        "totalClients"
-    ).textContent = totalClients;
-
-    document.getElementById(
-        "totalMorceaux"
-    ).textContent = morceaux;
+afficherClients();
 
 }
 
 
-function afficherHistorique() {
+function choisirAppel(index,valeur){
 
-    cacherToutesLesSections();
+journeeActuelle
+.clients[index]
+.appele=valeur;
 
-    document
-        .getElementById("historique")
-        .classList.remove("hidden");
+sauvegarderJournee();
 
-    const liste =
-        document.getElementById(
-            "listeHistorique"
-        );
-
-    liste.innerHTML = "";
-
-    if (historique.length === 0) {
-
-        liste.innerHTML =
-            `<div class="empty">
-                Aucune journée enregistrée.
-            </div>`;
-
-        return;
-
-    }
-
-
-    historique
-        .slice()
-        .reverse()
-        .forEach((journee, position) => {
-
-            const vraiIndex =
-                historique.length - 1 - position;
-
-            const morceaux =
-                compterMorceaux(journee);
-
-            const bouton =
-                document.createElement("button");
-
-            bouton.className =
-                "historyButton";
-
-            bouton.innerHTML = `
-                📅 <strong>${journee.date}</strong>
-                <br>
-                👥 ${journee.clients.length} clients
-                · 📦 ${morceaux} morceaux livrés
-            `;
-
-            bouton.onclick =
-                () => ouvrirHistorique(vraiIndex);
-
-            liste.appendChild(bouton);
-
-        });
+afficherClients();
 
 }
 
 
-function ouvrirHistorique(index) {
+function choisirVieux(index,valeur){
 
-    const journee =
-        historique[index];
+journeeActuelle
+.clients[index]
+.vieux=valeur;
 
-    cacherToutesLesSections();
+sauvegarderJournee();
 
-    document
-        .getElementById("detailHistorique")
-        .classList.remove("hidden");
-
-    document.getElementById(
-        "titreDetail"
-    ).textContent =
-        "📅 " + journee.date;
-
-    document.getElementById(
-        "detailClients"
-    ).textContent =
-        journee.clients.length;
-
-    document.getElementById(
-        "detailMorceaux"
-    ).textContent =
-        compterMorceaux(journee);
-
-
-    const liste =
-        document.getElementById(
-            "detailMorceauxListe"
-        );
-
-    liste.innerHTML = "";
-
-    let numeroMorceau = 1;
-
-    journee.clients.forEach(client => {
-
-        if (!client.fait) return;
-
-        client.morceaux.forEach(morceau => {
-
-            const ligne =
-                document.createElement("p");
-
-            ligne.innerHTML = `
-                <strong>
-                    ${numeroMorceau}.
-                </strong>
-                ${morceau}
-                → ${client.nom}
-                → ${client.heure}
-            `;
-
-            liste.appendChild(ligne);
-
-            numeroMorceau++;
-
-        });
-
-    });
+afficherClients();
 
 }
 
 
-function retourAccueil() {
+function clientFait(index){
 
-    cacherToutesLesSections();
+const client=
+journeeActuelle.clients[index];
 
-    document
-        .getElementById("accueil")
-        .classList.remove("hidden");
+if(!client.fait){
 
-    mettreAJourAccueil();
+client.fait=true;
+
+client.heure=
+obtenirHeure();
+
+sauvegarderJournee();
+
+}
+
+afficherClients();
 
 }
 
 
-function mettreAJourAccueil() {
+function compterMorceaux(journee){
 
-    document.getElementById(
-        "dateAujourdHui"
-    ).textContent =
-        obtenirDate();
-
-    if (!journeeActuelle) {
-
-        document.getElementById(
-            "clientsAujourdHui"
-        ).textContent = 0;
-
-        document.getElementById(
-            "morceauxAujourdHui"
-        ).textContent = 0;
-
-        return;
-
-    }
-
-    document.getElementById(
-        "clientsAujourdHui"
-    ).textContent =
-        journeeActuelle.clients.length;
-
-    document.getElementById(
-        "morceauxAujourdHui"
-    ).textContent =
-        compterMorceaux(journeeActuelle);
+return journee.clients
+.filter(c=>c.fait)
+.reduce(
+(total,c)=>
+total+c.morceaux.length,
+0
+);
 
 }
 
 
-function cacherToutesLesSections() {
+function mettreAJourCompteurs(){
 
-    document
-        .querySelectorAll("main section")
-        .forEach(section => {
+document.getElementById("totalClients")
+.textContent=
+journeeActuelle.clients.length;
 
-            section.classList.add("hidden");
+document.getElementById("totalMorceaux")
+.textContent=
+compterMorceaux(journeeActuelle);
 
-        });
+}
+
+
+function afficherHistorique(){
+
+cacherToutesLesSections();
+
+document
+.getElementById("historique")
+.classList.remove("hidden");
+
+const liste=
+document.getElementById("listeHistorique");
+
+liste.innerHTML="";
+
+if(historique.length===0){
+
+liste.innerHTML=
+"<p>Aucune journée enregistrée.</p>";
+
+return;
+
+}
+
+
+historique
+.slice()
+.reverse()
+.forEach(
+(journee,position)=>{
+
+const index=
+historique.length-1-position;
+
+const morceaux=
+compterMorceaux(journee);
+
+const bouton=
+document.createElement("button");
+
+bouton.className=
+"historyButton";
+
+bouton.innerHTML=`
+
+📅 <strong>${journee.date}</strong>
+
+<br>
+
+👥 ${journee.clients.length} clients
+
+· 📦 ${morceaux} morceaux livrés
+
+`;
+
+bouton.onclick=
+()=>ouvrirHistorique(index);
+
+liste.appendChild(bouton);
+
+});
+
+}
+
+
+function ouvrirHistorique(index){
+
+const journee=
+historique[index];
+
+cacherToutesLesSections();
+
+document
+.getElementById("detailHistorique")
+.classList.remove("hidden");
+
+document.getElementById("titreDetail")
+.textContent=
+"📅 "+journee.date;
+
+document.getElementById("detailClients")
+.textContent=
+journee.clients.length;
+
+document.getElementById("detailMorceaux")
+.textContent=
+compterMorceaux(journee);
+
+
+const liste=
+document.getElementById("detailMorceauxListe");
+
+liste.innerHTML="";
+
+let numero=1;
+
+
+journee.clients.forEach(client=>{
+
+if(!client.fait)return;
+
+client.morceaux.forEach(morceau=>{
+
+const ligne=
+document.createElement("p");
+
+ligne.innerHTML=`
+
+<strong>${numero}.</strong>
+
+📦 ${morceau}
+
+→ ${client.nom}
+
+→ ${client.heure}
+
+`;
+
+liste.appendChild(ligne);
+
+numero++;
+
+});
+
+});
+
+}
+
+
+function retourAccueil(){
+
+cacherToutesLesSections();
+
+document
+.getElementById("accueil")
+.classList.remove("hidden");
+
+mettreAJourAccueil();
+
+}
+
+
+function mettreAJourAccueil(){
+
+document.getElementById("dateAujourdHui")
+.textContent=
+obtenirDate();
+
+if(!journeeActuelle){
+
+document.getElementById("clientsAujourdHui")
+.textContent=0;
+
+document.getElementById("morceauxAujourdHui")
+.textContent=0;
+
+return;
+
+}
+
+document.getElementById("clientsAujourdHui")
+.textContent=
+journeeActuelle.clients.length;
+
+document.getElementById("morceauxAujourdHui")
+.textContent=
+compterMorceaux(journeeActuelle);
+
+}
+
+
+function cacherToutesLesSections(){
+
+document
+.querySelectorAll("main section")
+.forEach(section=>{
+section.classList.add("hidden");
+});
 
 }
 
