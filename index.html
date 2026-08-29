@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon App Livraison</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f4f6;
+    color: #222;
+}
+
+header {
+    background: #111827;
+    color: white;
+    padding: 18px;
+    text-align: center;
+}
+
+main {
+    padding: 15px;
+    max-width: 600px;
+    margin: auto;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin: 7px 0;
+    border: 0;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.primary {
+    background: #2563eb;
+    color: white;
+}
+
+.client {
+    background: white;
+    border-radius: 14px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px #0002;
+}
+
+.choice {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.choice button {
+    flex: 1;
+    background: white;
+    border: 2px solid #ddd;
+    color: #222;
+}
+
+.choice button.yes.active {
+    background: #22c55e;
+    color: white;
+    border-color: #22c55e;
+}
+
+.choice button.no.active {
+    background: #ef4444;
+    color: white;
+    border-color: #ef4444;
+}
+
+.done {
+    background: #16a34a;
+    color: white;
+}
+
+.hidden {
+    display: none;
+}
+
+.stats {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🚚 Mon App Livraison</h1>
+</header>
+
+<main>
+
+    <section id="accueil">
+        <div class="stats">
+            <h2>📅 Aujourd'hui</h2>
+            <p id="date"></p>
+            <p><strong id="totalLivres">0</strong> morceaux livrés</p>
+        </div>
+
+        <button class="primary" onclick="nouvelleJournee()">
+            ➕ Nouvelle journée
+        </button>
+
+        <button onclick="afficherHistorique()">
+            📅 Historique
+        </button>
+    </section>
+
+    <section id="route" class="hidden">
+        <button onclick="retourAccueil()">⬅️ Accueil</button>
+
+        <div class="stats">
+            <h2>🚚 Ma route</h2>
+            <p><strong id="compteur">0</strong> client(s)</p>
+            <p><strong id="morceaux">0</strong> morceau(x) livré(s)</p>
+        </div>
+
+        <div id="clients"></div>
+    </section>
+
+    <section id="historique" class="hidden">
+        <button onclick="retourAccueil()">⬅️ Accueil</button>
+
+        <div class="stats">
+            <h2>📅 Historique</h2>
+            <div id="listeHistorique"></div>
+        </div>
+    </section>
+
+</main>
+
+<script>
+
+let journee = {
+    date: new Date().toLocaleDateString("fr-CA"),
+    clients: []
+};
+
+let historique = JSON.parse(localStorage.getItem("historiqueLivraison")) || [];
+
+document.getElementById("date").textContent = journee.date;
+
+function sauvegarder() {
+    localStorage.setItem(
+        "historiqueLivraison",
+        JSON.stringify(historique)
+    );
+}
+
+function nouvelleJournee() {
+
+    journee = {
+        date: new Date().toLocaleDateString("fr-CA"),
+        clients: [
+            {
+                nom: "Client 001",
+                adresse: "Adresse à ajouter",
+                morceaux: ["Laveuse"],
+                appele: null,
+                vieux: null,
+                fait: false,
+                heure: null
+            }
+        ]
+    };
+
+    afficherRoute();
+}
+
+function afficherRoute() {
+
+    document.getElementById("accueil").classList.add("hidden");
+    document.getElementById("historique").classList.add("hidden");
+    document.getElementById("route").classList.remove("hidden");
+
+    afficherClients();
+}
+
+function afficherClients() {
+
+    const container = document.getElementById("clients");
+    container.innerHTML = "";
+
+    journee.clients.forEach((client, index) => {
+
+        const div = document.createElement("div");
+        div.className = "client";
+
+        div.innerHTML = `
+            <h2>${client.nom}</h2>
+            <p>📍 ${client.adresse}</p>
+
+            <p>
+                📦 ${client.morceaux.join(", ")}
+            </p>
+
+            <strong>Client appelé</strong>
+
+            <div class="choice">
+                <button
+                    class="yes ${client.appele === true ? "active" : ""}"
+                    onclick="choixAppel(${index}, true)">
+                    Oui
+                </button>
+
+                <button
+                    class="no ${client.appele === false ? "active" : ""}"
+                    onclick="choixAppel(${index}, false)">
+                    Pas répondu
+                </button>
+            </div>
+
+            <br>
+
+            <strong>Vieux</strong>
+
+            <div class="choice">
+                <button
+                    class="yes ${client.vieux === true ? "active" : ""}"
+                    onclick="choixVieux(${index}, true)">
+                    Oui, vieux
+                </button>
+
+                <button
+                    class="no ${client.vieux === false ? "active" : ""}"
+                    onclick="choixVieux(${index}, false)">
+                    Pas de vieux
+                </button>
+            </div>
+
+            <br>
+
+            <button
+                class="done"
+                onclick="clientFait(${index})">
+                ${client.fait
+                    ? "✅ Client fait à " + client.heure
+                    : "🚚 Client fait"}
+            </button>
+        `;
+
+        container.appendChild(div);
+    });
+
+    mettreAJourCompteurs();
+}
+
+function choixAppel(index, valeur) {
+
+    journee.clients[index].appele = valeur;
+
+    afficherClients();
+}
+
+function choixVieux(index, valeur) {
+
+    journee.clients[index].vieux = valeur;
+
+    afficherClients();
+}
+
+function clientFait(index) {
+
+    const client = journee.clients[index];
+
+    if (!client.fait) {
+
+        const maintenant = new Date();
+
+        client.heure = maintenant.toLocaleTimeString(
+            "fr-CA",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+        client.fait = true;
+    }
+
+    enregistrerJournee();
+    afficherClients();
+}
+
+function mettreAJourCompteurs() {
+
+    const livres = journee.clients
+        .filter(client => client.fait)
+        .reduce(
+            (total, client) => total + client.morceaux.length,
+            0
+        );
+
+    document.getElementById("compteur").textContent =
+        journee.clients.length;
+
+    document.getElementById("morceaux").textContent =
+        livres;
+
+    document.getElementById("totalLivres").textContent =
+        livres;
+}
