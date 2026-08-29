@@ -4,10 +4,8 @@
 
 <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
 <title>0MRCX LIVRER</title>
 
@@ -16,276 +14,280 @@ content="width=device-width, initial-scale=1.0"
 <style>
 
 *{
-box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 body{
-margin:0;
-background:#eef1f5;
-color:#151515;
-font-family:Arial,Helvetica,sans-serif;
+  margin:0;
+  background:#eef1f5;
+  color:#111827;
+  font-family:Arial,Helvetica,sans-serif;
 }
 
 header{
-background:#111827;
-color:white;
-padding:16px;
-text-align:center;
-position:sticky;
-top:0;
-z-index:20;
+  background:#111827;
+  color:white;
+  padding:16px;
+  text-align:center;
+  position:sticky;
+  top:0;
+  z-index:20;
 }
 
 header h1{
-margin:0;
-font-size:22px;
+  margin:0;
+  font-size:22px;
 }
 
 main{
-width:100%;
-max-width:650px;
-margin:auto;
-padding:12px;
-}
-
-section{
-width:100%;
+  max-width:700px;
+  margin:auto;
+  padding:12px;
 }
 
 .card{
-background:white;
-border-radius:15px;
-padding:15px;
-margin-bottom:13px;
-box-shadow:0 2px 8px #0002;
+  background:white;
+  border-radius:15px;
+  padding:15px;
+  margin-bottom:12px;
+  box-shadow:0 2px 8px #0002;
 }
 
 button{
-width:100%;
-border:0;
-border-radius:11px;
-padding:14px;
-margin:5px 0;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
+  width:100%;
+  border:0;
+  border-radius:11px;
+  padding:14px;
+  margin:5px 0;
+  font-size:16px;
+  font-weight:bold;
 }
 
 .blue{
-background:#2563eb;
-color:white;
+  background:#2563eb;
+  color:white;
 }
 
 .dark{
-background:#111827;
-color:white;
+  background:#111827;
+  color:white;
 }
 
 .green{
-background:#16a34a;
-color:white;
+  background:#16a34a;
+  color:white;
 }
 
 .red{
-background:#dc2626;
-color:white;
-}
-
-.gray{
-background:#e5e7eb;
-color:#111;
+  background:#dc2626;
+  color:white;
 }
 
 .orange{
-background:#f59e0b;
-color:white;
+  background:#f59e0b;
+  color:white;
+}
+
+.gray{
+  background:#e5e7eb;
+  color:#111827;
 }
 
 .hidden{
-display:none!important;
+  display:none!important;
 }
 
 .small{
-color:#666;
-font-size:13px;
+  font-size:13px;
+  color:#6b7280;
 }
 
 .big{
-font-size:25px;
-font-weight:bold;
+  font-size:25px;
+  font-weight:bold;
 }
 
 .stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
 }
 
 .stat{
-background:#f4f5f7;
-border-radius:10px;
-padding:12px;
-text-align:center;
+  background:#f3f4f6;
+  padding:12px;
+  border-radius:10px;
+  text-align:center;
 }
 
 .photoButtons{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
 }
 
 .photoButtons button{
-margin:0;
+  margin:0;
 }
 
 .photoInput{
-display:none;
+  display:none;
 }
 
 #photoPreview{
-display:none;
-width:100%;
-max-height:500px;
-object-fit:contain;
-border-radius:12px;
-margin-top:12px;
+  width:100%;
+  max-height:500px;
+  object-fit:contain;
+  border-radius:12px;
+  margin-top:12px;
+  display:none;
 }
 
 #ocrStatus{
-background:#f8fafc;
-padding:10px;
-border-radius:9px;
-margin-top:10px;
+  background:#f8fafc;
+  border-radius:10px;
+  padding:12px;
+  margin-top:10px;
+}
+
+.progress{
+  width:100%;
+  height:12px;
+  background:#e5e7eb;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:8px;
+}
+
+.progressBar{
+  height:100%;
+  width:0%;
+  background:#2563eb;
+  transition:width .2s;
 }
 
 .client{
-background:white;
-border-radius:15px;
-padding:14px;
-margin-bottom:13px;
-box-shadow:0 2px 7px #0002;
+  background:white;
+  border-radius:15px;
+  padding:14px;
+  margin-bottom:12px;
+  box-shadow:0 2px 8px #0002;
 }
 
 .client.done{
-border:3px solid #22c55e;
+  border:3px solid #22c55e;
 }
 
 .clientNumber{
-font-size:13px;
-font-weight:bold;
-color:#666;
-}
-
-.client h2{
-margin:5px 0 10px;
+  font-size:13px;
+  font-weight:bold;
+  color:#6b7280;
 }
 
 label{
-display:block;
-font-weight:bold;
-margin-top:8px;
+  display:block;
+  font-weight:bold;
+  margin-top:8px;
 }
 
-input,
-textarea{
-width:100%;
-border:2px solid #ddd;
-border-radius:10px;
-padding:12px;
-font-size:16px;
-margin:4px 0 8px;
-background:white;
+input{
+  width:100%;
+  padding:12px;
+  border:2px solid #ddd;
+  border-radius:10px;
+  font-size:16px;
+  margin:4px 0 8px;
 }
 
 .row{
-display:flex;
-gap:7px;
+  display:flex;
+  gap:7px;
 }
 
 .row button{
-flex:1;
-}
-
-.piece{
-display:flex;
-align-items:center;
-justify-content:space-between;
-background:#f3f4f6;
-padding:9px;
-border-radius:8px;
-margin:5px 0;
-}
-
-.deletePiece{
-width:auto;
-margin:0;
-padding:7px 10px;
-background:#ef4444;
-color:white;
+  flex:1;
 }
 
 .choice{
-display:flex;
-gap:7px;
+  display:flex;
+  gap:7px;
 }
 
 .choice button{
-flex:1;
-}
-
-.activeGreen{
-background:#16a34a!important;
-color:white!important;
-}
-
-.activeRed{
-background:#dc2626!important;
-color:white!important;
+  flex:1;
 }
 
 .activeBlue{
-background:#2563eb!important;
-color:white!important;
+  background:#2563eb!important;
+  color:white!important;
+}
+
+.activeGreen{
+  background:#16a34a!important;
+  color:white!important;
+}
+
+.activeRed{
+  background:#dc2626!important;
+  color:white!important;
+}
+
+.piece{
+  background:#f3f4f6;
+  border-radius:8px;
+  padding:9px;
+  margin:5px 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.deletePiece{
+  width:auto;
+  padding:7px 10px;
+  background:#dc2626;
+  color:white;
+  margin:0;
 }
 
 .summaryLine{
-background:#f5f5f5;
-padding:9px;
-border-radius:8px;
-margin:5px 0;
-}
-
-.historyItem{
-text-align:left;
-background:white;
-border:2px solid #ddd;
+  background:#f3f4f6;
+  padding:9px;
+  border-radius:8px;
+  margin:5px 0;
 }
 
 .removeClient{
-background:#fee2e2;
-color:#991b1b;
+  background:#fee2e2;
+  color:#991b1b;
 }
 
-hr{
-border:0;
-border-top:1px solid #ddd;
-margin:15px 0;
+.historyItem{
+  background:white;
+  border:2px solid #ddd;
+  text-align:left;
+}
+
+#ocrRaw{
+  white-space:pre-wrap;
+  background:#111827;
+  color:#e5e7eb;
+  padding:12px;
+  border-radius:10px;
+  max-height:250px;
+  overflow:auto;
+  font-size:12px;
 }
 
 </style>
 
 </head>
 
-
 <body>
 
-
 <header>
-
 <h1>🚚 0MRCX LIVRER</h1>
-
 </header>
-
 
 <main>
 
@@ -296,7 +298,6 @@ ACCUEIL
 
 <section id="home">
 
-
 <div class="card">
 
 <h2>📊 Tableau de bord</h2>
@@ -306,32 +307,13 @@ ACCUEIL
 <div class="stats">
 
 <div class="stat">
-
-<div
-class="big"
-id="homeClients">
-0
+<div class="big" id="homeClients">0</div>
+<div class="small">Clients</div>
 </div>
-
-<div class="small">
-Clients
-</div>
-
-</div>
-
 
 <div class="stat">
-
-<div
-class="big"
-id="homePieces">
-0
-</div>
-
-<div class="small">
-Morceaux livrés
-</div>
-
+<div class="big" id="homePieces">0</div>
+<div class="small">Morceaux livrés</div>
 </div>
 
 </div>
@@ -339,106 +321,78 @@ Morceaux livrés
 </div>
 
 
-<button
-class="blue"
-id="newDayBtn">
-
+<button class="blue" id="newDayBtn">
 ➕ Ajouter une journée
-
 </button>
 
-
-<!-- PHOTO -->
 
 <div class="card">
 
 <h3>📷 Feuille de livraison</h3>
 
 <p class="small">
-
-Choisis comment tu veux ajouter ta feuille.
-
+Prends une photo ou choisis une photo dans ta galerie.
 </p>
-
 
 <div class="photoButtons">
 
-
-<button
-class="blue"
-id="cameraBtn">
-
-📷 Prendre une photo
-
+<button class="blue" id="cameraBtn">
+📷 Caméra
 </button>
 
-
-<button
-class="dark"
-id="galleryBtn">
-
+<button class="dark" id="galleryBtn">
 🖼️ Galerie
-
 </button>
 
 </div>
 
-
-<!-- CAMÉRA -->
-
 <input
-class="photoInput"
 id="cameraInput"
+class="photoInput"
 type="file"
 accept="image/*"
 capture="environment"
 >
 
-
-<!-- GALERIE -->
-
 <input
-class="photoInput"
 id="galleryInput"
+class="photoInput"
 type="file"
 accept="image/*"
 >
 
-
 <img
 id="photoPreview"
-alt="Aperçu de la feuille"
 >
 
+<div id="ocrStatus" class="hidden">
 
-<div
-id="ocrStatus"
-class="hidden">
-
-⏳ Lecture de la feuille...
-
+<div id="ocrMessage">
+⏳ Préparation...
 </div>
 
+<div class="progress">
+<div id="ocrProgress"
+     class="progressBar">
+</div>
+</div>
+
+</div>
 
 <button
 id="ocrBtn"
 class="orange hidden">
 
-🔎 Lire la feuille
+🔎 Lire ma feuille
 
 </button>
 
 </div>
 
 
-<button
-class="dark"
-id="historyBtn">
-
+<button class="dark" id="historyBtn">
 📅 Historique
-
 </button>
-
 
 </section>
 
@@ -447,19 +401,11 @@ id="historyBtn">
 JOURNÉE
 ========================= -->
 
-<section
-id="day"
-class="hidden">
+<section id="day" class="hidden">
 
-
-<button
-class="gray"
-id="backHomeBtn">
-
+<button class="gray" id="backHomeBtn">
 ⬅️ Retour
-
 </button>
-
 
 <div class="card">
 
@@ -467,74 +413,30 @@ id="backHomeBtn">
 
 <p id="dayDate"></p>
 
-
 <div class="stats">
 
+<div class="stat">
+<div class="big" id="dayClients">0</div>
+<div class="small">Clients</div>
+</div>
 
 <div class="stat">
-
-<div
-class="big"
-id="dayClients">
-
-0
-
-</div>
-
-<div class="small">
-Clients
+<div class="big" id="dayPieces">0</div>
+<div class="small">Morceaux</div>
 </div>
 
 </div>
 
-
-<div class="stat">
-
-<div
-class="big"
-id="dayPieces">
-
-0
-
-</div>
-
-<div class="small">
-Morceaux livrés
-</div>
-
-</div>
-
-
-</div>
-
-
-<hr>
-
-
-<button
-class="blue"
-id="addClientBtn">
-
+<button class="blue" id="addClientBtn">
 ➕ Ajouter un client
-
 </button>
 
-
-<button
-class="dark"
-id="mapsAllBtn">
-
-🗺️ Ouvrir l'itinéraire
-
+<button class="dark" id="mapsAllBtn">
+🗺️ Itinéraire Google Maps
 </button>
 
-
-<button
-class="orange"
-id="optimizeBtn">
-
-⚡ Optimiser avec Google Maps
-
+<button class="orange" id="optimizeBtn">
+⚡ Optimiser la route
 </button>
 
 </div>
@@ -542,21 +444,15 @@ id="optimizeBtn">
 
 <div class="card">
 
-<h3>
-📋 Résumé de la route
-</h3>
+<h3>📋 Résumé</h3>
 
 <div id="routeSummary">
-
 Aucun client.
-
 </div>
 
 </div>
-
 
 <div id="clientsList"></div>
-
 
 </section>
 
@@ -565,19 +461,11 @@ Aucun client.
 HISTORIQUE
 ========================= -->
 
-<section
-id="history"
-class="hidden">
+<section id="history" class="hidden">
 
-
-<button
-class="gray"
-id="backHistoryBtn">
-
+<button class="gray" id="backHistoryBtn">
 ⬅️ Retour
-
 </button>
-
 
 <div class="card">
 
@@ -587,7 +475,6 @@ id="backHistoryBtn">
 
 </div>
 
-
 </section>
 
 
@@ -595,72 +482,35 @@ id="backHistoryBtn">
 DÉTAIL HISTORIQUE
 ========================= -->
 
-<section
-id="historyDetail"
-class="hidden">
+<section id="historyDetail" class="hidden">
 
-
-<button
-class="gray"
-id="backDetailBtn">
-
+<button class="gray" id="backDetailBtn">
 ⬅️ Retour
-
 </button>
-
 
 <div class="card">
 
 <h2 id="detailTitle"></h2>
 
-
 <div class="stats">
 
+<div class="stat">
+<div class="big" id="detailClients">0</div>
+<div class="small">Clients</div>
+</div>
 
 <div class="stat">
-
-<div
-class="big"
-id="detailClients">
-
-0
-
-</div>
-
-<div class="small">
-Clients
+<div class="big" id="detailPieces">0</div>
+<div class="small">Morceaux</div>
 </div>
 
 </div>
 
-
-<div class="stat">
-
-<div
-class="big"
-id="detailPieces">
-
-0
-
 </div>
-
-<div class="small">
-Morceaux livrés
-</div>
-
-</div>
-
-
-</div>
-
-</div>
-
 
 <div id="detailClientsList"></div>
 
-
 </section>
-
 
 </main>
 
@@ -670,9 +520,9 @@ Morceaux livrés
 "use strict";
 
 
-/* =========================
+/* =====================================================
 DONNÉES
-========================= */
+===================================================== */
 
 let currentDay=null;
 
@@ -684,48 +534,35 @@ let selectedPhoto=null;
 try{
 
 const saved=
-localStorage.getItem(
-"omrcx_history"
-);
+localStorage.getItem("omrcx_history");
 
 if(saved){
-
-historyData=
-JSON.parse(saved);
-
+historyData=JSON.parse(saved);
 }
 
 if(!Array.isArray(historyData)){
-
 historyData=[];
-
 }
 
-}catch(error){
+}catch(e){
 
 historyData=[];
 
 try{
-
-localStorage.removeItem(
-"omrcx_history"
-);
-
-}catch(e){}
+localStorage.removeItem("omrcx_history");
+}catch(x){}
 
 }
 
 
-/* =========================
+/* =====================================================
 OUTILS
-========================= */
+===================================================== */
 
 function today(){
 
 return new Date()
-.toLocaleDateString(
-"fr-CA"
-);
+.toLocaleDateString("fr-CA");
 
 }
 
@@ -750,14 +587,12 @@ try{
 
 localStorage.setItem(
 "omrcx_history",
-JSON.stringify(
-historyData
-)
+JSON.stringify(historyData)
 );
 
-}catch(error){
+}catch(e){
 
-console.log(error);
+console.log(e);
 
 }
 
@@ -767,29 +602,23 @@ console.log(error);
 function show(id){
 
 document
-.querySelectorAll(
-"main section"
-)
+.querySelectorAll("main section")
 .forEach(
 section=>{
-section.classList.add(
-"hidden"
-);
+section.classList.add("hidden");
 }
 );
 
 document
 .getElementById(id)
-.classList.remove(
-"hidden"
-);
+.classList.remove("hidden");
 
 }
 
 
-function escapeHTML(text){
+function escapeHTML(value){
 
-return String(text||"")
+return String(value || "")
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
@@ -807,7 +636,7 @@ encodeURIComponent(address);
 }
 
 
-function imageSearchLink(address){
+function imageLink(address){
 
 return "https://www.google.com/search?tbm=isch&q="+
 encodeURIComponent(address);
@@ -815,27 +644,19 @@ encodeURIComponent(address);
 }
 
 
-/* =========================
+/* =====================================================
 COMPTEURS
-========================= */
+===================================================== */
 
 function countPieces(day){
 
-if(
-!day ||
-!Array.isArray(day.clients)
-){
-
+if(!day || !Array.isArray(day.clients)){
 return 0;
-
 }
-
 
 let total=0;
 
-
-day.clients.forEach(
-client=>{
+day.clients.forEach(client=>{
 
 if(client.fait){
 
@@ -850,7 +671,6 @@ client.pieces.length
 
 });
 
-
 return total;
 
 }
@@ -859,53 +679,31 @@ return total;
 function updateCounters(){
 
 if(!currentDay){
-
 return;
+}
+
+document.getElementById("dayClients")
+.textContent=
+currentDay.clients.length;
+
+document.getElementById("dayPieces")
+.textContent=
+countPieces(currentDay);
+
+document.getElementById("homeClients")
+.textContent=
+currentDay.clients.length;
+
+document.getElementById("homePieces")
+.textContent=
+countPieces(currentDay);
 
 }
 
 
-document
-.getElementById(
-"dayClients"
-)
-.textContent=
-currentDay.clients.length;
-
-
-document
-.getElementById(
-"dayPieces"
-)
-.textContent=
-countPieces(
-currentDay
-);
-
-
-document
-.getElementById(
-"homeClients"
-)
-.textContent=
-currentDay.clients.length;
-
-
-document
-.getElementById(
-"homePieces"
-)
-.textContent=
-countPieces(
-currentDay
-);
-
-}
-
-
-/* =========================
+/* =====================================================
 JOURNÉE
-========================= */
+===================================================== */
 
 function createDay(){
 
@@ -917,13 +715,9 @@ clients:[]
 
 };
 
-
-historyData.push(
-currentDay
-);
+historyData.push(currentDay);
 
 save();
-
 
 show("day");
 
@@ -935,31 +729,21 @@ renderDay();
 function saveCurrentDay(){
 
 if(!currentDay){
-
 return;
-
 }
 
-
-let index=
-historyData.findIndex(
-day=>day===currentDay
-);
-
+const index=
+historyData.indexOf(currentDay);
 
 if(index>=0){
 
-historyData[index]=
-currentDay;
+historyData[index]=currentDay;
 
 }else{
 
-historyData.push(
-currentDay
-);
+historyData.push(currentDay);
 
 }
-
 
 save();
 
@@ -976,10 +760,8 @@ return;
 
 }
 
-
 const number=
 currentDay.clients.length+1;
-
 
 currentDay.clients.push({
 
@@ -987,8 +769,9 @@ numero:number,
 
 nom:
 "Client "+
-String(number)
-.padStart(3,"0"),
+String(number).padStart(3,"0"),
+
+telephone:"",
 
 adresse:"",
 
@@ -1004,7 +787,6 @@ heure:null
 
 });
 
-
 saveCurrentDay();
 
 renderDay();
@@ -1014,30 +796,17 @@ renderDay();
 
 function removeClient(index){
 
-if(
-!confirm(
-"Supprimer ce client ?"
-)
-){
-
+if(!confirm("Supprimer ce client ?")){
 return;
-
 }
 
-
-currentDay.clients.splice(
-index,
-1
-);
-
+currentDay.clients.splice(index,1);
 
 currentDay.clients.forEach(
 (client,i)=>{
-
 client.numero=i+1;
-
-});
-
+}
+);
 
 saveCurrentDay();
 
@@ -1046,26 +815,19 @@ renderDay();
 }
 
 
-/* =========================
+/* =====================================================
 AFFICHAGE JOURNÉE
-========================= */
+===================================================== */
 
 function renderDay(){
 
 if(!currentDay){
-
 return;
-
 }
 
-
-document
-.getElementById(
-"dayDate"
-)
+document.getElementById("dayDate")
 .textContent=
 currentDay.date;
-
 
 updateCounters();
 
@@ -1076,1615 +838,20 @@ renderSummary();
 }
 
 
-/* =========================
+/* =====================================================
 CLIENTS
-========================= */
+===================================================== */
 
 function renderClients(){
 
 const list=
-document.getElementById(
-"clientsList"
-);
+document.getElementById("clientsList");
 
 list.innerHTML="";
 
 
-if(
-currentDay.clients.length===0
-){
+if(currentDay.clients.length===0){
 
 list.innerHTML=`
 
-<div class="card">
-
-<p>
-Aucun client pour l'instant.
-</p>
-
-<p class="small">
-
-Ajoute les clients manuellement
-ou utilise la lecture de la feuille.
-
-</p>
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-currentDay.clients.forEach(
-(client,index)=>{
-
-
-const box=
-document.createElement(
-"div"
-);
-
-
-box.className=
-"client"+
-(
-client.fait
-?
-" done"
-:
-""
-);
-
-
-let piecesHTML="";
-
-
-client.pieces.forEach(
-(piece,pieceIndex)=>{
-
-
-piecesHTML+=`
-
-<div class="piece">
-
-<span>
-📦 ${escapeHTML(piece)}
-</span>
-
-<button
-class="deletePiece"
-data-client="${index}"
-data-delete-piece="${pieceIndex}">
-
-✕
-
-</button>
-
-</div>
-
-`;
-
-});
-
-
-box.innerHTML=`
-
-<div class="clientNumber">
-
-CLIENT
-${String(client.numero)
-.padStart(3,"0")}
-
-</div>
-
-
-<h2>
-
-${escapeHTML(
-client.nom
-)}
-
-</h2>
-
-
-<label>
-Nom du client
-</label>
-
-
-<input
-class="clientName"
-data-index="${index}"
-value="${escapeHTML(client.nom)}"
->
-
-
-<label>
-📍 Adresse
-</label>
-
-
-<input
-class="clientAddress"
-data-index="${index}"
-value="${escapeHTML(client.adresse)}"
-placeholder="Adresse complète"
->
-
-
-<div class="row">
-
-<button
-class="blue"
-data-map="${index}">
-
-🗺️ Google Maps
-
-</button>
-
-
-<button
-class="gray"
-data-image="${index}">
-
-🖼️ Images
-
-</button>
-
-</div>
-
-
-<div class="choiceTitle">
-
-📦 Appareils / morceaux
-
-</div>
-
-
-${piecesHTML}
-
-
-<button
-class="gray"
-data-add-piece="${index}">
-
-➕ Ajouter un morceau
-
-</button>
-
-
-<div class="choiceTitle">
-
-📞 Appelé
-
-</div>
-
-
-<div class="choice">
-
-
-<button
-class="${
-client.appele===true
-?
-"activeBlue"
-:
-""
-}"
-data-call="yes"
-data-index="${index}">
-
-📞 Oui
-
-</button>
-
-
-<button
-class="${
-client.appele===false
-?
-"activeRed"
-:
-""
-}"
-data-call="no"
-data-index="${index}">
-
-❌ Pas répondu
-
-</button>
-
-
-</div>
-
-
-<div class="choiceTitle">
-
-♻️ Vieux
-
-</div>
-
-
-<div class="choice">
-
-
-<button
-class="${
-client.vieux===true
-?
-"activeGreen"
-:
-""
-}"
-data-old="yes"
-data-index="${index}">
-
-🟢 Vieux rapporté
-
-</button>
-
-
-<button
-class="${
-client.vieux===false
-?
-"activeRed"
-:
-""
-}"
-data-old="no"
-data-index="${index}">
-
-🔴 Pas de vieux
-
-</button>
-
-
-</div>
-
-
-<button
-class="${
-client.fait
-?
-"green"
-:
-"blue"
-}"
-data-done="${index}">
-
-${
-client.fait
-?
-"✅ Client fait à "+
-client.heure
-:
-"🚚 Client fait"
-}
-
-</button>
-
-
-<button
-class="removeClient"
-data-remove="${index}">
-
-🗑️ Supprimer ce client
-
-</button>
-
-`;
-
-
-list.appendChild(box);
-
-});
-
-
-/* NOM */
-
-document
-.querySelectorAll(
-".clientName"
-)
-.forEach(
-input=>{
-
-input.addEventListener(
-"change",
-function(){
-
-const index=
-Number(
-this.dataset.index
-);
-
-
-currentDay
-.clients[index]
-.nom=
-this.value;
-
-
-saveCurrentDay();
-
-renderSummary();
-
-});
-
-});
-
-
-/* ADRESSE */
-
-document
-.querySelectorAll(
-".clientAddress"
-)
-.forEach(
-input=>{
-
-input.addEventListener(
-"change",
-function(){
-
-const index=
-Number(
-this.dataset.index
-);
-
-
-currentDay
-.clients[index]
-.adresse=
-this.value;
-
-
-saveCurrentDay();
-
-renderSummary();
-
-});
-
-});
-
-
-/* MAPS */
-
-document
-.querySelectorAll(
-"[data-map]"
-)
-.forEach(
-button=>{
-
-button.addEventListener(
-"click",
-function(){
-
-const index=
-Number(
-this.dataset.map
-);
-
-
-const address=
-currentDay
-.clients[index]
-.adresse;
-
-
-if(!address){
-
-alert(
-"Ajoute d'abord l'adresse."
-);
-
-return;
-
-}
-
-
-window.open(
-mapsLink(address),
-"_blank"
-);
-
-});
-
-});
-
-
-/* IMAGES */
-
-document
-.querySelectorAll(
-"[data-image]"
-)
-.forEach(
-button=>{
-
-button.addEventListener(
-"click",
-function(){
-
-const index=
-Number(
-this.dataset.image
-);
-
-
-const address=
-currentDay
-.clients[index]
-.adresse;
-
-
-if(!address){
-
-alert(
-"Ajoute d'abord l'adresse."
-);
-
-return;
-
-}
-
-
-window.open(
-imageSearchLink(address),
-"_blank"
-);
-
-});
-
-});
-
-
-/* AJOUT MORCEAU */
-
-document
-.querySelectorAll(
-"[data-add-piece]"
-)
-.forEach(
-button=>{
-
-button.addEventListener(
-"click",
-function(){
-
-const index=
-Number(
-this.dataset.addPiece
-);
-
-
-const piece=
-prompt(
-"Nom de l'appareil ou du morceau :"
-);
-
-
-if(!piece){
-
-return;
-
-}
-
-
-currentDay
-.clients[index]
-.pieces
-.push(piece);
-
-
-saveCurrentDay();
-
-renderDay();
-
-});
-
-});
-
-
-/* SUPPRIMER MORCEAU */
-
-document
-.querySelectorAll(
-"[data-delete-piece]"
-)
-.forEach(
-button=>{
-
-button.addEventListener(
-"click",
-function(){
-
-const clientIndex=
-Number(
-this.dataset.client
-);
-
-
-const pieceIndex=
-Number(
-this.dataset.deletePiece
-);
-
-
-currentDay
-.clients[clientIndex]
-.pieces
-.splice(
-pieceIndex,
-1
-);
-
-
-saveCurrentDay();
-
-renderDay();
-
-});
-
-});
-
-
-/* APPELÉ */
-
-document
-.querySelectorAll(
-"[data-call]"
-)
-.forEach(
-button=>{
-
-button.addEventListener(
-"click",
-function(){
-
-const index=
-Number(
-this.dataset.index
-);
-
-
-currentDay
-.clients[index]
-.appele=
-this.dataset.call==="yes";
-
-
-saveCurrentDay();
-
-renderDay();
-
-});
-
-});
-
-
-/* VIEUX */
-
-document
-.querySelectorAll(
-"[data-old]"
-)
-.forEach(
-button=>{
-
-button.addEventListener(
-"click",
-function(){
-
-const index=
-Number(
-this.dataset.index
-);
-
-
-currentDay
-.clients[index]
-.vieux=
-this.dataset.old==="yes";
-
-
-saveCurrentDay();
-
-renderDay();
-
-});
-
-});
-
-
-/* CLIENT FAIT */
-
-document
-.querySelectorAll(
-"[data-done]"
-)
-.forEach(
-button=>{
-
-button.addEventListener(
-"click",
-function(){
-
-const index=
-Number(
-this.dataset.done
-);
-
-
-const client=
-currentDay.clients[index];
-
-
-client.fait=
-!client.fait;
-
-
-client.heure=
-client.fait
-?
-timeNow()
-:
-null;
-
-
-saveCurrentDay();
-
-renderDay();
-
-});
-
-});
-
-
-/* SUPPRIMER CLIENT */
-
-document
-.querySelectorAll(
-"[data-remove]"
-)
-.forEach(
-button=>{
-
-button.addEventListener(
-"click",
-function(){
-
-removeClient(
-Number(
-this.dataset.remove
-)
-);
-
-});
-
-});
-
-}
-
-
-/* =========================
-RÉSUMÉ
-========================= */
-
-function renderSummary(){
-
-const box=
-document.getElementById(
-"routeSummary"
-);
-
-
-if(
-!currentDay ||
-currentDay.clients.length===0
-){
-
-box.innerHTML=
-"Aucun client.";
-
-return;
-
-}
-
-
-box.innerHTML="";
-
-
-currentDay.clients.forEach(
-(client,index)=>{
-
-
-const line=
-document.createElement(
-"div"
-);
-
-
-line.className=
-"summaryLine";
-
-
-line.innerHTML=
-
-"<strong>"+
-String(index+1)
-.padStart(3,"0")+
-"</strong> · "+
-escapeHTML(
-client.nom
-)+
-"<br>"+
-(
-client.adresse
-?
-"📍 "+
-escapeHTML(
-client.adresse
-)
-:
-"⚠️ Adresse manquante"
-);
-
-
-box.appendChild(line);
-
-});
-
-}
-
-
-/* =========================
-GOOGLE MAPS
-========================= */
-
-function openAllMaps(){
-
-if(
-!currentDay ||
-currentDay.clients.length===0
-){
-
-alert(
-"Aucun client."
-);
-
-return;
-
-}
-
-
-const valid=
-currentDay.clients.filter(
-client=>client.adresse
-);
-
-
-if(valid.length===0){
-
-alert(
-"Aucune adresse."
-);
-
-return;
-
-}
-
-
-const destination=
-valid[
-valid.length-1
-]
-.adresse;
-
-
-const waypoints=
-valid
-.slice(0,-1)
-.map(
-client=>client.adresse
-)
-.join("|");
-
-
-let url=
-"https://www.google.com/maps/dir/?api=1"+
-"&destination="+
-encodeURIComponent(
-destination
-);
-
-
-if(waypoints){
-
-url+=
-"&waypoints="+
-encodeURIComponent(
-waypoints
-);
-
-}
-
-
-url+="&travelmode=driving";
-
-
-window.open(
-url,
-"_blank"
-);
-
-}
-
-
-function optimizeRoute(){
-
-if(
-!currentDay ||
-currentDay.clients.length<2
-){
-
-alert(
-"Il faut au moins 2 clients."
-);
-
-return;
-
-}
-
-
-const addresses=
-currentDay.clients
-.filter(
-client=>client.adresse
-)
-.map(
-client=>client.adresse
-);
-
-
-if(addresses.length<2){
-
-alert(
-"Il faut au moins 2 adresses."
-);
-
-return;
-
-}
-
-
-const destination=
-addresses[
-addresses.length-1
-];
-
-
-const waypoints=
-addresses
-.slice(0,-1)
-.join("|");
-
-
-const url=
-"https://www.google.com/maps/dir/?api=1"+
-"&destination="+
-encodeURIComponent(
-destination
-)+
-"&waypoints="+
-encodeURIComponent(
-waypoints
-)+
-"&travelmode=driving";
-
-
-window.open(
-url,
-"_blank"
-);
-
-}
-
-
-/* =========================
-PHOTO COMMUNE
-========================= */
-
-function handlePhoto(file){
-
-if(!file){
-
-return;
-
-}
-
-
-selectedPhoto=file;
-
-
-const reader=
-new FileReader();
-
-
-reader.onload=
-function(event){
-
-const image=
-document.getElementById(
-"photoPreview"
-);
-
-
-image.src=
-event.target.result;
-
-
-image.style.display=
-"block";
-
-
-document
-.getElementById(
-"ocrBtn"
-)
-.classList.remove(
-"hidden"
-);
-
-};
-
-
-reader.readAsDataURL(
-file
-);
-
-}
-
-
-/* =========================
-CAMÉRA
-========================= */
-
-document
-.getElementById(
-"cameraBtn"
-)
-.addEventListener(
-"click",
-function(){
-
-document
-.getElementById(
-"cameraInput"
-)
-.click();
-
-});
-
-
-document
-.getElementById(
-"cameraInput"
-)
-.addEventListener(
-"change",
-function(){
-
-handlePhoto(
-this.files[0]
-);
-
-});
-
-
-/* =========================
-GALERIE
-========================= */
-
-document
-.getElementById(
-"galleryBtn"
-)
-.addEventListener(
-"click",
-function(){
-
-document
-.getElementById(
-"galleryInput"
-)
-.click();
-
-});
-
-
-document
-.getElementById(
-"galleryInput"
-)
-.addEventListener(
-"change",
-function(){
-
-handlePhoto(
-this.files[0]
-);
-
-});
-
-
-/* =========================
-OCR
-========================= */
-
-document
-.getElementById(
-"ocrBtn"
-)
-.addEventListener(
-"click",
-async function(){
-
-
-if(!selectedPhoto){
-
-return;
-
-}
-
-
-const status=
-document.getElementById(
-"ocrStatus"
-);
-
-
-status.classList.remove(
-"hidden"
-);
-
-
-status.textContent=
-"⏳ Lecture de la feuille...";
-
-
-try{
-
-
-const result=
-await Tesseract.recognize(
-selectedPhoto,
-"fra+eng",
-{
-
-logger:function(info){
-
-if(
-info.status===
-"recognizing text"
-){
-
-status.textContent=
-"🔎 Lecture : "+
-Math.round(
-info.progress*100
-)+
-"%";
-
-}
-
-}
-
-}
-);
-
-
-const text=
-result.data.text.trim();
-
-
-if(!text){
-
-status.textContent=
-"❌ Aucun texte détecté.";
-
-return;
-
-}
-
-
-status.textContent=
-"✅ Texte détecté.";
-
-
-parseOCR(text);
-
-
-}catch(error){
-
-console.log(error);
-
-
-status.textContent=
-"❌ Impossible de lire la photo.";
-
-}
-
-});
-
-
-/* =========================
-OCR -> CLIENTS
-========================= */
-
-function parseOCR(text){
-
-if(!currentDay){
-
-createDay();
-
-}
-
-
-const lines=
-text
-.split(/\r?\n/)
-.map(
-line=>line.trim()
-)
-.filter(
-line=>line.length>=5
-);
-
-
-if(lines.length===0){
-
-return;
-
-}
-
-
-/*
-On utilise les lignes détectées comme
-base de clients.
-
-Tu peux ensuite corriger chaque
-nom et chaque adresse directement
-dans l'application.
-*/
-
-
-currentDay.clients=[];
-
-
-lines
-.slice(0,40)
-.forEach(
-(line,index)=>{
-
-
-currentDay.clients.push({
-
-numero:index+1,
-
-nom:
-"Client "+
-String(index+1)
-.padStart(3,"0"),
-
-adresse:line,
-
-pieces:[],
-
-appele:null,
-
-vieux:null,
-
-fait:false,
-
-heure:null
-
-});
-
-});
-
-
-saveCurrentDay();
-
-show("day");
-
-renderDay();
-
-}
-
-
-/* =========================
-HISTORIQUE
-========================= */
-
-function renderHistory(){
-
-const box=
-document.getElementById(
-"historyList"
-);
-
-
-box.innerHTML="";
-
-
-if(
-historyData.length===0
-){
-
-box.innerHTML=
-"<p>Aucune journée enregistrée.</p>";
-
-return;
-
-}
-
-
-historyData
-.slice()
-.reverse()
-.forEach(
-(day,reverseIndex)=>{
-
-
-const realIndex=
-historyData.length-
-1-
-reverseIndex;
-
-
-const button=
-document.createElement(
-"button"
-);
-
-
-button.className=
-"historyItem";
-
-
-button.innerHTML=
-
-"📅 <strong>"+
-escapeHTML(
-day.date
-)+
-"</strong>"+
-"<br>"+
-"<span class='small'>"+
-day.clients.length+
-" clients · "+
-countPieces(day)+
-" morceaux livrés"+
-"</span>";
-
-
-button.addEventListener(
-"click",
-function(){
-
-openHistoryDetail(
-realIndex
-);
-
-});
-
-
-box.appendChild(button);
-
-});
-
-}
-
-
-/* =========================
-DÉTAIL HISTORIQUE
-========================= */
-
-function openHistoryDetail(index){
-
-const day=
-historyData[index];
-
-
-if(!day){
-
-return;
-
-}
-
-
-document
-.getElementById(
-"detailTitle"
-)
-.textContent=
-"📅 "+day.date;
-
-
-document
-.getElementById(
-"detailClients"
-)
-.textContent=
-day.clients.length;
-
-
-document
-.getElementById(
-"detailPieces"
-)
-.textContent=
-countPieces(day);
-
-
-const box=
-document.getElementById(
-"detailClientsList"
-);
-
-
-box.innerHTML="";
-
-
-day.clients.forEach(
-client=>{
-
-
-const div=
-document.createElement(
-"div"
-);
-
-
-div.className=
-"client";
-
-
-let pieces="";
-
-
-client.pieces.forEach(
-piece=>{
-
-pieces+=
-"<p>📦 "+
-escapeHTML(piece)+
-"</p>";
-
-});
-
-
-div.innerHTML=
-
-"<div class='clientNumber'>"+
-"CLIENT "+
-String(client.numero)
-.padStart(3,"0")+
-"</div>"+
-
-"<h2>"+
-escapeHTML(
-client.nom
-)+
-"</h2>"+
-
-"<p>📍 "+
-escapeHTML(
-client.adresse
-)+
-"</p>"+
-
-"<p>"+
-(
-client.fait
-?
-"✅ Fait à "+
-client.heure
-:
-"⏳ Pas fait"
-)+
-"</p>"+
-
-pieces;
-
-
-box.appendChild(div);
-
-});
-
-
-show(
-"historyDetail"
-);
-
-}
-
-
-/* =========================
-NAVIGATION
-========================= */
-
-document
-.getElementById(
-"newDayBtn"
-)
-.addEventListener(
-"click",
-function(){
-
-createDay();
-
-});
-
-
-document
-.getElementById(
-"addClientBtn"
-)
-.addEventListener(
-"click",
-addClient
-);
-
-
-document
-.getElementById(
-"historyBtn"
-)
-.addEventListener(
-"click",
-function(){
-
-renderHistory();
-
-show("history");
-
-});
-
-
-document
-.getElementById(
-"backHomeBtn"
-)
-.addEventListener(
-"click",
-function(){
-
-show("home");
-
-updateHome();
-
-});
-
-
-document
-.getElementById(
-"backHistoryBtn"
-)
-.addEventListener(
-"click",
-function(){
-
-show("home");
-
-updateHome();
-
-});
-
-
-document
-.getElementById(
-"backDetailBtn"
-)
-.addEventListener(
-"click",
-function(){
-
-renderHistory();
-
-show("history");
-
-});
-
-
-document
-.getElementById(
-"mapsAllBtn"
-)
-.addEventListener(
-"click",
-openAllMaps
-);
-
-
-document
-.getElementById(
-"optimizeBtn"
-)
-.addEventListener(
-"click",
-optimizeRoute
-);
-
-
-/* =========================
-ACCUEIL
-========================= */
-
-function updateHome(){
-
-document
-.getElementById(
-"today"
-)
-.textContent=
-today();
-
-
-if(currentDay){
-
-document
-.getElementById(
-"homeClients"
-)
-.textContent=
-currentDay.clients.length;
-
-
-document
-.getElementById(
-"homePieces"
-)
-.textContent=
-countPieces(
-currentDay
-);
-
-}else{
-
-document
-.getElementById(
-"homeClients"
-)
-.textContent=
-"0";
-
-
-document
-.getElementById(
-"homePieces"
-)
-.textContent=
-"0";
-
-}
-
-}
-
-
-/* =========================
-DÉMARRAGE
-========================= */
-
-updateHome();
-
-</script>
-
-</body>
-</html>
+<div class="
