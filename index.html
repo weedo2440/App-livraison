@@ -1,291 +1,301 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
 
 <title>0MRCX LIVRER</title>
 
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <style>
+
 *{
-  box-sizing:border-box;
+box-sizing:border-box;
 }
 
 body{
-  margin:0;
-  background:#eef1f5;
-  color:#151515;
-  font-family:Arial,Helvetica,sans-serif;
+margin:0;
+background:#eef1f5;
+color:#151515;
+font-family:Arial,Helvetica,sans-serif;
 }
 
 header{
-  background:#111827;
-  color:white;
-  padding:15px;
-  text-align:center;
-  position:sticky;
-  top:0;
-  z-index:10;
+background:#111827;
+color:white;
+padding:16px;
+text-align:center;
+position:sticky;
+top:0;
+z-index:20;
 }
 
 header h1{
-  margin:0;
-  font-size:22px;
+margin:0;
+font-size:22px;
 }
 
 main{
-  width:100%;
-  max-width:650px;
-  margin:auto;
-  padding:12px;
+width:100%;
+max-width:650px;
+margin:auto;
+padding:12px;
+}
+
+section{
+width:100%;
 }
 
 .card{
-  background:white;
-  border-radius:15px;
-  padding:15px;
-  margin-bottom:12px;
-  box-shadow:0 2px 8px #0002;
+background:white;
+border-radius:15px;
+padding:15px;
+margin-bottom:13px;
+box-shadow:0 2px 8px #0002;
 }
 
 button{
-  width:100%;
-  border:0;
-  border-radius:11px;
-  padding:14px;
-  margin:5px 0;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
+width:100%;
+border:0;
+border-radius:11px;
+padding:14px;
+margin:5px 0;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
 }
 
 .blue{
-  background:#2563eb;
-  color:white;
+background:#2563eb;
+color:white;
 }
 
 .dark{
-  background:#111827;
-  color:white;
+background:#111827;
+color:white;
 }
 
 .green{
-  background:#16a34a;
-  color:white;
+background:#16a34a;
+color:white;
 }
 
 .red{
-  background:#dc2626;
-  color:white;
+background:#dc2626;
+color:white;
 }
 
 .gray{
-  background:#e5e7eb;
-  color:#111;
+background:#e5e7eb;
+color:#111;
 }
 
 .orange{
-  background:#f59e0b;
-  color:white;
+background:#f59e0b;
+color:white;
 }
 
 .hidden{
-  display:none!important;
+display:none!important;
 }
 
 .small{
-  color:#666;
-  font-size:13px;
+color:#666;
+font-size:13px;
 }
 
 .big{
-  font-size:24px;
-  font-weight:bold;
+font-size:25px;
+font-weight:bold;
 }
 
 .stats{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
 }
 
 .stat{
-  background:#f4f5f7;
-  border-radius:10px;
-  padding:12px;
-  text-align:center;
+background:#f4f5f7;
+border-radius:10px;
+padding:12px;
+text-align:center;
 }
 
-input,
-textarea,
-select{
-  width:100%;
-  border:2px solid #ddd;
-  border-radius:10px;
-  padding:12px;
-  font-size:16px;
-  margin:4px 0 8px;
+.photoButtons{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
 }
 
-textarea{
-  min-height:110px;
-  resize:vertical;
+.photoButtons button{
+margin:0;
 }
 
 .photoInput{
-  background:white;
+display:none;
 }
 
 #photoPreview{
-  display:none;
-  width:100%;
-  max-height:500px;
-  object-fit:contain;
-  border-radius:12px;
-  margin-top:10px;
-}
-
-.client{
-  background:white;
-  border-radius:15px;
-  padding:14px;
-  margin-bottom:12px;
-  box-shadow:0 2px 7px #0002;
-}
-
-.client.done{
-  border:3px solid #22c55e;
-}
-
-.clientNumber{
-  font-size:13px;
-  font-weight:bold;
-  color:#666;
-}
-
-.client h2{
-  margin:5px 0;
-}
-
-.address{
-  background:#f4f5f7;
-  padding:11px;
-  border-radius:10px;
-  margin:8px 0;
-}
-
-.address a{
-  color:#2563eb;
-  text-decoration:none;
-  font-weight:bold;
-}
-
-.row{
-  display:flex;
-  gap:7px;
-}
-
-.row button{
-  flex:1;
-}
-
-.piece{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  background:#f3f4f6;
-  padding:9px;
-  border-radius:8px;
-  margin:5px 0;
-}
-
-.deletePiece{
-  width:auto;
-  margin:0;
-  padding:7px 10px;
-  background:#ef4444;
-  color:white;
-}
-
-.choice{
-  display:flex;
-  gap:7px;
-}
-
-.choice button{
-  flex:1;
-}
-
-.choice button.activeGreen{
-  background:#16a34a;
-  color:white;
-}
-
-.choice button.activeRed{
-  background:#dc2626;
-  color:white;
-}
-
-.choice button.activeBlue{
-  background:#2563eb;
-  color:white;
-}
-
-.summaryLine{
-  background:#f5f5f5;
-  padding:9px;
-  border-radius:8px;
-  margin:5px 0;
-}
-
-.historyItem{
-  text-align:left;
-  background:white;
-  border:2px solid #ddd;
+display:none;
+width:100%;
+max-height:500px;
+object-fit:contain;
+border-radius:12px;
+margin-top:12px;
 }
 
 #ocrStatus{
-  background:#f8fafc;
-  padding:10px;
-  border-radius:9px;
-  margin-top:8px;
+background:#f8fafc;
+padding:10px;
+border-radius:9px;
+margin-top:10px;
 }
 
-#ocrText{
-  min-height:150px;
+.client{
+background:white;
+border-radius:15px;
+padding:14px;
+margin-bottom:13px;
+box-shadow:0 2px 7px #0002;
 }
 
-#routeSummary{
-  max-height:300px;
-  overflow:auto;
+.client.done{
+border:3px solid #22c55e;
 }
 
-hr{
-  border:0;
-  border-top:1px solid #ddd;
-  margin:15px 0;
+.clientNumber{
+font-size:13px;
+font-weight:bold;
+color:#666;
+}
+
+.client h2{
+margin:5px 0 10px;
+}
+
+label{
+display:block;
+font-weight:bold;
+margin-top:8px;
+}
+
+input,
+textarea{
+width:100%;
+border:2px solid #ddd;
+border-radius:10px;
+padding:12px;
+font-size:16px;
+margin:4px 0 8px;
+background:white;
+}
+
+.row{
+display:flex;
+gap:7px;
+}
+
+.row button{
+flex:1;
+}
+
+.piece{
+display:flex;
+align-items:center;
+justify-content:space-between;
+background:#f3f4f6;
+padding:9px;
+border-radius:8px;
+margin:5px 0;
+}
+
+.deletePiece{
+width:auto;
+margin:0;
+padding:7px 10px;
+background:#ef4444;
+color:white;
+}
+
+.choice{
+display:flex;
+gap:7px;
+}
+
+.choice button{
+flex:1;
+}
+
+.activeGreen{
+background:#16a34a!important;
+color:white!important;
+}
+
+.activeRed{
+background:#dc2626!important;
+color:white!important;
+}
+
+.activeBlue{
+background:#2563eb!important;
+color:white!important;
+}
+
+.summaryLine{
+background:#f5f5f5;
+padding:9px;
+border-radius:8px;
+margin:5px 0;
+}
+
+.historyItem{
+text-align:left;
+background:white;
+border:2px solid #ddd;
 }
 
 .removeClient{
-  background:#fee2e2;
-  color:#991b1b;
+background:#fee2e2;
+color:#991b1b;
 }
+
+hr{
+border:0;
+border-top:1px solid #ddd;
+margin:15px 0;
+}
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <header>
+
 <h1>🚚 0MRCX LIVRER</h1>
+
 </header>
+
 
 <main>
 
-<!-- ACCUEIL -->
+
+<!-- =========================
+ACCUEIL
+========================= -->
 
 <section id="home">
+
 
 <div class="card">
 
@@ -296,72 +306,158 @@ hr{
 <div class="stats">
 
 <div class="stat">
-<div class="big" id="homeClients">0</div>
-<div class="small">Clients</div>
+
+<div
+class="big"
+id="homeClients">
+0
 </div>
+
+<div class="small">
+Clients
+</div>
+
+</div>
+
 
 <div class="stat">
-<div class="big" id="homePieces">0</div>
-<div class="small">Morceaux</div>
+
+<div
+class="big"
+id="homePieces">
+0
+</div>
+
+<div class="small">
+Morceaux livrés
 </div>
 
 </div>
 
 </div>
 
+</div>
 
-<button class="blue" id="newDayBtn">
+
+<button
+class="blue"
+id="newDayBtn">
+
 ➕ Ajouter une journée
+
 </button>
 
+
+<!-- PHOTO -->
 
 <div class="card">
 
 <h3>📷 Feuille de livraison</h3>
 
 <p class="small">
-Prends une photo de ta feuille. L'application va essayer d'en lire le texte.
+
+Choisis comment tu veux ajouter ta feuille.
+
 </p>
+
+
+<div class="photoButtons">
+
+
+<button
+class="blue"
+id="cameraBtn">
+
+📷 Prendre une photo
+
+</button>
+
+
+<button
+class="dark"
+id="galleryBtn">
+
+🖼️ Galerie
+
+</button>
+
+</div>
+
+
+<!-- CAMÉRA -->
 
 <input
 class="photoInput"
-id="photoInput"
+id="cameraInput"
 type="file"
 accept="image/*"
 capture="environment"
 >
+
+
+<!-- GALERIE -->
+
+<input
+class="photoInput"
+id="galleryInput"
+type="file"
+accept="image/*"
+>
+
 
 <img
 id="photoPreview"
 alt="Aperçu de la feuille"
 >
 
-<div id="ocrStatus" class="hidden">
+
+<div
+id="ocrStatus"
+class="hidden">
+
 ⏳ Lecture de la feuille...
+
 </div>
+
 
 <button
 id="ocrBtn"
 class="orange hidden">
+
 🔎 Lire la feuille
+
 </button>
 
 </div>
 
 
-<button class="dark" id="historyBtn">
+<button
+class="dark"
+id="historyBtn">
+
 📅 Historique
+
 </button>
+
 
 </section>
 
 
-<!-- JOURNÉE -->
+<!-- =========================
+JOURNÉE
+========================= -->
 
-<section id="day" class="hidden">
+<section
+id="day"
+class="hidden">
 
-<button class="gray" id="backHomeBtn">
+
+<button
+class="gray"
+id="backHomeBtn">
+
 ⬅️ Retour
+
 </button>
 
 
@@ -371,32 +467,74 @@ class="orange hidden">
 
 <p id="dayDate"></p>
 
+
 <div class="stats">
 
-<div class="stat">
-<div class="big" id="dayClients">0</div>
-<div class="small">Clients</div>
-</div>
 
 <div class="stat">
-<div class="big" id="dayPieces">0</div>
-<div class="small">Morceaux livrés</div>
+
+<div
+class="big"
+id="dayClients">
+
+0
+
+</div>
+
+<div class="small">
+Clients
 </div>
 
 </div>
+
+
+<div class="stat">
+
+<div
+class="big"
+id="dayPieces">
+
+0
+
+</div>
+
+<div class="small">
+Morceaux livrés
+</div>
+
+</div>
+
+
+</div>
+
 
 <hr>
 
-<button class="blue" id="addClientBtn">
+
+<button
+class="blue"
+id="addClientBtn">
+
 ➕ Ajouter un client
+
 </button>
 
-<button class="dark" id="mapsAllBtn">
+
+<button
+class="dark"
+id="mapsAllBtn">
+
 🗺️ Ouvrir l'itinéraire
+
 </button>
 
-<button class="orange" id="optimizeBtn">
+
+<button
+class="orange"
+id="optimizeBtn">
+
 ⚡ Optimiser avec Google Maps
+
 </button>
 
 </div>
@@ -404,10 +542,14 @@ class="orange hidden">
 
 <div class="card">
 
-<h3>📋 Résumé de la route</h3>
+<h3>
+📋 Résumé de la route
+</h3>
 
 <div id="routeSummary">
+
 Aucun client.
+
 </div>
 
 </div>
@@ -415,16 +557,27 @@ Aucun client.
 
 <div id="clientsList"></div>
 
+
 </section>
 
 
-<!-- HISTORIQUE -->
+<!-- =========================
+HISTORIQUE
+========================= -->
 
-<section id="history" class="hidden">
+<section
+id="history"
+class="hidden">
 
-<button class="gray" id="backHistoryBtn">
+
+<button
+class="gray"
+id="backHistoryBtn">
+
 ⬅️ Retour
+
 </button>
+
 
 <div class="card">
 
@@ -434,40 +587,80 @@ Aucun client.
 
 </div>
 
+
 </section>
 
 
-<!-- DÉTAIL HISTORIQUE -->
+<!-- =========================
+DÉTAIL HISTORIQUE
+========================= -->
 
-<section id="historyDetail" class="hidden">
+<section
+id="historyDetail"
+class="hidden">
 
-<button class="gray" id="backDetailBtn">
+
+<button
+class="gray"
+id="backDetailBtn">
+
 ⬅️ Retour
+
 </button>
+
 
 <div class="card">
 
 <h2 id="detailTitle"></h2>
 
+
 <div class="stats">
 
-<div class="stat">
-<div class="big" id="detailClients">0</div>
-<div class="small">Clients</div>
-</div>
 
 <div class="stat">
-<div class="big" id="detailPieces">0</div>
-<div class="small">Morceaux</div>
+
+<div
+class="big"
+id="detailClients">
+
+0
+
+</div>
+
+<div class="small">
+Clients
 </div>
 
 </div>
 
+
+<div class="stat">
+
+<div
+class="big"
+id="detailPieces">
+
+0
+
 </div>
+
+<div class="small">
+Morceaux livrés
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
 
 <div id="detailClientsList"></div>
 
+
 </section>
+
 
 </main>
 
@@ -477,25 +670,35 @@ Aucun client.
 "use strict";
 
 
-/* =====================================================
-   DONNÉES
-===================================================== */
+/* =========================
+DONNÉES
+========================= */
 
 let currentDay=null;
 
 let historyData=[];
 
+let selectedPhoto=null;
+
+
 try{
 
 const saved=
-localStorage.getItem("omrcx_history");
+localStorage.getItem(
+"omrcx_history"
+);
 
 if(saved){
-historyData=JSON.parse(saved);
+
+historyData=
+JSON.parse(saved);
+
 }
 
 if(!Array.isArray(historyData)){
+
 historyData=[];
+
 }
 
 }catch(error){
@@ -503,18 +706,19 @@ historyData=[];
 historyData=[];
 
 try{
-localStorage.removeItem("omrcx_history");
+
+localStorage.removeItem(
+"omrcx_history"
+);
+
 }catch(e){}
 
 }
 
 
-let selectedPhoto=null;
-
-
-/* =====================================================
-   OUTILS
-===================================================== */
+/* =========================
+OUTILS
+========================= */
 
 function today(){
 
@@ -546,7 +750,9 @@ try{
 
 localStorage.setItem(
 "omrcx_history",
-JSON.stringify(historyData)
+JSON.stringify(
+historyData
+)
 );
 
 }catch(error){
@@ -561,14 +767,22 @@ console.log(error);
 function show(id){
 
 document
-.querySelectorAll("main section")
-.forEach(section=>{
-section.classList.add("hidden");
-});
+.querySelectorAll(
+"main section"
+)
+.forEach(
+section=>{
+section.classList.add(
+"hidden"
+);
+}
+);
 
 document
 .getElementById(id)
-.classList.remove("hidden");
+.classList.remove(
+"hidden"
+);
 
 }
 
@@ -587,39 +801,45 @@ return String(text||"")
 
 function mapsLink(address){
 
-return "https://www.google.com/maps/dir/?api=1&destination="
-+
+return "https://www.google.com/maps/dir/?api=1&destination="+
 encodeURIComponent(address);
 
 }
 
 
-function searchImageLink(address){
+function imageSearchLink(address){
 
-return "https://www.google.com/search?tbm=isch&q="
-+
+return "https://www.google.com/search?tbm=isch&q="+
 encodeURIComponent(address);
 
 }
 
 
-/* =====================================================
-   COMPTEURS
-===================================================== */
+/* =========================
+COMPTEURS
+========================= */
 
 function countPieces(day){
 
-if(!day || !Array.isArray(day.clients)){
+if(
+!day ||
+!Array.isArray(day.clients)
+){
+
 return 0;
+
 }
+
 
 let total=0;
 
-day.clients.forEach(client=>{
+
+day.clients.forEach(
+client=>{
 
 if(client.fait){
 
-total +=
+total+=
 Array.isArray(client.pieces)
 ?
 client.pieces.length
@@ -630,6 +850,7 @@ client.pieces.length
 
 });
 
+
 return total;
 
 }
@@ -638,35 +859,53 @@ return total;
 function updateCounters(){
 
 if(!currentDay){
+
 return;
-}
-
-document
-.getElementById("dayClients")
-.textContent=
-currentDay.clients.length;
-
-document
-.getElementById("dayPieces")
-.textContent=
-countPieces(currentDay);
-
-document
-.getElementById("homeClients")
-.textContent=
-currentDay.clients.length;
-
-document
-.getElementById("homePieces")
-.textContent=
-countPieces(currentDay);
 
 }
 
 
-/* =====================================================
-   JOURNÉE
-===================================================== */
+document
+.getElementById(
+"dayClients"
+)
+.textContent=
+currentDay.clients.length;
+
+
+document
+.getElementById(
+"dayPieces"
+)
+.textContent=
+countPieces(
+currentDay
+);
+
+
+document
+.getElementById(
+"homeClients"
+)
+.textContent=
+currentDay.clients.length;
+
+
+document
+.getElementById(
+"homePieces"
+)
+.textContent=
+countPieces(
+currentDay
+);
+
+}
+
+
+/* =========================
+JOURNÉE
+========================= */
 
 function createDay(){
 
@@ -678,9 +917,13 @@ clients:[]
 
 };
 
-historyData.push(currentDay);
+
+historyData.push(
+currentDay
+);
 
 save();
+
 
 show("day");
 
@@ -692,23 +935,31 @@ renderDay();
 function saveCurrentDay(){
 
 if(!currentDay){
+
 return;
+
 }
 
-const index=
+
+let index=
 historyData.findIndex(
 day=>day===currentDay
 );
 
+
 if(index>=0){
 
-historyData[index]=currentDay;
+historyData[index]=
+currentDay;
 
 }else{
 
-historyData.push(currentDay);
+historyData.push(
+currentDay
+);
 
 }
+
 
 save();
 
@@ -729,11 +980,15 @@ return;
 const number=
 currentDay.clients.length+1;
 
+
 currentDay.clients.push({
 
 numero:number,
 
-nom:"Client "+String(number).padStart(3,"0"),
+nom:
+"Client "+
+String(number)
+.padStart(3,"0"),
 
 adresse:"",
 
@@ -749,6 +1004,7 @@ heure:null
 
 });
 
+
 saveCurrentDay();
 
 renderDay();
@@ -758,17 +1014,30 @@ renderDay();
 
 function removeClient(index){
 
-if(!confirm("Supprimer ce client ?")){
+if(
+!confirm(
+"Supprimer ce client ?"
+)
+){
+
 return;
+
 }
 
-currentDay.clients.splice(index,1);
+
+currentDay.clients.splice(
+index,
+1
+);
+
 
 currentDay.clients.forEach(
 (client,i)=>{
+
 client.numero=i+1;
-}
-);
+
+});
+
 
 saveCurrentDay();
 
@@ -777,18 +1046,23 @@ renderDay();
 }
 
 
-/* =====================================================
-   CLIENTS
-===================================================== */
+/* =========================
+AFFICHAGE JOURNÉE
+========================= */
 
 function renderDay(){
 
 if(!currentDay){
+
 return;
+
 }
 
+
 document
-.getElementById("dayDate")
+.getElementById(
+"dayDate"
+)
 .textContent=
 currentDay.date;
 
@@ -802,24 +1076,37 @@ renderSummary();
 }
 
 
+/* =========================
+CLIENTS
+========================= */
+
 function renderClients(){
 
 const list=
-document.getElementById("clientsList");
+document.getElementById(
+"clientsList"
+);
 
 list.innerHTML="";
 
 
-if(currentDay.clients.length===0){
+if(
+currentDay.clients.length===0
+){
 
 list.innerHTML=`
 
 <div class="card">
 
-<p>Aucun client pour l'instant.</p>
+<p>
+Aucun client pour l'instant.
+</p>
 
 <p class="small">
-Ajoute les clients manuellement ou utilise la lecture de la feuille.
+
+Ajoute les clients manuellement
+ou utilise la lecture de la feuille.
+
 </p>
 
 </div>
@@ -834,12 +1121,22 @@ return;
 currentDay.clients.forEach(
 (client,index)=>{
 
+
 const box=
-document.createElement("div");
+document.createElement(
+"div"
+);
+
 
 box.className=
 "client"+
-(client.fait?" done":"");
+(
+client.fait
+?
+" done"
+:
+""
+);
 
 
 let piecesHTML="";
@@ -848,18 +1145,22 @@ let piecesHTML="";
 client.pieces.forEach(
 (piece,pieceIndex)=>{
 
+
 piecesHTML+=`
 
 <div class="piece">
 
-<span>📦 ${escapeHTML(piece)}</span>
+<span>
+📦 ${escapeHTML(piece)}
+</span>
 
 <button
 class="deletePiece"
-data-delete-piece="${pieceIndex}"
-data-client="${index}">
+data-client="${index}"
+data-delete-piece="${pieceIndex}">
 
 ✕
+
 </button>
 
 </div>
@@ -873,17 +1174,26 @@ box.innerHTML=`
 
 <div class="clientNumber">
 
-CLIENT ${String(client.numero).padStart(3,"0")}
+CLIENT
+${String(client.numero)
+.padStart(3,"0")}
 
 </div>
 
 
 <h2>
-${escapeHTML(client.nom)}
+
+${escapeHTML(
+client.nom
+)}
+
 </h2>
 
 
-<label>Nom du client</label>
+<label>
+Nom du client
+</label>
+
 
 <input
 class="clientName"
@@ -892,7 +1202,10 @@ value="${escapeHTML(client.nom)}"
 >
 
 
-<label>📍 Adresse</label>
+<label>
+📍 Adresse
+</label>
+
 
 <input
 class="clientAddress"
@@ -911,6 +1224,7 @@ data-map="${index}">
 🗺️ Google Maps
 
 </button>
+
 
 <button
 class="gray"
@@ -951,8 +1265,15 @@ data-add-piece="${index}">
 
 <div class="choice">
 
+
 <button
-class="${client.appele===true?"activeBlue":""}"
+class="${
+client.appele===true
+?
+"activeBlue"
+:
+""
+}"
 data-call="yes"
 data-index="${index}">
 
@@ -960,14 +1281,22 @@ data-index="${index}">
 
 </button>
 
+
 <button
-class="${client.appele===false?"activeRed":""}"
+class="${
+client.appele===false
+?
+"activeRed"
+:
+""
+}"
 data-call="no"
 data-index="${index}">
 
 ❌ Pas répondu
 
 </button>
+
 
 </div>
 
@@ -981,8 +1310,15 @@ data-index="${index}">
 
 <div class="choice">
 
+
 <button
-class="${client.vieux===true?"activeGreen":""}"
+class="${
+client.vieux===true
+?
+"activeGreen"
+:
+""
+}"
 data-old="yes"
 data-index="${index}">
 
@@ -990,8 +1326,15 @@ data-index="${index}">
 
 </button>
 
+
 <button
-class="${client.vieux===false?"activeRed":""}"
+class="${
+client.vieux===false
+?
+"activeRed"
+:
+""
+}"
 data-old="no"
 data-index="${index}">
 
@@ -999,18 +1342,28 @@ data-index="${index}">
 
 </button>
 
+
 </div>
 
 
 <button
-class="${client.fait?"green":"blue"}"
+class="${
+client.fait
+?
+"green"
+:
+"blue"
+}"
 data-done="${index}">
 
-${client.fait
+${
+client.fait
 ?
-"✅ Client fait à "+client.heure
+"✅ Client fait à "+
+client.heure
 :
-"🚚 Client fait"}
+"🚚 Client fait"
+}
 
 </button>
 
@@ -1025,27 +1378,36 @@ data-remove="${index}">
 
 `;
 
+
 list.appendChild(box);
 
 });
 
 
-/* NOMS */
+/* NOM */
 
 document
-.querySelectorAll(".clientName")
-.forEach(input=>{
+.querySelectorAll(
+".clientName"
+)
+.forEach(
+input=>{
 
 input.addEventListener(
 "change",
 function(){
 
 const index=
-Number(this.dataset.index);
+Number(
+this.dataset.index
+);
+
 
 currentDay
 .clients[index]
-.nom=this.value;
+.nom=
+this.value;
+
 
 saveCurrentDay();
 
@@ -1056,22 +1418,30 @@ renderSummary();
 });
 
 
-/* ADRESSES */
+/* ADRESSE */
 
 document
-.querySelectorAll(".clientAddress")
-.forEach(input=>{
+.querySelectorAll(
+".clientAddress"
+)
+.forEach(
+input=>{
 
 input.addEventListener(
 "change",
 function(){
 
 const index=
-Number(this.dataset.index);
+Number(
+this.dataset.index
+);
+
 
 currentDay
 .clients[index]
-.adresse=this.value;
+.adresse=
+this.value;
+
 
 saveCurrentDay();
 
@@ -1085,28 +1455,38 @@ renderSummary();
 /* MAPS */
 
 document
-.querySelectorAll("[data-map]")
-.forEach(button=>{
+.querySelectorAll(
+"[data-map]"
+)
+.forEach(
+button=>{
 
 button.addEventListener(
 "click",
 function(){
 
 const index=
-Number(this.dataset.map);
+Number(
+this.dataset.map
+);
+
 
 const address=
 currentDay
 .clients[index]
 .adresse;
 
+
 if(!address){
 
-alert("Ajoute d'abord l'adresse.");
+alert(
+"Ajoute d'abord l'adresse."
+);
 
 return;
 
 }
+
 
 window.open(
 mapsLink(address),
@@ -1121,31 +1501,41 @@ mapsLink(address),
 /* IMAGES */
 
 document
-.querySelectorAll("[data-image]")
-.forEach(button=>{
+.querySelectorAll(
+"[data-image]"
+)
+.forEach(
+button=>{
 
 button.addEventListener(
 "click",
 function(){
 
 const index=
-Number(this.dataset.image);
+Number(
+this.dataset.image
+);
+
 
 const address=
 currentDay
 .clients[index]
 .adresse;
 
+
 if(!address){
 
-alert("Ajoute d'abord l'adresse.");
+alert(
+"Ajoute d'abord l'adresse."
+);
 
 return;
 
 }
 
+
 window.open(
-searchImageLink(address),
+imageSearchLink(address),
 "_blank"
 );
 
@@ -1157,29 +1547,40 @@ searchImageLink(address),
 /* AJOUT MORCEAU */
 
 document
-.querySelectorAll("[data-add-piece]")
-.forEach(button=>{
+.querySelectorAll(
+"[data-add-piece]"
+)
+.forEach(
+button=>{
 
 button.addEventListener(
 "click",
 function(){
 
 const index=
-Number(this.dataset.addPiece);
+Number(
+this.dataset.addPiece
+);
+
 
 const piece=
 prompt(
 "Nom de l'appareil ou du morceau :"
 );
 
+
 if(!piece){
+
 return;
+
 }
+
 
 currentDay
 .clients[index]
 .pieces
 .push(piece);
+
 
 saveCurrentDay();
 
@@ -1190,21 +1591,30 @@ renderDay();
 });
 
 
-/* SUPPRESSION MORCEAU */
+/* SUPPRIMER MORCEAU */
 
 document
-.querySelectorAll("[data-delete-piece]")
-.forEach(button=>{
+.querySelectorAll(
+"[data-delete-piece]"
+)
+.forEach(
+button=>{
 
 button.addEventListener(
 "click",
 function(){
 
 const clientIndex=
-Number(this.dataset.client);
+Number(
+this.dataset.client
+);
+
 
 const pieceIndex=
-Number(this.dataset.deletePiece);
+Number(
+this.dataset.deletePiece
+);
+
 
 currentDay
 .clients[clientIndex]
@@ -1213,6 +1623,7 @@ currentDay
 pieceIndex,
 1
 );
+
 
 saveCurrentDay();
 
@@ -1226,20 +1637,27 @@ renderDay();
 /* APPELÉ */
 
 document
-.querySelectorAll("[data-call]")
-.forEach(button=>{
+.querySelectorAll(
+"[data-call]"
+)
+.forEach(
+button=>{
 
 button.addEventListener(
 "click",
 function(){
 
 const index=
-Number(this.dataset.index);
+Number(
+this.dataset.index
+);
+
 
 currentDay
 .clients[index]
 .appele=
 this.dataset.call==="yes";
+
 
 saveCurrentDay();
 
@@ -1253,20 +1671,27 @@ renderDay();
 /* VIEUX */
 
 document
-.querySelectorAll("[data-old]")
-.forEach(button=>{
+.querySelectorAll(
+"[data-old]"
+)
+.forEach(
+button=>{
 
 button.addEventListener(
 "click",
 function(){
 
 const index=
-Number(this.dataset.index);
+Number(
+this.dataset.index
+);
+
 
 currentDay
 .clients[index]
 .vieux=
 this.dataset.old==="yes";
+
 
 saveCurrentDay();
 
@@ -1277,23 +1702,32 @@ renderDay();
 });
 
 
-/* FAIT */
+/* CLIENT FAIT */
 
 document
-.querySelectorAll("[data-done]")
-.forEach(button=>{
+.querySelectorAll(
+"[data-done]"
+)
+.forEach(
+button=>{
 
 button.addEventListener(
 "click",
 function(){
 
 const index=
-Number(this.dataset.done);
+Number(
+this.dataset.done
+);
+
 
 const client=
 currentDay.clients[index];
 
-client.fait=!client.fait;
+
+client.fait=
+!client.fait;
+
 
 client.heure=
 client.fait
@@ -1301,6 +1735,7 @@ client.fait
 timeNow()
 :
 null;
+
 
 saveCurrentDay();
 
@@ -1314,15 +1749,20 @@ renderDay();
 /* SUPPRIMER CLIENT */
 
 document
-.querySelectorAll("[data-remove]")
-.forEach(button=>{
+.querySelectorAll(
+"[data-remove]"
+)
+.forEach(
+button=>{
 
 button.addEventListener(
 "click",
 function(){
 
 removeClient(
-Number(this.dataset.remove)
+Number(
+this.dataset.remove
+)
 );
 
 });
@@ -1332,9 +1772,9 @@ Number(this.dataset.remove)
 }
 
 
-/* =====================================================
-   RÉSUMÉ ROUTE
-===================================================== */
+/* =========================
+RÉSUMÉ
+========================= */
 
 function renderSummary(){
 
@@ -1343,8 +1783,11 @@ document.getElementById(
 "routeSummary"
 );
 
-if(!currentDay ||
-currentDay.clients.length===0){
+
+if(
+!currentDay ||
+currentDay.clients.length===0
+){
 
 box.innerHTML=
 "Aucun client.";
@@ -1360,26 +1803,38 @@ box.innerHTML="";
 currentDay.clients.forEach(
 (client,index)=>{
 
+
 const line=
-document.createElement("div");
+document.createElement(
+"div"
+);
+
 
 line.className=
 "summaryLine";
 
-const address=
-client.adresse
-?
-"📍 "+client.adresse
-:
-"⚠️ Adresse manquante";
 
 line.innerHTML=
+
 "<strong>"+
-String(index+1).padStart(3,"0")+
+String(index+1)
+.padStart(3,"0")+
 "</strong> · "+
-escapeHTML(client.nom)+
+escapeHTML(
+client.nom
+)+
 "<br>"+
-address;
+(
+client.adresse
+?
+"📍 "+
+escapeHTML(
+client.adresse
+)
+:
+"⚠️ Adresse manquante"
+);
+
 
 box.appendChild(line);
 
@@ -1388,16 +1843,20 @@ box.appendChild(line);
 }
 
 
-/* =====================================================
-   GOOGLE MAPS
-===================================================== */
+/* =========================
+GOOGLE MAPS
+========================= */
 
 function openAllMaps(){
 
-if(!currentDay ||
-currentDay.clients.length===0){
+if(
+!currentDay ||
+currentDay.clients.length===0
+){
 
-alert("Aucun client.");
+alert(
+"Aucun client."
+);
 
 return;
 
@@ -1412,7 +1871,9 @@ client=>client.adresse
 
 if(valid.length===0){
 
-alert("Aucune adresse.");
+alert(
+"Aucune adresse."
+);
 
 return;
 
@@ -1420,41 +1881,61 @@ return;
 
 
 const destination=
-valid[valid.length-1].adresse;
+valid[
+valid.length-1
+]
+.adresse;
+
 
 const waypoints=
 valid
 .slice(0,-1)
-.map(client=>client.adresse)
+.map(
+client=>client.adresse
+)
 .join("|");
 
 
 let url=
 "https://www.google.com/maps/dir/?api=1"+
 "&destination="+
-encodeURIComponent(destination);
+encodeURIComponent(
+destination
+);
 
 
 if(waypoints){
 
 url+=
 "&waypoints="+
-encodeURIComponent(waypoints);
+encodeURIComponent(
+waypoints
+);
 
 }
 
 
-window.open(url,"_blank");
+url+="&travelmode=driving";
+
+
+window.open(
+url,
+"_blank"
+);
 
 }
 
 
 function optimizeRoute(){
 
-if(!currentDay ||
-currentDay.clients.length<2){
+if(
+!currentDay ||
+currentDay.clients.length<2
+){
 
-alert("Il faut au moins 2 clients.");
+alert(
+"Il faut au moins 2 clients."
+);
 
 return;
 
@@ -1463,13 +1944,19 @@ return;
 
 const addresses=
 currentDay.clients
-.filter(client=>client.adresse)
-.map(client=>client.adresse);
+.filter(
+client=>client.adresse
+)
+.map(
+client=>client.adresse
+);
 
 
 if(addresses.length<2){
 
-alert("Il faut au moins 2 adresses.");
+alert(
+"Il faut au moins 2 adresses."
+);
 
 return;
 
@@ -1477,47 +1964,57 @@ return;
 
 
 const destination=
-addresses[addresses.length-1];
+addresses[
+addresses.length-1
+];
+
 
 const waypoints=
-addresses.slice(0,-1).join("|");
+addresses
+.slice(0,-1)
+.join("|");
 
 
 const url=
 "https://www.google.com/maps/dir/?api=1"+
 "&destination="+
-encodeURIComponent(destination)+
+encodeURIComponent(
+destination
+)+
 "&waypoints="+
-encodeURIComponent(waypoints)+
+encodeURIComponent(
+waypoints
+)+
 "&travelmode=driving";
 
 
-window.open(url,"_blank");
+window.open(
+url,
+"_blank"
+);
 
 }
 
 
-/* =====================================================
-   PHOTO
-===================================================== */
+/* =========================
+PHOTO COMMUNE
+========================= */
 
-document
-.getElementById("photoInput")
-.addEventListener(
-"change",
-function(){
-
-const file=this.files[0];
+function handlePhoto(file){
 
 if(!file){
+
 return;
+
 }
+
 
 selectedPhoto=file;
 
 
 const reader=
 new FileReader();
+
 
 reader.onload=
 function(event){
@@ -1527,44 +2024,135 @@ document.getElementById(
 "photoPreview"
 );
 
+
 image.src=
 event.target.result;
+
 
 image.style.display=
 "block";
 
 
 document
-.getElementById("ocrBtn")
-.classList.remove("hidden");
+.getElementById(
+"ocrBtn"
+)
+.classList.remove(
+"hidden"
+);
 
 };
 
-reader.readAsDataURL(file);
+
+reader.readAsDataURL(
+file
+);
+
+}
+
+
+/* =========================
+CAMÉRA
+========================= */
+
+document
+.getElementById(
+"cameraBtn"
+)
+.addEventListener(
+"click",
+function(){
+
+document
+.getElementById(
+"cameraInput"
+)
+.click();
 
 });
 
 
-/* =====================================================
-   OCR
-===================================================== */
+document
+.getElementById(
+"cameraInput"
+)
+.addEventListener(
+"change",
+function(){
+
+handlePhoto(
+this.files[0]
+);
+
+});
+
+
+/* =========================
+GALERIE
+========================= */
 
 document
-.getElementById("ocrBtn")
+.getElementById(
+"galleryBtn"
+)
+.addEventListener(
+"click",
+function(){
+
+document
+.getElementById(
+"galleryInput"
+)
+.click();
+
+});
+
+
+document
+.getElementById(
+"galleryInput"
+)
+.addEventListener(
+"change",
+function(){
+
+handlePhoto(
+this.files[0]
+);
+
+});
+
+
+/* =========================
+OCR
+========================= */
+
+document
+.getElementById(
+"ocrBtn"
+)
 .addEventListener(
 "click",
 async function(){
 
+
 if(!selectedPhoto){
+
 return;
+
 }
+
 
 const status=
 document.getElementById(
 "ocrStatus"
 );
 
-status.classList.remove("hidden");
+
+status.classList.remove(
+"hidden"
+);
+
 
 status.textContent=
 "⏳ Lecture de la feuille...";
@@ -1572,11 +2160,13 @@ status.textContent=
 
 try{
 
+
 const result=
 await Tesseract.recognize(
 selectedPhoto,
 "fra+eng",
 {
+
 logger:function(info){
 
 if(
@@ -1613,9 +2203,8 @@ return;
 }
 
 
-status.innerHTML=
-"✅ Texte détecté. " +
-"Vérifie les clients ci-dessous.";
+status.textContent=
+"✅ Texte détecté.";
 
 
 parseOCR(text);
@@ -1625,17 +2214,18 @@ parseOCR(text);
 
 console.log(error);
 
+
 status.textContent=
-"❌ Impossible de lire cette photo.";
+"❌ Impossible de lire la photo.";
 
 }
 
 });
 
 
-/* =====================================================
-   INTERPRÉTATION OCR
-===================================================== */
+/* =========================
+OCR -> CLIENTS
+========================= */
 
 function parseOCR(text){
 
@@ -1646,59 +2236,51 @@ createDay();
 }
 
 
-/*
-  On transforme les lignes OCR en clients simples.
-  Comme chaque feuille peut avoir une mise en page différente,
-  l'utilisateur peut corriger les noms/adresses ensuite.
-*/
-
 const lines=
 text
 .split(/\r?\n/)
-.map(line=>line.trim())
-.filter(line=>line.length>2);
-
-
-if(lines.length===0){
-return;
-}
-
-
-/*
-  On ajoute seulement les lignes suffisamment longues.
-  Ça évite de remplir l'app avec chaque petit numéro ou symbole.
-*/
-
-const candidates=
-lines.filter(
+.map(
+line=>line.trim()
+)
+.filter(
 line=>line.length>=5
 );
 
 
-if(candidates.length===0){
+if(lines.length===0){
+
 return;
+
 }
 
 
 /*
-  Si la journée contient déjà les clients d'exemple,
-  on les remplace.
+On utilise les lignes détectées comme
+base de clients.
+
+Tu peux ensuite corriger chaque
+nom et chaque adresse directement
+dans l'application.
 */
+
 
 currentDay.clients=[];
 
 
-candidates
+lines
 .slice(0,40)
 .forEach(
 (line,index)=>{
+
 
 currentDay.clients.push({
 
 numero:index+1,
 
-nom:"Client "+
-String(index+1).padStart(3,"0"),
+nom:
+"Client "+
+String(index+1)
+.padStart(3,"0"),
 
 adresse:line,
 
@@ -1726,9 +2308,9 @@ renderDay();
 }
 
 
-/* =====================================================
-   HISTORIQUE
-===================================================== */
+/* =========================
+HISTORIQUE
+========================= */
 
 function renderHistory(){
 
@@ -1737,10 +2319,13 @@ document.getElementById(
 "historyList"
 );
 
+
 box.innerHTML="";
 
 
-if(historyData.length===0){
+if(
+historyData.length===0
+){
 
 box.innerHTML=
 "<p>Aucune journée enregistrée.</p>";
@@ -1756,6 +2341,7 @@ historyData
 .forEach(
 (day,reverseIndex)=>{
 
+
 const realIndex=
 historyData.length-
 1-
@@ -1763,7 +2349,10 @@ reverseIndex;
 
 
 const button=
-document.createElement("button");
+document.createElement(
+"button"
+);
+
 
 button.className=
 "historyItem";
@@ -1771,9 +2360,13 @@ button.className=
 
 button.innerHTML=
 
-"📅 "+
-escapeHTML(day.date)+
-"<br><span class='small'>"+
+"📅 <strong>"+
+escapeHTML(
+day.date
+)+
+"</strong>"+
+"<br>"+
+"<span class='small'>"+
 day.clients.length+
 " clients · "+
 countPieces(day)+
@@ -1785,7 +2378,9 @@ button.addEventListener(
 "click",
 function(){
 
-openHistoryDetail(realIndex);
+openHistoryDetail(
+realIndex
+);
 
 });
 
@@ -1797,27 +2392,43 @@ box.appendChild(button);
 }
 
 
+/* =========================
+DÉTAIL HISTORIQUE
+========================= */
+
 function openHistoryDetail(index){
 
 const day=
 historyData[index];
 
+
 if(!day){
+
 return;
+
 }
 
+
 document
-.getElementById("detailTitle")
+.getElementById(
+"detailTitle"
+)
 .textContent=
 "📅 "+day.date;
 
+
 document
-.getElementById("detailClients")
+.getElementById(
+"detailClients"
+)
 .textContent=
 day.clients.length;
 
+
 document
-.getElementById("detailPieces")
+.getElementById(
+"detailPieces"
+)
 .textContent=
 countPieces(day);
 
@@ -1827,19 +2438,26 @@ document.getElementById(
 "detailClientsList"
 );
 
+
 box.innerHTML="";
 
 
 day.clients.forEach(
 client=>{
 
-const div=
-document.createElement("div");
 
-div.className="client";
+const div=
+document.createElement(
+"div"
+);
+
+
+div.className=
+"client";
 
 
 let pieces="";
+
 
 client.pieces.forEach(
 piece=>{
@@ -1861,19 +2479,26 @@ String(client.numero)
 "</div>"+
 
 "<h2>"+
-escapeHTML(client.nom)+
+escapeHTML(
+client.nom
+)+
 "</h2>"+
 
 "<p>📍 "+
-escapeHTML(client.adresse)+
+escapeHTML(
+client.adresse
+)+
 "</p>"+
 
 "<p>"+
-(client.fait
+(
+client.fait
 ?
-"✅ Fait à "+client.heure
+"✅ Fait à "+
+client.heure
 :
-"⏳ Pas fait")+
+"⏳ Pas fait"
+)+
 "</p>"+
 
 pieces;
@@ -1884,17 +2509,21 @@ box.appendChild(div);
 });
 
 
-show("historyDetail");
+show(
+"historyDetail"
+);
 
 }
 
 
-/* =====================================================
-   NAVIGATION
-===================================================== */
+/* =========================
+NAVIGATION
+========================= */
 
 document
-.getElementById("newDayBtn")
+.getElementById(
+"newDayBtn"
+)
 .addEventListener(
 "click",
 function(){
@@ -1905,7 +2534,9 @@ createDay();
 
 
 document
-.getElementById("addClientBtn")
+.getElementById(
+"addClientBtn"
+)
 .addEventListener(
 "click",
 addClient
@@ -1913,7 +2544,9 @@ addClient
 
 
 document
-.getElementById("historyBtn")
+.getElementById(
+"historyBtn"
+)
 .addEventListener(
 "click",
 function(){
@@ -1926,7 +2559,9 @@ show("history");
 
 
 document
-.getElementById("backHomeBtn")
+.getElementById(
+"backHomeBtn"
+)
 .addEventListener(
 "click",
 function(){
@@ -1939,7 +2574,9 @@ updateHome();
 
 
 document
-.getElementById("backHistoryBtn")
+.getElementById(
+"backHistoryBtn"
+)
 .addEventListener(
 "click",
 function(){
@@ -1952,7 +2589,9 @@ updateHome();
 
 
 document
-.getElementById("backDetailBtn")
+.getElementById(
+"backDetailBtn"
+)
 .addEventListener(
 "click",
 function(){
@@ -1965,7 +2604,9 @@ show("history");
 
 
 document
-.getElementById("mapsAllBtn")
+.getElementById(
+"mapsAllBtn"
+)
 .addEventListener(
 "click",
 openAllMaps
@@ -1973,21 +2614,25 @@ openAllMaps
 
 
 document
-.getElementById("optimizeBtn")
+.getElementById(
+"optimizeBtn"
+)
 .addEventListener(
 "click",
 optimizeRoute
 );
 
 
-/* =====================================================
-   ACCUEIL
-===================================================== */
+/* =========================
+ACCUEIL
+========================= */
 
 function updateHome(){
 
 document
-.getElementById("today")
+.getElementById(
+"today"
+)
 .textContent=
 today();
 
@@ -1995,33 +2640,47 @@ today();
 if(currentDay){
 
 document
-.getElementById("homeClients")
+.getElementById(
+"homeClients"
+)
 .textContent=
 currentDay.clients.length;
 
+
 document
-.getElementById("homePieces")
+.getElementById(
+"homePieces"
+)
 .textContent=
-countPieces(currentDay);
+countPieces(
+currentDay
+);
 
 }else{
 
 document
-.getElementById("homeClients")
-.textContent="0";
+.getElementById(
+"homeClients"
+)
+.textContent=
+"0";
+
 
 document
-.getElementById("homePieces")
-.textContent="0";
+.getElementById(
+"homePieces"
+)
+.textContent=
+"0";
 
 }
 
 }
 
 
-/* =====================================================
-   INITIALISATION
-===================================================== */
+/* =========================
+DÉMARRAGE
+========================= */
 
 updateHome();
 
