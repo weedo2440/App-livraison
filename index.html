@@ -6,737 +6,82 @@
 <title>0MRCX LIVRER</title>
 
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f1f3f5;color:#222}
-header{background:#111827;color:white;padding:16px;text-align:center}
-header h1{margin:0;font-size:22px}
-main{max-width:600px;margin:auto;padding:15px}
-
-.card,.client{
- background:white;
- padding:16px;
- margin-bottom:15px;
- border-radius:14px;
- box-shadow:0 2px 8px #0002;
-}
-
-button{
- border:0;
- border-radius:10px;
- padding:14px;
- font-size:16px;
- font-weight:bold;
- cursor:pointer;
-}
-
-.menuButton{
- width:100%;
- margin-bottom:10px;
- background:#2563eb;
- color:white;
-}
-
-.secondary{background:#e5e7eb;color:#111}
-.back{width:100%;margin-bottom:15px;background:#e5e7eb}
-
-.choiceTitle{
- font-weight:bold;
- margin-top:15px;
- margin-bottom:7px;
-}
-
-.choices{display:flex;gap:8px}
-
-.choice{
- flex:1;
- background:white;
- color:#222;
- border:2px solid #ddd;
-}
-
-.choice.yes.active{
- background:#22c55e;
- color:white;
- border-color:#22c55e;
-}
-
-.choice.no.active{
- background:#ef4444;
- color:white;
- border-color:#ef4444;
-}
-
-.done{
- width:100%;
- margin-top:15px;
- background:white;
- color:#15803d;
- border:2px solid #22c55e;
-}
-
-.done.active{
- background:#22c55e;
- color:white;
-}
-
-.stats{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:8px;
-}
-
-.stat{
- background:#f8f9fa;
- padding:12px;
- border-radius:10px;
- text-align:center;
-}
-
-.stat strong{
- display:block;
- font-size:22px;
-}
-
-.small{color:#666;font-size:14px}
-
-.piece{
- display:flex;
- justify-content:space-between;
- align-items:center;
- background:#f3f4f6;
- padding:10px;
- border-radius:8px;
- margin:5px 0;
-}
-
-.deletePiece{
- padding:7px 10px;
- background:#ef4444;
- color:white;
-}
-
-.addPiece{
- width:100%;
- margin-top:8px;
- background:#e5e7eb;
-}
-
-.hidden{display:none}
-
-.historyButton{
- width:100%;
- background:white;
- color:#222;
- border:2px solid #ddd;
- margin-bottom:8px;
- text-align:left;
-}
-
-.photoPreview{
- width:100%;
- max-height:400px;
- object-fit:contain;
- margin-top:10px;
- border-radius:10px;
- display:none;
-}
-</style>
-</head>
-
-<body>
-
-<header>
-<h1>🚚 0MRCX LIVRER</h1>
-</header>
-
-<main>
-
-<section id="accueil">
-
-<div class="card">
-<h2>📅 Aujourd'hui</h2>
-<p id="dateAujourdHui"></p>
-
-<div class="stats">
-<div class="stat">
-<strong id="clientsAujourdHui">0</strong>
-<span class="small">Clients</span>
-</div>
-
-<div class="stat">
-<strong id="morceauxAujourdHui">0</strong>
-<span class="small">Morceaux livrés</span>
-</div>
-</div>
-</div>
-
-<button class="menuButton" onclick="nouvelleJournee()">
-➕ Ajouter journée
-</button>
-
-<button class="menuButton" onclick="ouvrirPhoto()">
-📷 Photo de la feuille
-</button>
-
-<input
- type="file"
- id="photoFeuille"
- accept="image/*"
- capture="environment"
- style="display:none"
- onchange="photoChoisie(event)"
->
-
-<img id="photoPreview" class="photoPreview">
-
-<button class="menuButton secondary" onclick="afficherHistorique()">
-📅 Historique
-</button>
-
-</section>
-
-
-<section id="route" class="hidden">
-
-<button class="back" onclick="retourAccueil()">
-⬅️ Retour
-</button>
-
-<div class="card">
-<h2>🚚 Ma journée</h2>
-<p id="dateRoute"></p>
-
-<div class="stats">
-
-<div class="stat">
-<strong id="totalClients">0</strong>
-<span class="small">Clients</span>
-</div>
-
-<div class="stat">
-<strong id="totalMorceaux">0</strong>
-<span class="small">Morceaux livrés</span>
-</div>
-
-</div>
-</div>
-
-<div id="listeClients"></div>
-
-</section>
-
-
-<section id="historique" class="hidden">
-
-<button class="back" onclick="retourAccueil()">
-⬅️ Retour
-</button>
-
-<div class="card">
-<h2>📅 Historique</h2>
-<div id="listeHistorique"></div>
-</div>
-
-</section>
-
-
-<section id="detailHistorique" class="hidden">
-
-<button class="back" onclick="afficherHistorique()">
-⬅️ Retour
-</button>
-
-<div class="card">
-<h2 id="titreDetail"></h2>
-
-<div class="stats">
-
-<div class="stat">
-<strong id="detailClients">0</strong>
-<span class="small">Clients</span>
-</div>
-
-<div class="stat">
-<strong id="detailMorceaux">0</strong>
-<span class="small">Morceaux livrés</span>
-</div>
-
-</div>
-</div>
-
-<div class="card">
-<h3>📦 Morceaux livrés</h3>
-<div id="detailMorceauxListe"></div>
-</div>
-
-</section>
-
-</main>
-
-
-<script>
-
-let journeeActuelle=null;
-
-let historique=
-JSON.parse(localStorage.getItem("historiqueLivraison"))||[];
-
-
-function obtenirDate(){
- return new Date().toLocaleDateString("fr-CA");
-}
-
-
-function obtenirHeure(){
- return new Date().toLocaleTimeString(
-  "fr-CA",
-  {
-   hour:"2-digit",
-   minute:"2-digit"
-  }
- );
-}
-
-
-function sauvegarder(){
- localStorage.setItem(
-  "historiqueLivraison",
-  JSON.stringify(historique)
- );
-}
-
-
-function nouvelleJournee(){
-
-journeeActuelle={
- date:obtenirDate(),
-
- clients:[
-  {
-   numero:1,
-   nom:"Client 001",
-   adresse:"Adresse à ajouter",
-   morceaux:["Laveuse"],
-   appele:null,
-   vieux:null,
-   fait:false,
-   heure:null
-  },
-
-  {
-   numero:2,
-   nom:"Client 002",
-   adresse:"Adresse à ajouter",
-   morceaux:["Sécheuse","Pièce"],
-   appele:null,
-   vieux:null,
-   fait:false,
-   heure:null
-  }
- ]
-};
-
-sauvegarderJournee();
-afficherRoute();
-}
-
-
-function sauvegarderJournee(){
-
-if(!journeeActuelle)return;
-
-let position=
-historique.findIndex(
- j=>j.date===journeeActuelle.date
-);
-
-if(position>=0){
- historique[position]=journeeActuelle;
-}else{
- historique.push(journeeActuelle);
-}
-
-sauvegarder();
-}
-
-
-function afficherRoute(){
-
-cacherToutesLesSections();
-
-document
- .getElementById("route")
- .classList.remove("hidden");
-
-document.getElementById("dateRoute")
- .textContent=journeeActuelle.date;
-
-afficherClients();
-}
-
-
-function afficherClients(){
-
-const liste=
-document.getElementById("listeClients");
-
-liste.innerHTML="";
-
-journeeActuelle.clients.forEach(
-(client,index)=>{
-
-const div=
-document.createElement("div");
-
-div.className="client";
-
-let morceauxHTML="";
-
-client.morceaux.forEach(
-(morceau,pieceIndex)=>{
-
-morceauxHTML+=`
-
-<div class="piece">
-
-<span>📦 ${morceau}</span>
-
-<button
-class="deletePiece"
-onclick="supprimerMorceau(${index},${pieceIndex})">
-✕
-</button>
-
-</div>
-
-`;
-});
-
-
-div.innerHTML=`
-
-<div class="small">
-CLIENT ${String(client.numero).padStart(3,"0")}
-</div>
-
-<h2>${client.nom}</h2>
-
-<p>📍 ${client.adresse}</p>
-
-<div class="choiceTitle">
-📦 Morceaux
-</div>
-
-${morceauxHTML}
-
-<button
-class="addPiece"
-onclick="ajouterMorceau(${index})">
-➕ Ajouter un morceau
-</button>
-
-
-<div class="choiceTitle">
-Client appelé
-</div>
-
-<div class="choices">
-
-<button
-class="choice yes ${
- client.appele===true?"active":""
-}"
-onclick="choisirAppel(${index},true)">
-Oui
-</button>
-
-<button
-class="choice no ${
- client.appele===false?"active":""
-}"
-onclick="choisirAppel(${index},false)">
-Pas répondu
-</button>
-
-</div>
-
-
-<div class="choiceTitle">
-Vieux
-</div>
-
-<div class="choices">
-
-<button
-class="choice yes ${
- client.vieux===true?"active":""
-}"
-onclick="choisirVieux(${index},true)">
-Oui, vieux
-</button>
-
-<button
-class="choice no ${
- client.vieux===false?"active":""
-}"
-onclick="choisirVieux(${index},false)">
-Pas de vieux
-</button>
-
-</div>
-
-
-<button
-class="done ${
- client.fait?"active":""
-}"
-onclick="clientFait(${index})">
-
-${
- client.fait
- ? "✅ Client fait à "+client.heure
- : "🚚 Client fait"
-}
-
-</button>
-
-`;
-
-liste.appendChild(div);
-
-});
-
-mettreAJourCompteurs();
-}
-
-
-function ajouterMorceau(index){
-
-const morceau=
-prompt("Quel morceau/appareil faut-il ajouter ?");
-
-if(!morceau)return;
-
-journeeActuelle
- .clients[index]
- .morceaux
- .push(morceau);
-
-sauvegarderJournee();
-afficherClients();
-}
-
-
-function supprimerMorceau(clientIndex,pieceIndex){
-
-journeeActuelle
- .clients[clientIndex]
- .morceaux
- .splice(pieceIndex,1);
-
-sauvegarderJournee();
-afficherClients();
-}
-
-
-function choisirAppel(index,valeur){
-
-journeeActuelle
- .clients[index]
- .appele=valeur;
-
-sauvegarderJournee();
-afficherClients();
-}
-
-
-function choisirVieux(index,valeur){
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>0MRCX LIVRER</title>
-
-<style>
-*{box-sizing:border-box}
-
 body{
   margin:0;
   font-family:Arial,sans-serif;
-  background:#f1f3f5;
-  color:#222;
+  background:#f2f2f2;
 }
 
 header{
-  background:#111827;
-  color:#fff;
-  padding:16px;
+  background:#111;
+  color:white;
   text-align:center;
-}
-
-header h1{
-  margin:0;
-  font-size:22px;
+  padding:18px;
 }
 
 main{
+  padding:15px;
   max-width:600px;
   margin:auto;
-  padding:15px;
 }
 
-.card,.client{
-  background:#fff;
-  padding:16px;
-  margin-bottom:15px;
-  border-radius:14px;
-  box-shadow:0 2px 8px #0002;
-}
-
-button{
-  border:0;
-  border-radius:10px;
-  padding:14px;
-  font-size:16px;
-  font-weight:bold;
-}
-
-.menuButton{
-  width:100%;
-  margin-bottom:10px;
-  background:#2563eb;
-  color:#fff;
-}
-
-.secondary{
-  background:#e5e7eb;
-  color:#111;
-}
-
-.back{
-  width:100%;
-  margin-bottom:15px;
-  background:#e5e7eb;
-}
-
-.choiceTitle{
-  font-weight:bold;
-  margin-top:15px;
-  margin-bottom:7px;
-}
-
-.choices{
-  display:flex;
-  gap:8px;
-}
-
-.choice{
-  flex:1;
-  background:#fff;
-  color:#222;
-  border:2px solid #ddd;
-}
-
-.choice.yes.active{
-  background:#22c55e;
-  color:#fff;
-  border-color:#22c55e;
-}
-
-.choice.no.active{
-  background:#ef4444;
-  color:#fff;
-  border-color:#ef4444;
-}
-
-.done{
-  width:100%;
-  margin-top:15px;
-  background:#fff;
-  color:#15803d;
-  border:2px solid #22c55e;
-}
-
-.done.active{
-  background:#22c55e;
-  color:#fff;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-}
-
-.stat{
-  background:#f8f9fa;
-  padding:12px;
-  border-radius:10px;
-  text-align:center;
-}
-
-.stat strong{
+button,
+label{
   display:block;
-  font-size:22px;
-}
-
-.small{
-  color:#666;
-  font-size:14px;
-}
-
-.piece{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:#f3f4f6;
-  padding:10px;
-  border-radius:8px;
-  margin:5px 0;
-}
-
-.deletePiece{
-  padding:7px 10px;
-  background:#ef4444;
-  color:#fff;
-}
-
-.addPiece{
   width:100%;
-  margin-top:8px;
-  background:#e5e7eb;
+  padding:17px;
+  margin:10px 0;
+  border:0;
+  border-radius:12px;
+  font-size:18px;
+  font-weight:bold;
+  text-align:center;
+  background:#1976d2;
+  color:white;
+}
+
+.card{
+  background:white;
+  padding:16px;
+  border-radius:12px;
+  margin-bottom:15px;
 }
 
 .hidden{
+  display:none !important;
+}
+
+#photo{
+  width:100%;
+  margin-top:10px;
+  border-radius:12px;
   display:none;
 }
 
-.historyButton{
-  width:100%;
-  background:#fff;
-  color:#222;
-  border:2px solid #ddd;
-  margin-bottom:8px;
-  text-align:left;
+.client{
+  background:white;
+  padding:15px;
+  margin:12px 0;
+  border-radius:12px;
 }
 
-.photoInput{
+.green{
+  background:#16a34a;
+}
+
+.red{
+  background:#dc2626;
+}
+
+.gray{
+  background:#777;
+}
+
+input[type="file"]{
+  display:block;
   width:100%;
   padding:12px;
-  background:#fff;
-  border:2px solid #ddd;
-  border-radius:10px;
   font-size:16px;
-}
-
-#photoPreview{
-  display:none;
-  width:100%;
-  max-height:400px;
-  object-fit:contain;
-  margin-top:10px;
-  border-radius:10px;
 }
 </style>
 </head>
@@ -749,110 +94,85 @@ button{
 
 <main>
 
-<section id="accueil">
+<!-- ACCUEIL -->
+
+<div id="accueil">
 
 <div class="card">
-
-<h2>📅 Aujourd'hui</h2>
-
-<p id="dateAujourdHui"></p>
-
-<div class="stats">
-
-<div class="stat">
-<strong id="clientsAujourdHui">0</strong>
-<span class="small">Clients</span>
+<h2>📋 Tableau de bord</h2>
+<p id="date"></p>
+<p>Clients : <b id="nbClients">0</b></p>
+<p>Morceaux livrés : <b id="nbPieces">0</b></p>
 </div>
 
-<div class="stat">
-<strong id="morceauxAujourdHui">0</strong>
-<span class="small">Morceaux livrés</span>
-</div>
-
-</div>
-
-</div>
-
-
-<button
-class="menuButton"
-onclick="nouvelleJournee()">
+<button id="btnJournee">
 ➕ Ajouter journée
 </button>
-
 
 <div class="card">
 
 <h3>📷 Photo de la feuille</h3>
 
 <input
-class="photoInput"
+id="photoInput"
 type="file"
 accept="image/*"
 capture="environment"
-id="photoInput"
-onchange="photoChoisie(event)"
 >
 
 <img
-id="photoPreview"
-alt="Photo de la feuille"
+id="photo"
 >
 
 </div>
 
-
-<button
-class="menuButton secondary"
-onclick="afficherHistorique()">
+<button id="btnHistorique">
 📅 Historique
 </button>
 
-</section>
+</div>
 
 
-<section id="route" class="hidden">
+<!-- JOURNÉE -->
+
+<div id="journee" class="hidden">
 
 <button
-class="back"
-onclick="retourAccueil()">
+id="btnRetour"
+class="gray">
 ⬅️ Retour
 </button>
 
-
 <div class="card">
 
-<h2>🚚 Ma journée</h2>
+<h2>🚚 Journée</h2>
 
-<p id="dateRoute"></p>
+<p id="dateJournee"></p>
 
-<div class="stats">
+<p>
+Clients :
+<b id="totalClients">0</b>
+</p>
 
-<div class="stat">
-<strong id="totalClients">0</strong>
-<span class="small">Clients</span>
-</div>
-
-<div class="stat">
-<strong id="totalMorceaux">0</strong>
-<span class="small">Morceaux livrés</span>
-</div>
+<p>
+Morceaux livrés :
+<b id="totalPieces">0</b>
+</p>
 
 </div>
 
+<div id="clients"></div>
+
 </div>
 
 
-<div id="listeClients"></div>
+<!-- HISTORIQUE -->
 
-</section>
-
-
-<section id="historique" class="hidden">
+<div id="historique" class="hidden">
 
 <button
-class="back"
-onclick="retourAccueil()">
+id="btnRetourHist"
+class="gray">
 ⬅️ Retour
 </button>
 
@@ -860,416 +180,358 @@ onclick="retourAccueil()">
 
 <h2>📅 Historique</h2>
 
-<div id="listeHistorique"></div>
-
-</div>
-
-</section>
-
-
-<section id="detailHistorique" class="hidden">
-
-<button
-class="back"
-onclick="afficherHistorique()">
-⬅️ Retour
-</button>
-
-<div class="card">
-
-<h2 id="titreDetail"></h2>
-
-<div class="stats">
-
-<div class="stat">
-<strong id="detailClients">0</strong>
-<span class="small">Clients</span>
-</div>
-
-<div class="stat">
-<strong id="detailMorceaux">0</strong>
-<span class="small">Morceaux livrés</span>
-</div>
+<div id="historiqueListe"></div>
 
 </div>
 
 </div>
-
-
-<div class="card">
-
-<h3>📦 Morceaux livrés</h3>
-
-<div id="detailMorceauxListe"></div>
-
-</div>
-
-</section>
 
 </main>
 
 
 <script>
 
-let journeeActuelle=null;
+let journee = null;
 
-let historique=
+let historique =
 JSON.parse(
-localStorage.getItem("historiqueLivraison")
-)||[];
+localStorage.getItem("0mrcx_historique")
+) || [];
 
 
-function obtenirDate(){
-return new Date().toLocaleDateString("fr-CA");
+/* DATE */
+
+function dateAujourdHui(){
+
+return new Date()
+.toLocaleDateString("fr-CA");
+
 }
 
 
-function obtenirHeure(){
-return new Date().toLocaleTimeString(
-"fr-CA",
-{
-hour:"2-digit",
-minute:"2-digit"
-}
-);
-}
-
+/* SAUVEGARDE */
 
 function sauvegarder(){
+
 localStorage.setItem(
-"historiqueLivraison",
+"0mrcx_historique",
 JSON.stringify(historique)
 );
-}
-
-
-function nouvelleJournee(){
-
-journeeActuelle={
-date:obtenirDate(),
-
-clients:[
-{
-numero:1,
-nom:"Client 001",
-adresse:"Adresse à ajouter",
-morceaux:["Laveuse"],
-appele:null,
-vieux:null,
-fait:false,
-heure:null
-},
-{
-numero:2,
-nom:"Client 002",
-adresse:"Adresse à ajouter",
-morceaux:["Sécheuse","Pièce"],
-appele:null,
-vieux:null,
-fait:false,
-heure:null
-}
-]
-};
-
-sauvegarderJournee();
-afficherRoute();
 
 }
 
 
-function sauvegarderJournee(){
+/* AFFICHAGE */
 
-if(!journeeActuelle)return;
-
-let position=
-historique.findIndex(
-j=>j.date===journeeActuelle.date
-);
-
-if(position>=0){
-historique[position]=journeeActuelle;
-}else{
-historique.push(journeeActuelle);
-}
-
-sauvegarder();
-}
-
-
-function afficherRoute(){
-
-cacherSections();
+function afficherAccueil(){
 
 document
-.getElementById("route")
+.getElementById("accueil")
 .classList.remove("hidden");
 
 document
-.getElementById("dateRoute")
-.textContent=journeeActuelle.date;
-
-afficherClients();
-}
-
-
-function afficherClients(){
-
-const liste=
-document.getElementById("listeClients");
-
-liste.innerHTML="";
-
-
-journeeActuelle.clients.forEach(
-(client,index)=>{
-
-const div=
-document.createElement("div");
-
-div.className="client";
-
-
-let morceauxHTML="";
-
-
-client.morceaux.forEach(
-(morceau,pieceIndex)=>{
-
-morceauxHTML+=`
-
-<div class="piece">
-
-<span>📦 ${morceau}</span>
-
-<button
-class="deletePiece"
-onclick="supprimerMorceau(${index},${pieceIndex})">
-✕
-</button>
-
-</div>
-
-`;
-
-});
-
-
-div.innerHTML=`
-
-<div class="small">
-CLIENT ${String(client.numero).padStart(3,"0")}
-</div>
-
-<h2>${client.nom}</h2>
-
-<p>📍 ${client.adresse}</p>
-
-
-<div class="choiceTitle">
-📦 Morceaux
-</div>
-
-${morceauxHTML}
-
-
-<button
-class="addPiece"
-onclick="ajouterMorceau(${index})">
-➕ Ajouter un morceau
-</button>
-
-
-<div class="choiceTitle">
-Client appelé
-</div>
-
-<div class="choices">
-
-<button
-class="choice yes ${client.appele===true?"active":""}"
-onclick="choisirAppel(${index},true)">
-Oui
-</button>
-
-<button
-class="choice no ${client.appele===false?"active":""}"
-onclick="choisirAppel(${index},false)">
-Pas répondu
-</button>
-
-</div>
-
-
-<div class="choiceTitle">
-Vieux
-</div>
-
-<div class="choices">
-
-<button
-class="choice yes ${client.vieux===true?"active":""}"
-onclick="choisirVieux(${index},true)">
-Oui, vieux
-</button>
-
-<button
-class="choice no ${client.vieux===false?"active":""}"
-onclick="choisirVieux(${index},false)">
-Pas de vieux
-</button>
-
-</div>
-
-
-<button
-class="done ${client.fait?"active":""}"
-onclick="clientFait(${index})">
-
-${
-client.fait
-?"✅ Client fait à "+client.heure
-:"🚚 Client fait"
-}
-
-</button>
-
-`;
-
-liste.appendChild(div);
-
-});
-
-mettreAJourCompteurs();
-}
-
-
-function ajouterMorceau(index){
-
-const morceau=
-prompt(
-"Quel morceau/appareil faut-il ajouter ?"
-);
-
-if(!morceau)return;
-
-journeeActuelle
-.clients[index]
-.morceaux
-.push(morceau);
-
-sauvegarderJournee();
-
-afficherClients();
-}
-
-
-function supprimerMorceau(
-clientIndex,
-pieceIndex
-){
-
-journeeActuelle
-.clients[clientIndex]
-.morceaux
-.splice(pieceIndex,1);
-
-sauvegarderJournee();
-
-afficherClients();
-}
-
-
-function choisirAppel(index,valeur){
-
-journeeActuelle
-.clients[index]
-.appele=valeur;
-
-sauvegarderJournee();
-
-afficherClients();
-}
-
-
-function choisirVieux(index,valeur){
-
-journeeActuelle
-.clients[index]
-.vieux=valeur;
-
-sauvegarderJournee();
-
-afficherClients();
-}
-
-
-function clientFait(index){
-
-const client=
-journeeActuelle.clients[index];
-
-if(!client.fait){
-
-client.fait=true;
-client.heure=obtenirHeure();
-
-sauvegarderJournee();
-}
-
-afficherClients();
-}
-
-
-function compterMorceaux(journee){
-
-return journee.clients
-.filter(c=>c.fait)
-.reduce(
-(total,c)=>
-total+c.morceaux.length,
-0
-);
-
-}
-
-
-function mettreAJourCompteurs(){
+.getElementById("journee")
+.classList.add("hidden");
 
 document
-.getElementById("totalClients")
-.textContent=
-journeeActuelle.clients.length;
+.getElementById("historique")
+.classList.add("hidden");
+
+}
+
+
+function afficherJournee(){
 
 document
-.getElementById("totalMorceaux")
-.textContent=
-compterMorceaux(journeeActuelle);
+.getElementById("accueil")
+.classList.add("hidden");
+
+document
+.getElementById("journee")
+.classList.remove("hidden");
+
+document
+.getElementById("historique")
+.classList.add("hidden");
+
 }
 
 
 function afficherHistorique(){
 
-cacherSections();
+document
+.getElementById("accueil")
+.classList.add("hidden");
+
+document
+.getElementById("journee")
+.classList.add("hidden");
 
 document
 .getElementById("historique")
 .classList.remove("hidden");
 
-const liste=
-document.getElementById(
-"listeHistorique"
+afficherListeHistorique();
+
+}
+
+
+/* NOUVELLE JOURNÉE */
+
+function nouvelleJournee(){
+
+journee={
+
+date:dateAujourdHui(),
+
+clients:[
+
+{
+numero:1,
+nom:"Client 001",
+adresse:"Adresse à ajouter",
+pieces:["Laveuse"],
+fait:false
+},
+
+{
+numero:2,
+nom:"Client 002",
+adresse:"Adresse à ajouter",
+pieces:["Sécheuse"],
+fait:false
+}
+
+]
+
+};
+
+
+let index =
+historique.findIndex(
+j=>j.date===journee.date
 );
 
-liste.innerHTML="";
+if(index===-1){
+
+historique.push(journee);
+
+}else{
+
+historique[index]=journee;
+
+}
+
+sauvegarder();
+
+afficherJournee();
+
+afficherClients();
+
+}
+
+
+/* CLIENTS */
+
+function afficherClients(){
+
+let zone =
+document.getElementById("clients");
+
+zone.innerHTML="";
+
+
+journee.clients.forEach(
+(client,index)=>{
+
+let div =
+document.createElement("div");
+
+div.className="client";
+
+
+let pieces="";
+
+client.pieces.forEach(
+piece=>{
+
+pieces +=
+"<p>📦 "+piece+"</p>";
+
+});
+
+
+div.innerHTML=
+
+"<h2>"+client.nom+"</h2>"+
+"<p>📍 "+client.adresse+"</p>"+
+"<h3>Appareils</h3>"+
+pieces+
+
+"<button class='green' "+
+"data-action='fait' "+
+"data-index='"+index+"'>"+
+(client.fait
+?"✅ Client fait"
+:"🚚 Client fait")+
+"</button>"+
+
+"<button class='gray' "+
+"data-action='piece' "+
+"data-index='"+index+"'>"+
+"➕ Ajouter un morceau"+
+"</button>";
+
+
+zone.appendChild(div);
+
+});
+
+
+zone
+.querySelectorAll("button")
+.forEach(
+bouton=>{
+
+bouton.addEventListener(
+"click",
+function(){
+
+let index =
+Number(this.dataset.index);
+
+let action =
+this.dataset.action;
+
+
+if(action==="fait"){
+
+journee
+.clients[index]
+.fait=true;
+
+sauvegarderJournee();
+
+afficherClients();
+
+}
+
+
+if(action==="piece"){
+
+let piece =
+prompt(
+"Nom du morceau ou appareil :"
+);
+
+if(piece){
+
+journee
+.clients[index]
+.pieces
+.push(piece);
+
+sauvegarderJournee();
+
+afficherClients();
+
+}
+
+}
+
+});
+
+});
+
+mettreAJourCompteurs();
+
+}
+
+
+/* SAUVEGARDE JOURNÉE */
+
+function sauvegarderJournee(){
+
+let index =
+historique.findIndex(
+j=>j.date===journee.date
+);
+
+if(index===-1){
+
+historique.push(journee);
+
+}else{
+
+historique[index]=journee;
+
+}
+
+sauvegarder();
+
+}
+
+
+/* COMPTEURS */
+
+function mettreAJourCompteurs(){
+
+let total =
+journee.clients.length;
+
+let pieces=0;
+
+journee.clients.forEach(
+client=>{
+
+if(client.fait){
+
+pieces +=
+client.pieces.length;
+
+}
+
+});
+
+
+document
+.getElementById("totalClients")
+.textContent=total;
+
+document
+.getElementById("totalPieces")
+.textContent=pieces;
+
+document
+.getElementById("nbClients")
+.textContent=total;
+
+document
+.getElementById("nbPieces")
+.textContent=pieces;
+
+}
+
+
+/* HISTORIQUE */
+
+function afficherListeHistorique(){
+
+let zone =
+document.getElementById(
+"historiqueListe"
+);
+
+zone.innerHTML="";
 
 
 if(historique.length===0){
 
-liste.innerHTML=
-"<p>Aucune journée enregistrée.</p>";
+zone.innerHTML=
+"<p>Aucune journée.</p>";
 
 return;
+
 }
 
 
@@ -1277,192 +539,48 @@ historique
 .slice()
 .reverse()
 .forEach(
-(journee,position)=>{
+j=>{
 
-const index=
-historique.length-1-position;
-
-const bouton=
+let bouton =
 document.createElement("button");
 
-bouton.className=
-"historyButton";
+bouton.className="gray";
 
-bouton.innerHTML=`
+bouton.textContent=
+"📅 "+j.date+
+" - "+
+j.clients.length+
+" clients";
 
-📅 <strong>${journee.date}</strong>
-
-<br>
-
-👥 ${journee.clients.length} clients
-
-· 📦 ${compterMorceaux(journee)} morceaux livrés
-
-`;
-
-bouton.onclick=
-()=>ouvrirHistorique(index);
-
-liste.appendChild(bouton);
+zone.appendChild(bouton);
 
 });
-
-}
-
-
-function ouvrirHistorique(index){
-
-const journee=
-historique[index];
-
-cacherSections();
-
-document
-.getElementById("detailHistorique")
-.classList.remove("hidden");
-
-document
-.getElementById("titreDetail")
-.textContent=
-"📅 "+journee.date;
-
-document
-.getElementById("detailClients")
-.textContent=
-journee.clients.length;
-
-document
-.getElementById("detailMorceaux")
-.textContent=
-compterMorceaux(journee);
-
-
-const liste=
-document.getElementById(
-"detailMorceauxListe"
-);
-
-liste.innerHTML="";
-
-let numero=1;
-
-
-journee.clients.forEach(
-client=>{
-
-if(!client.fait)return;
-
-client.morceaux.forEach(
-morceau=>{
-
-const ligne=
-document.createElement("p");
-
-ligne.innerHTML=`
-
-<strong>${numero}.</strong>
-
-📦 ${morceau}
-
-→ ${client.nom}
-
-→ ${client.heure}
-
-`;
-
-liste.appendChild(ligne);
-
-numero++;
-
-});
-
-});
-
-}
-
-
-function retourAccueil(){
-
-cacherSections();
-
-document
-.getElementById("accueil")
-.classList.remove("hidden");
-
-mettreAJourAccueil();
-}
-
-
-function mettreAJourAccueil(){
-
-document
-.getElementById("dateAujourdHui")
-.textContent=
-obtenirDate();
-
-
-if(!journeeActuelle){
-
-document
-.getElementById("clientsAujourdHui")
-.textContent=0;
-
-document
-.getElementById("morceauxAujourdHui")
-.textContent=0;
-
-return;
-}
-
-
-document
-.getElementById("clientsAujourdHui")
-.textContent=
-journeeActuelle.clients.length;
-
-
-document
-.getElementById("morceauxAujourdHui")
-.textContent=
-compterMorceaux(journeeActuelle);
-
-}
-
-
-function cacherSections(){
-
-document
-.querySelectorAll("main section")
-.forEach(
-section=>{
-section.classList.add("hidden");
-}
-);
 
 }
 
 
 /* PHOTO */
 
-function photoChoisie(event){
+document
+.getElementById("photoInput")
+.addEventListener(
+"change",
+function(){
 
-const fichier=
-event.target.files[0];
+let fichier=this.files[0];
 
-if(!fichier)return;
+if(!fichier){
+return;
+}
 
-
-const lecteur=
+let lecteur =
 new FileReader();
-
 
 lecteur.onload=
 function(e){
 
-const image=
-document.getElementById(
-"photoPreview"
-);
+let image =
+document.getElementById("photo");
 
 image.src=e.target.result;
 
@@ -1470,21 +588,53 @@ image.style.display="block";
 
 };
 
-
 lecteur.readAsDataURL(fichier);
 
-}
+});
 
 
-mettreAJourAccueil();
+/* BOUTONS PRINCIPAUX */
+
+document
+.getElementById("btnJournee")
+.addEventListener(
+"click",
+nouvelleJournee
+);
+
+
+document
+.getElementById("btnHistorique")
+.addEventListener(
+"click",
+afficherHistorique
+);
+
+
+document
+.getElementById("btnRetour")
+.addEventListener(
+"click",
+afficherAccueil
+);
+
+
+document
+.getElementById("btnRetourHist")
+.addEventListener(
+"click",
+afficherAccueil
+);
+
+
+/* INITIALISATION */
+
+document
+.getElementById("date")
+.textContent=
+dateAujourdHui();
 
 </script>
 
 </body>
-</html>
-journeeActuelle
- .clients[index]
- .vieux=valeur;
-
-sauvegarderJournee
 </html>
