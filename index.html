@@ -1,4 +1,4 @@
-E html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -101,6 +101,11 @@ button:active{
   color:#111827;
 }
 
+.purple{
+  background:#7c3aed;
+  color:white;
+}
+
 .gray{
   background:#e5e7eb;
   color:#111827;
@@ -192,6 +197,8 @@ select{
 textarea{
   min-height:90px;
   resize:vertical;
+  font-family:monospace;
+  font-size:13px;
 }
 
 label{
@@ -280,6 +287,18 @@ label{
   margin-top:8px;
 }
 
+details{
+  margin-top:10px;
+}
+
+details summary{
+  cursor:pointer;
+  font-weight:bold;
+  padding:8px;
+  background:#f3f4f6;
+  border-radius:8px;
+}
+
 pre{
   white-space:pre-wrap;
   word-break:break-word;
@@ -296,6 +315,17 @@ pre{
   text-align:center;
   color:#6b7280;
   padding:20px;
+}
+
+.badge{
+  display:inline-block;
+  background:#f59e0b;
+  color:#111827;
+  border-radius:6px;
+  padding:2px 8px;
+  font-size:12px;
+  font-weight:bold;
+  margin-left:6px;
 }
 </style>
 </head>
@@ -397,6 +427,37 @@ ACCUEIL
       <div class="progress">
         <div id="ocrProgress" class="progress-bar"></div>
       </div>
+
+    </div>
+
+    <div id="errorBox" class="hidden warning"></div>
+
+    <!--
+      Zone de correction manuelle.
+      Affichée après une lecture, que ça marche bien ou non.
+      Permet de voir EXACTEMENT ce que Tesseract a lu,
+      corriger le texte, et relancer le parsing sans reprendre
+      de photo.
+    -->
+    <div id="rawTextZone" class="hidden">
+
+      <details open>
+        <summary>🔧 Texte brut lu (touche ici si le résultat est mauvais)</summary>
+
+        <p class="small">
+          Corrige le texte ci-dessous si l'OCR a mal lu quelque chose,
+          puis appuie sur "Relire ce texte". Chaque client doit être sur
+          une ligne qui commence par: numéro de séquence, numéro de compte,
+          puis le nom (ex: <code>001 05511787 DUMAIS GAETAN</code>).
+        </p>
+
+        <textarea id="rawTextInput" rows="14"></textarea>
+
+        <button id="reparseButton" class="purple">
+          🔁 Relire ce texte
+        </button>
+
+      </details>
 
     </div>
 
@@ -512,12 +573,29 @@ APPLICATION
 
 
 /* =====================================================
+BLINDAGE DÉMARRAGE
+
+Tout le code ci-dessous ne s'exécute qu'une fois le DOM
+complètement chargé. Sans ceci, si jamais le script
+s'exécute avant que les éléments HTML existent (selon
+comment le fichier est mis en cache ou servi), les
+appels document.getElementById(...).addEventListener(...)
+échouent silencieusement — et cette seule erreur bloque
+l'exécution de TOUT le reste du script en aval, incluant
+les boutons caméra/galerie et la lecture OCR.
+===================================================== */
+
+document.addEventListener("DOMContentLoaded", function(){
+
+
+/* =====================================================
 ÉTAT
 ===================================================== */
 
 let currentDay = null;
 let selectedPhoto = null;
 let history = [];
+let lastOCRText = "";
 
 
 /* =====================================================
@@ -858,6 +936,10 @@ function selectPhoto(file){
     .getElementById("ocrStatus")
     .classList.add("hidden");
 
+  document
+    .getElementById("rawTextZone")
+    .classList.add("hidden");
+
 }
 
 
@@ -927,6 +1009,15 @@ document
 
 /* =====================================================
 OCR
+
+CHANGEMENT PRINCIPAL:
+tessedit_pageseg_mode passe de 3 (auto) à 6
+(bloc de texte uniforme). Le mode auto essaie de
+deviner la mise en page et peut mélanger l'ordre
+des colonnes sur un tableau serré comme une feuille
+de route. Le mode 6 traite l'image comme un bloc de
+texte simple ligne par ligne, ce qui correspond
+beaucoup mieux à la structure réelle du document.
 ===================================================== */
 
 async function readOCR(file){
@@ -1007,7 +1098,7 @@ async function readOCR(file){
 
       user_defined_dpi:"300",
 
-      tessedit_pageseg_mode:"3"
+      tessedit_pageseg_mode:"6"
 
     });
 
@@ -1082,7 +1173,7 @@ function getLines(text){
 
 
 /* =====================================================
-REGEX
+REGEX DE BASE
 ===================================================== */
 
 function findPhones(text){
@@ -1127,34 +1218,11 @@ function findPostal(text){
 }
 
 
-function findSequence(text){
-
-  let match =
-    text.match(/^\s*(\d{3})\b/);
-
-  if(match){
-    return match[1];
-  }
-
-  match =
-    text.match(
-      /\b(?:SEQ|SÉQ|SEQUENCE|SÉQUENCE)[\s:#.-]*(\d{1,4})/i
-    );
-
-  if(match){
-    return match[1].padStart(3,"0");
-  }
-
-  return "";
-
-}
-
-
 function findMoney(text){
 
   const match =
     text.match(
-      /(?:\$|\b)(\d{1,6}(?:[.,]\d{2}))/ 
+      /(?:\$|\b)(\d{1,6}(?:[.,]\d{2}))/
     );
 
   if(!match){
@@ -1206,8 +1274,10 @@ function findCategory(text){
 
   if(value.includes("hotte")) return "VRE";
   if(value.includes("cuisini")) return "CIN";
+  if(value.includes("cuis enc")) return "CIN";
   if(value.includes("réfrig")) return "RPF";
   if(value.includes("refriger")) return "RPF";
+  if(value.includes("refrig")) return "RPF";
   if(value.includes("lave-vaisselle")) return "LVE";
   if(value.includes("lave vaisselle")) return "LVE";
   if(value.includes("laveuse")) return "LAV";
@@ -1220,30 +1290,44 @@ function findCategory(text){
 }
 
 
+/*
+Liste de mots-clés utilisée à la fois pour détecter
+une ligne d'appareil ET pour reconnaître un
+code de catégorie isolé (2-3 lettres) au milieu
+d'une ligne de tableau.
+*/
+
+const ITEM_KEYWORDS = [
+
+  "vre",
+  "cin",
+  "rpf",
+  "lve",
+  "hotte",
+  "cuisini",
+  "cuis enc",
+  "réfrig",
+  "refriger",
+  "refrig",
+  "lave-vaisselle",
+  "lave vaisselle",
+  "laveuse",
+  "washer",
+  "sécheuse",
+  "secheuse",
+  "dryer",
+  "induction",
+  "four"
+
+];
+
+
 function looksLikeItem(text){
 
   const value =
     text.toLowerCase();
 
-  return [
-
-    "vre",
-    "cin",
-    "rpf",
-    "lve",
-    "hotte",
-    "cuisini",
-    "réfrig",
-    "refriger",
-    "lave-vaisselle",
-    "lave vaisselle",
-    "laveuse",
-    "washer",
-    "sécheuse",
-    "secheuse",
-    "dryer"
-
-  ].some(word =>
+  return ITEM_KEYWORDS.some(word =>
     value.includes(word)
   );
 
@@ -1264,7 +1348,7 @@ function findModel(text){
       /\d/.test(value)
     ){
 
-      return value;
+      return value.toUpperCase();
 
     }
 
@@ -1285,29 +1369,39 @@ function findPartNumber(text){
 }
 
 
-function findAccount(text){
-
-  const matches =
-    text.match(/\b\d{7,9}\b/g) || [];
-
-  return matches[0] || "";
-
-}
-
-
 function looksLikeAddress(text){
+
+  /*
+  Sur cette feuille, une ligne d'adresse est souvent
+  précédée du code secondaire (ex: "*0040-022586 ").
+  On le retire avant de tester le numéro civique, sinon
+  celui-ci n'est plus reconnu comme étant en début de
+  ligne.
+
+  IMPORTANT: un code postal seul (testé via le pattern
+  [A-Z]\d[A-Z] \d[A-Z]\d) ne suffit PAS à qualifier une
+  ligne comme adresse civique — cette ligne est en
+  réalité la ligne "ville + code postal", traitée
+  séparément par findCity()/findPostal(). Confondre les
+  deux fait perdre la vraie ligne d'adresse au profit de
+  la ligne code postal quand les deux sont candidates.
+  */
+
+  const withoutSecondaryCode =
+    text.replace(/^\*+\s*[0-9]{4}-[0-9]{4,8}\s*/,"").trim();
 
   return (
 
-    /\b\d{1,6}[, ]+/.test(text) &&
+    /\b\d{1,6}[, ]+/.test(withoutSecondaryCode) &&
 
-    /\b(rue|avenue|av|boulevard|blvd|chemin|route|rang|montée|place|dr|drive|street|road|st)\b/i
-      .test(text)
+    (
+      /\b(rue|avenue|av|boulevard|blvd|chemin|route|rang|montée|monte|place|dr|drive|street|road|st|fontaine|ateliers)\b/i
+        .test(withoutSecondaryCode) ||
 
-  ) ||
+      /^\d{1,6}[, ]+[A-ZÀ-Ÿ]/i.test(withoutSecondaryCode)
+    )
 
-  /\b[A-Z]\d[A-Z][ -]?\d[A-Z]\d\b/i
-    .test(text);
+  );
 
 }
 
@@ -1375,7 +1469,153 @@ function findCity(text){
 
 
 /* =====================================================
-PARSER
+NOUVEAU: DÉTECTION D'UNE LIGNE "DÉBUT DE CLIENT"
+
+Sur cette feuille, chaque client commence toujours par
+une ligne du genre:
+
+  001 05511787 DUMAIS GAETAN        450-906-4376  1   0.00
+
+C'est-à-dire, dans l'ordre, sur la MÊME ligne:
+
+  1. un numéro de séquence à 3 chiffres (001, 002, 003...)
+  2. un numéro de compte (CNS) à 7-9 chiffres
+  3. un nom (lettres)
+
+C'est un pattern beaucoup plus précis que "ligne qui
+commence par 3 chiffres" (qui peut matcher un poids,
+un numéro de page, ou n'importe quoi d'autre lu par
+erreur). En ancrant sur les TROIS éléments ensemble,
+on réduit énormément les faux positifs ET les faux
+négatifs.
+
+Si l'OCR échappe un caractère (ex: "O01" au lieu de
+"001"), on tolère aussi les lettres O/o/I/l comme
+substituts visuels de 0/1 dans le numéro de séquence,
+parce que c'est l'erreur la plus commune de Tesseract
+sur des chiffres légèrement flous.
+===================================================== */
+
+function parseClientHeaderLine(line){
+
+  // Normalise les confusions visuelles courantes
+  // UNIQUEMENT pour la détection du numéro de séquence,
+  // sans toucher au texte affiché ensuite.
+  const normalized =
+    line
+      .replace(/^[Oo]/,"0")
+      .replace(/^(\d)[Il]/,"$1" + "1")
+      .trim();
+
+  const match =
+    normalized.match(
+      /^(\d{3})\s+(\d{7,9})\s+([A-ZÀ-Ÿ][A-ZÀ-Ÿ' -]{2,40}?)(?:\s{2,}|\s+\d|\s+\(|$)/i
+    );
+
+  if(!match){
+    return null;
+  }
+
+  const sequence = match[1];
+  const cns = match[2];
+  const name = match[3].trim();
+
+  // Le nom ne doit pas ressembler à un mot-clé
+  // d'appareil ni être vide après nettoyage.
+  if(!name || looksLikeItem(name)){
+    return null;
+  }
+
+  return {
+    sequence:sequence,
+    no_cns:cns,
+    nom_client:name,
+    reste:line.slice(line.indexOf(name) + name.length).trim()
+  };
+
+}
+
+
+/* =====================================================
+NOUVEAU: DÉTECTION D'UNE LIGNE "DÉBUT D'APPAREIL"
+
+Sur cette feuille, une ligne d'appareil ressemble à:
+
+  1 358247 UXT5530AAS  VRE  Hotte 30po ss 400pcm  1  50  50
+
+C'est-à-dire: un petit numéro de ligne (1, 2, 3),
+un numéro de pièce, un code modèle, un code catégorie,
+puis une description, puis des nombres (qté/poids).
+
+On ancre sur la présence d'un mot-clé de catégorie
+OU d'un code catégorie isolé (2-3 lettres seules
+dans la ligne), combiné à un numéro de pièce.
+===================================================== */
+
+function parseItemLine(line){
+
+  if(!looksLikeItem(line)){
+    return null;
+  }
+
+  const item = createItem();
+
+  item.no_ptr = findPartNumber(line);
+  item.code_modele = findModel(line);
+  item.code_categorie = findCategory(line);
+  item.description = line;
+
+  item.qte_charge = findQuantity(line) || 1;
+
+  // Sur cette feuille les poids sont des nombres
+  // entiers simples (pas d'unité écrite), placés
+  // en fin de ligne : "... 1  50  50". On récupère
+  // les deux derniers nombres isolés de la ligne
+  // comme (poids, poids_total) si présents.
+  const numbers =
+    line.match(/\b\d{1,4}\b/g) || [];
+
+  if(numbers.length >= 2){
+
+    item.poids =
+      Number(numbers[numbers.length - 2]);
+
+    item.poids_total =
+      Number(numbers[numbers.length - 1]);
+
+  }else if(numbers.length === 1){
+
+    item.poids = Number(numbers[0]);
+    item.poids_total = item.poids * item.qte_charge;
+
+  }
+
+  return item;
+
+}
+
+
+/* =====================================================
+PARSER PRINCIPAL (RECONSTRUIT)
+
+Logique:
+
+1. On scanne les lignes une à une.
+2. Dès qu'une ligne matche le pattern
+   "séquence + CNS + nom", on ferme le client
+   précédent et on en ouvre un nouveau. C'est
+   l'ancrage principal, beaucoup plus fiable que
+   l'ancienne détection "3 chiffres en début de
+   ligne".
+3. Toutes les lignes suivantes appartiennent à ce
+   client JUSQU'AU prochain ancrage trouvé.
+4. À l'intérieur d'un client, on essaie en plus de
+   détecter les lignes d'appareils séparément
+   (elles ont leur propre structure interne).
+5. Tout ce qui n'est ni un ancrage client ni une
+   ligne d'appareil reconnue sert à compléter les
+   champs du client courant (téléphone, adresse,
+   ville, code postal, montant).
 ===================================================== */
 
 function parseRoute(text){
@@ -1406,7 +1646,8 @@ function parseRoute(text){
 
     if(
       upper.includes("CORBEIL") ||
-      upper.includes("ELECTROMENAGER")
+      upper.includes("ELECTROMENAGER") ||
+      upper.includes("ÉLECTROMENAGER")
     ){
 
       route.entete.entreprise =
@@ -1452,9 +1693,6 @@ function parseRoute(text){
 
   /*
   CLIENTS
-
-  La séquence est le meilleur point
-  d'ancrage quand elle existe.
   */
 
   let current = null;
@@ -1465,30 +1703,6 @@ function parseRoute(text){
 
     if(!current){
       return;
-    }
-
-
-    if(
-      !current.nom_client &&
-      !current.adresse &&
-      current.items.length === 0 &&
-      current.telephones.length === 0
-    ){
-
-      current = null;
-      return;
-
-    }
-
-
-    if(!current.nom_client){
-
-      current.nom_client =
-        "Client " +
-        String(
-          route.clients.length + 1
-        ).padStart(3,"0");
-
     }
 
 
@@ -1510,16 +1724,6 @@ function parseRoute(text){
       );
 
 
-    if(!current.sequence){
-
-      current.sequence =
-        String(
-          route.clients.length + 1
-        ).padStart(3,"0");
-
-    }
-
-
     route.clients.push(current);
 
     current = null;
@@ -1532,21 +1736,15 @@ function parseRoute(text){
     const line =
       lines[i];
 
-    const sequence =
-      findSequence(line);
-
 
     /*
-    NOUVEAU CLIENT
+    ANCRAGE: NOUVEAU CLIENT
     */
 
-    if(
-      sequence &&
-      (
-        /^\d{3}\b/.test(line) ||
-        /(?:SEQ|SÉQ|SEQUENCE|SÉQUENCE)/i.test(line)
-      )
-    ){
+    const header =
+      parseClientHeaderLine(line);
+
+    if(header){
 
       finishClient();
 
@@ -1554,9 +1752,34 @@ function parseRoute(text){
         createClient();
 
       current.sequence =
-        sequence;
+        header.sequence;
+
+      current.no_cns =
+        header.no_cns;
+
+      current.nom_client =
+        header.nom_client;
 
       itemCounter = 0;
+
+
+      // Le reste de la ligne d'en-tête peut contenir
+      // un téléphone et/ou un montant à recevoir.
+      const restPhones =
+        findPhones(header.reste);
+
+      restPhones.forEach(phone=>{
+        if(!current.telephones.includes(phone)){
+          current.telephones.push(phone);
+        }
+      });
+
+      const restMoney =
+        findMoney(header.reste);
+
+      if(restMoney !== null){
+        current.a_recevoir = restMoney;
+      }
 
       continue;
 
@@ -1564,26 +1787,34 @@ function parseRoute(text){
 
 
     /*
-    Si aucun client n'existe,
-    on cherche le premier.
+    Si on n'a encore aucun client ouvert et que la
+    ligne ne matche pas un ancrage, on l'ignore
+    (c'est probablement de l'en-tête de page ou
+    du bruit OCR).
     */
 
     if(!current){
+      continue;
+    }
 
-      if(
-        looksLikeName(line) ||
-        looksLikeAddress(line) ||
-        findPhones(line).length
-      ){
 
-        current =
-          createClient();
+    /*
+    LIGNE D'APPAREIL
+    */
 
-      }else{
+    const item =
+      parseItemLine(line);
 
-        continue;
+    if(item){
 
-      }
+      itemCounter++;
+
+      item.seq_item =
+        itemCounter;
+
+      current.items.push(item);
+
+      continue;
 
     }
 
@@ -1636,47 +1867,42 @@ function parseRoute(text){
 
     /*
     ADRESSE
-    */
 
-    if(looksLikeAddress(line)){
+    On ne prend l'adresse que si elle n'a pas déjà
+    été trouvée, pour éviter d'accumuler des lignes
+    de bruit dans le champ adresse.
 
-      if(!current.adresse){
-
-        current.adresse =
-          line;
-
-      }else{
-
-        current.adresse +=
-          " " + line;
-
-      }
-
-    }
-
-
-    /*
-    NO CNS
+    IMPORTANT: sur cette feuille, la ligne d'adresse
+    contient souvent un numéro de téléphone
+    placeholder juste à côté (ex: "794, JEAN-
+    DESLAURIERS 000-000-0000"). On ne doit donc PAS
+    rejeter la ligne juste parce qu'un téléphone y
+    est aussi détecté — on retire simplement ce
+    téléphone du texte gardé comme adresse.
     */
 
     if(
-      !current.no_cns &&
-      !looksLikeItem(line)
+      !current.adresse &&
+      looksLikeAddress(line)
     ){
 
-      const account =
-        findAccount(line);
+      let cleaned = line;
 
-      if(account){
-        current.no_cns =
-          account;
-      }
+      phones.forEach(phone=>{
+        cleaned = cleaned.replace(phone,"");
+      });
+
+      current.adresse =
+        cleaned
+          .replace(/\*+\s*[0-9-]+/,"")
+          .replace(/\s{2,}/g," ")
+          .trim();
 
     }
 
 
     /*
-    CODE SECONDAIRE
+    CODE SECONDAIRE (après l'astérisque)
     */
 
     const secondary =
@@ -1693,7 +1919,11 @@ function parseRoute(text){
 
 
     /*
-    MONTANT
+    MONTANT À RECEVOIR
+
+    Uniquement si le champ est encore vide, pour ne
+    pas écraser une valeur déjà bien détectée par la
+    ligne d'en-tête.
     */
 
     const money =
@@ -1701,91 +1931,12 @@ function parseRoute(text){
 
     if(
       money !== null &&
+      !current.a_recevoir &&
       /recevoir|mnt|montant/i.test(line)
     ){
 
       current.a_recevoir =
         money;
-
-    }
-
-
-    /*
-    APPAREIL
-    */
-
-    if(looksLikeItem(line)){
-
-      const item =
-        createItem();
-
-      itemCounter++;
-
-      item.seq_item =
-        itemCounter;
-
-      item.no_ptr =
-        findPartNumber(line);
-
-      item.code_modele =
-        findModel(line);
-
-      item.code_categorie =
-        findCategory(line);
-
-      item.description =
-        line;
-
-      item.qte_charge =
-        findQuantity(line) || 1;
-
-
-      const weight =
-        line.match(
-          /(\d+(?:[.,]\d+)?)\s*(?:KG|KGS|LB|LBS)\b/i
-        );
-
-      if(weight){
-
-        item.poids =
-          Number(
-            weight[1].replace(",",".")
-          );
-
-      }
-
-
-      item.poids_total =
-        item.poids *
-        item.qte_charge;
-
-
-      current.items.push(item);
-
-      continue;
-
-    }
-
-
-    /*
-    NOM
-
-    */
-
-    if(
-      !current.nom_client &&
-      looksLikeName(line)
-    ){
-
-      if(
-        !/corbeil|électroménager|electromenager|client|adresse|téléphone|telephone|route|camion/i
-          .test(line)
-      ){
-
-        current.nom_client =
-          line;
-
-      }
 
     }
 
@@ -1796,7 +1947,9 @@ function parseRoute(text){
 
 
   /*
-  Nettoyage final
+  Nettoyage final: on retire les clients complètement
+  vides (aucun nom, aucune adresse, aucun item, aucun
+  téléphone) qui auraient pu se glisser par erreur.
   */
 
   route.clients =
@@ -1822,26 +1975,6 @@ function parseRoute(text){
             .padStart(3,"0");
 
       }
-
-      client.qte_totale =
-        client.items.reduce(
-          (sum,item)=>
-            sum +
-            Number(
-              item.qte_charge || 1
-            ),
-          0
-        );
-
-      client.poids_total_connaissement =
-        client.items.reduce(
-          (sum,item)=>
-            sum +
-            Number(
-              item.poids_total || 0
-            ),
-          0
-        );
 
     }
   );
@@ -1872,6 +2005,12 @@ async function processPhoto(){
   const button =
     document.getElementById("readButton");
 
+  const errorBox =
+    document.getElementById("errorBox");
+
+  errorBox.classList.add("hidden");
+  errorBox.textContent = "";
+
   button.disabled = true;
 
   button.textContent =
@@ -1899,53 +2038,39 @@ async function processPhoto(){
     if(!text.trim()){
 
       throw new Error(
-        "Aucun texte détecté."
+        "Aucun texte détecté par l'OCR (résultat vide)."
       );
 
     }
 
 
-    const parsed =
-      parseRoute(text);
+    lastOCRText = text;
+
+    document
+      .getElementById("rawTextInput")
+      .value = text;
+
+    document
+      .getElementById("rawTextZone")
+      .classList.remove("hidden");
 
 
-    const route =
-      parsed;
+    // Le parsing est isolé dans son propre bloc pour
+    // qu'une erreur ici n'empêche jamais d'avoir déjà
+    // vu le texte brut ci-dessus.
+    try{
 
+      applyParsedText(text);
 
-    currentDay = {
+    }catch(parseError){
 
-      id:
-        Date.now().toString(),
+      console.error(parseError);
 
-      date:
-        today(),
+      errorBox.textContent =
+        "⚠️ Erreur pendant l'analyse du texte: " +
+        (parseError.message || parseError);
 
-      route:
-        route,
-
-      clients:
-        route.clients
-
-    };
-
-
-    history.push(currentDay);
-
-    saveHistory();
-
-    renderDay();
-
-    showSection("day");
-
-
-    if(
-      currentDay.clients.length === 0
-    ){
-
-      alert(
-        "La photo a été lue, mais aucun client n'a été reconnu. Tu peux les ajouter manuellement."
-      );
+      errorBox.classList.remove("hidden");
 
     }
 
@@ -1954,13 +2079,11 @@ async function processPhoto(){
 
     console.error(error);
 
-    alert(
-      "La lecture n'a pas fonctionné.\n\n" +
-      (
-        error.message ||
-        "Erreur inconnue."
-      )
-    );
+    errorBox.textContent =
+      "⚠️ Erreur pendant la lecture OCR: " +
+      (error.message || error);
+
+    errorBox.classList.remove("hidden");
 
   }finally{
 
@@ -1972,6 +2095,93 @@ async function processPhoto(){
   }
 
 }
+
+
+/*
+Sépare le parsing de la création de journée pour
+pouvoir être réutilisé par le bouton "Relire ce texte".
+*/
+
+function applyParsedText(text){
+
+  const parsed =
+    parseRoute(text);
+
+  const route =
+    parsed;
+
+
+  currentDay = {
+
+    id:
+      Date.now().toString(),
+
+    date:
+      today(),
+
+    route:
+      route,
+
+    clients:
+      route.clients
+
+  };
+
+
+  history.push(currentDay);
+
+  saveHistory();
+
+  renderDay();
+
+  showSection("day");
+
+
+  if(
+    currentDay.clients.length === 0
+  ){
+
+    alert(
+      "La photo a été lue, mais aucun client n'a été reconnu.\n\n" +
+      "Ouvre la zone \"Texte brut lu\" sur l'écran d'accueil pour voir " +
+      "ce que l'OCR a détecté, corrige-le si besoin, puis touche " +
+      "\"Relire ce texte\". Tu peux aussi ajouter les clients manuellement."
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+RELECTURE DU TEXTE CORRIGÉ MANUELLEMENT
+===================================================== */
+
+document
+  .getElementById("reparseButton")
+  .addEventListener(
+    "click",
+    function(){
+
+      const text =
+        document
+          .getElementById("rawTextInput")
+          .value;
+
+      if(!text.trim()){
+
+        alert(
+          "La zone de texte est vide."
+        );
+
+        return;
+
+      }
+
+      applyParsedText(text);
+
+    }
+  );
 
 
 /* =====================================================
@@ -3426,6 +3636,9 @@ DÉMARRAGE
 updateDashboard();
 
 showSection("home");
+
+
+}); // fin DOMContentLoaded
 
 </script>
 
